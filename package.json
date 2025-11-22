@@ -1,0 +1,14 @@
+{
+  "name": "python-programming-2",
+  "version": "1.0.0",
+  "description": "A VitePress site for Python Programming 2",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "vitepress": "latest",
+    "vue": "latest"
+  }
+}

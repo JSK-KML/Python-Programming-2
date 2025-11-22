@@ -1,0 +1,40 @@
+Python-Programming
+
+
+
+# Misc
+.DS_Store
+
+# VitePress build and cache files
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+node_modules/
+
+# All cache directories
+cache/
+.cache/
+**/cache/
+**/.cache/
+
+# npm cache
+npm-cache/
+.npm/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Temporary files
+tmp/
+temp/
+.tmp/
+.temp/
+
+# Agent and Claude files
+agent.md
+claude.md
+CLAUDE.md
+CLAUDE.local.md
+claude_local.md
+.claude/
