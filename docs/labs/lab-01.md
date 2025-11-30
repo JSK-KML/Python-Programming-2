@@ -124,19 +124,149 @@ To make sure your repository is up to date, go to you **GitHub** account and cli
 </p>
 
 
-## Recap
+### Creating Your First Virtual Environment
 
-Congrats! You've just navigated your first **GitHub** workflow. Here's a quick recap:
+Launch **VS Code** and open your `CP125-Class-Repo` project. Open the terminal in **VS Code** by clicking `Terminal` and then `New Terminal`.
 
-- `Fork`: make a personal copy of any **GitHub** repository in your own account.
+<p align="center">
+    <img src="/public/labs/lab-01/lab-1-8.png" alt="drawing" width="400"/>
+</p>
 
-- `Clone`: bring that repository down to your computer, including its full history.
+Make sure you're in the root directory of your `CP125-Class-Repo`. You should see folders like `labs`, `LICENSE`, and `README.md` in your current directory.
 
-- `Commit`: record your local edits as a named snapshot with a clear message.
+Now create a virtual environment using **Python**'s built-in `venv` module. Type the following command:
 
-- `Push`: upload your committed snapshots from your machine to your **GitHub** repo.
+```bash
+python -m venv cp125_env
+```
 
-- `Sync Fork`: pull in changes from the original project so your fork stays current.
+This creates a new directory called `cp125_env` that contains your isolated **Python** environment. The `python -m venv` command tells **Python** to run the venv module and create a new virtual environment in the specified directory.
+
+You should see a new folder called `cp125_env` appear in your repository root directory. This folder contains a complete **Python** installation that's separate from your system **Python**.
+
+### Activating the Virtual Environment
+
+Creating the virtual environment is just the first step. To actually use it, you need to activate it. Run the command below.
+
+```bash
+cp125_env\Scripts\activate
+```
+
+After activation, you should see `(cp125_env)` appear at the beginning of your terminal prompt. This indicates that your virtual environment is active and any **Python** commands you run will use this isolated environment.
+
+<p align="center">
+    <img src="/public/labs/lab-07/lab-7-1.png" alt="drawing" width="300"/>
+</p>
+
+### Testing Your Virtual Environment
+
+Let's verify that your virtual environment is working correctly. With the virtual environment activated, type:
+
+```bash
+python --version
+```
+
+This should show your **Python** version. 
+
+### Creating a Simple Python Program
+
+Create a new file called `test_virtual_env.py` in the `/labs/lab07/` directory. Copy and paste this code.
+
+```python
+
+student_name = "Your Name"
+student_id = "Your ID"
+course_code = "CP125"
+
+print(student_name)
+print(student_id)
+print(course_code)
+
+```
+
+Run this program to make sure it works:
+
+
+### Deactivating the Virtual Environment
+
+When you're done working in your virtual environment, you can deactivate it by simply typing:
+
+```bash
+deactivate
+```
+
+The `(cp125_env)` prefix should disappear from your terminal prompt, indicating that you're back to using your system **Python** installation.
+
+::: tip
+Always activate your virtual environment before working on your project, and deactivate it when you're done. This ensures you're working in the correct, isolated environment.
+:::
+
+## Testing Python Code in VS Code
+
+### Installing the Python Test Explorer Extension
+
+Testing is a crucial part of professional software development. It helps you verify that your code works correctly and continues to work as you make changes. **VS Code** has excellent support for **Python** testing through extensions.
+
+Open **VS Code** and go to the Extensions panel by clicking the Extensions icon in the sidebar 
+
+Search for "Python Test Explorer" and install the extension by **Little Fox Team**. This extension provides a graphical interface for running and managing **Python** tests.
+
+<p align="center">
+    <img src="/public/labs/lab-07/lab-7-2.png" alt="drawing" width="500"/>
+</p>
+
+Also make sure you have the **Python** extension by **Microsoft** installed from [Lab 1](./lab-01.md)
+
+### Installing pytest
+
+**pytest** is the most popular testing framework for **Python**. It makes writing and running tests simple and intuitive. First, make sure your virtual environment is activated:
+
+```bash
+cp125_env\Scripts\activate
+```
+
+You should see `(cp125_env)` in your terminal prompt. Now install **pytest**:
+
+```bash
+python -m pip install pytest
+```
+
+This installs **pytest** only in your virtual environment, not globally on your system. This is exactly what we want - each project can have its own version of **pytest**.
+
+
+### Set Up Python Test Extension
+
+On the sidebar, click the **Flask** symbol and then click **Configure Python Test**
+
+<p align="center">
+    <img src="/public/labs/lab-07/lab-7-3.png" alt="drawing" width="300"/>
+</p>
+
+On the top bar, choose **Pytest**
+
+<p align="center">
+    <img src="/public/labs/lab-07/lab-7-4.png" alt="drawing" width="300"/>
+</p>
+
+Next, choose **Root Directory**
+
+<p align="center">
+    <img src="/public/labs/lab-07/lab-7-5.png" alt="drawing" width="300"/>
+</p>
+
+### Running Tests in VS Code
+
+Once configured, you should see a new **Testing** panel in **VS Code**'s sidebar. Click on the Testing icon (it looks like a flask) to open the test explorer.
+
+
+In the Testing panel, you should see your test file and the individual test functions. You can:
+
+- **Run all tests** by clicking the play button at the top
+- **Run individual tests** by clicking the play button next to each test
+- **View test results** with green checkmarks for passing tests and red X's for failing tests.
+
+
+
 
 
 
