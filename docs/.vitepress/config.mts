@@ -4,7 +4,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Python Programming 2",
   description: "Course and Labs Informations",
-  base: '/Python-Programming-2/', 
+  base: '/Python-Programming-2/',
   head: [
     ['link', { rel: 'icon', type: 'image/png', href: '/favicon.png' }] // Updated href
   ],
@@ -16,6 +16,7 @@ export default defineConfig({
         text: 'Home',
         link: '/'
       },
+      /*
       {
         text: 'Assessments',
         items: [
@@ -26,6 +27,7 @@ export default defineConfig({
         ],
         activeMatch: '^/assessments/'
       },
+      */
       {
         text: 'Course Informations',
         items: [
@@ -34,6 +36,7 @@ export default defineConfig({
         ],
         activeMatch: '^/course/'
       },
+      /*
       {
         text: 'Tutorials',
         items: [
@@ -53,23 +56,24 @@ export default defineConfig({
         ],
         activeMatch: '^/tutorials/'
       },
+      */
       {
         text: 'Labs',
         items: [
           { text: 'Installation', link: '/labs/installation' },
           { text: 'Lab 1', link: '/labs/lab-01' },
-          { text: 'Lab 2', link: '/labs/lab-02' },
-          { text: 'Lab 3', link: '/labs/lab-03' },
-          { text: 'Lab 4', link: '/labs/lab-04' },
-          { text: 'Lab 5', link: '/labs/lab-05' },
-          { text: 'Lab 6', link: '/labs/lab-06' },
-          { text: 'Lab 7', link: '/labs/lab-07' },
-          { text: 'Lab 8', link: '/labs/lab-08' },
-          { text: 'Lab 9', link: '/labs/lab-09' },
-          { text: 'Lab 10', link: '/labs/lab-10' },
-          { text: 'Lab 11', link: '/labs/lab-11' },
-          { text: 'Lab 12', link: '/labs/lab-12' },
-          { text: 'Lab 13', link: '/labs/lab-13' }
+          // { text: 'Lab 2', link: '/labs/lab-02' },
+          // { text: 'Lab 3', link: '/labs/lab-03' },
+          // { text: 'Lab 4', link: '/labs/lab-04' },
+          // { text: 'Lab 5', link: '/labs/lab-05' },
+          // { text: 'Lab 6', link: '/labs/lab-06' },
+          // { text: 'Lab 7', link: '/labs/lab-07' },
+          // { text: 'Lab 8', link: '/labs/lab-08' },
+          // { text: 'Lab 9', link: '/labs/lab-09' },
+          // { text: 'Lab 10', link: '/labs/lab-10' },
+          // { text: 'Lab 11', link: '/labs/lab-11' },
+          // { text: 'Lab 12', link: '/labs/lab-12' },
+          // { text: 'Lab 13', link: '/labs/lab-13' }
         ],
         activeMatch: '^/labs/'
       },
@@ -77,23 +81,26 @@ export default defineConfig({
         text: 'Lectures',
         items: [
           { text: 'Chapter 1', link: '/lectures/chapter-01' },
-          { text: 'Chapter 2', link: '/lectures/chapter-02' },
-          { text: 'Chapter 3', link: '/lectures/chapter-03' },
-          { text: 'Chapter 4', link: '/lectures/chapter-04' },
-          { text: 'Chapter 5', link: '/lectures/chapter-05' },
-          { text: 'Chapter 6', link: '/lectures/chapter-06' },
-          { text: 'Chapter 7', link: '/lectures/chapter-07' }
+          // { text: 'Chapter 2', link: '/lectures/chapter-02' },
+          // { text: 'Chapter 3', link: '/lectures/chapter-03' },
+          // { text: 'Chapter 4', link: '/lectures/chapter-04' },
+          // { text: 'Chapter 5', link: '/lectures/chapter-05' },
+          // { text: 'Chapter 6', link: '/lectures/chapter-06' },
+          // { text: 'Chapter 7', link: '/lectures/chapter-07' }
         ],
         activeMatch: '^/lectures/'
       },
+      /*
       {
         text: 'Exams',
         link: '/exams/',
         activeMatch: '^/exams/'
       },
+      */
     ],
 
     sidebar: {
+      /*
       '/assessments/': [
         {
           text: 'Lab Test 1',
@@ -112,6 +119,7 @@ export default defineConfig({
           link: '/assessments/assignment'
         }
       ],
+      */
 
       '/labs/': [
         {
@@ -122,6 +130,7 @@ export default defineConfig({
           text: 'Lab 1',
           link: '/labs/lab-01'
         },
+        /*
         {
           text: 'Lab 2',
           link: '/labs/lab-02'
@@ -170,6 +179,7 @@ export default defineConfig({
           text: 'Lab 13',
           link: '/labs/lab-13'
         }
+        */
       ],
 
       '/course/': [
@@ -188,6 +198,7 @@ export default defineConfig({
           text: 'Chapter 1',
           link: '/lectures/chapter-01'
         },
+        /*
         {
           text: 'Chapter 2',
           link: '/lectures/chapter-02'
@@ -212,9 +223,10 @@ export default defineConfig({
           text: 'Chapter 7',
           link: '/lectures/chapter-07'
         }
-
+        */
       ],
 
+      /*
       '/tutorials/': [
         {
           text: 'Tutorial 1',
@@ -265,7 +277,9 @@ export default defineConfig({
           link: '/tutorials/fundamental-concepts'
         }
       ],
+      */
 
+      /*
       '/exams/': [
         {
           text: 'Sample Question',
@@ -308,6 +322,7 @@ export default defineConfig({
           link: '/exams/#skema-kmk-pra-pspm-25-26'
         }
       ]
+      */
     },
 
     socialLinks: [
