@@ -113,26 +113,20 @@ But what exactly is `Commit`? A commit records a snapshot of your changes in the
 
 Now go back to your **GitHub** account in the browser. You should see that the repository has been updated with the commit message that you have added.
 
-## Syncing Fork
 
-Once you fork a project, your copy starts aging the moment the original (“up-stream”) repo receives new commits. Syncing a fork is the act of pulling those new commits into your fork so it stays current—and so your pull requests don’t conflict with code that has already moved on.
+## Creating Your First Virtual Environment
 
-To make sure your repository is up to date, go to you **GitHub** account and click `Sync Fork` and then choose `Update branch`.
+Before we can start creating our first virtual environment, we need to make sure that we have **Python** installed on our computer. If you have not installed **Python** yet, just search `python` in the Microsoft Store. Make sure to install the latest version of **Python**.
 
-<p align="center">
-    <img src="/public/labs/lab-01/lab-1-7.png" alt="drawing" width="400"/>
-</p>
+Launch **VS Code** and open your `CP125-Class-Repo` project. By default in VS Code, if you are using Windows, the terminal will be using **PowerShell**. However, since you are using lab's computer, the PowerShell will have some limitation.
 
+Because of that, we will be using **Git Bash** instead. To change the default terminal in **VS Code**:
 
-### Creating Your First Virtual Environment
+1. Press `Ctrl` + `Shift` + `P` to open the command palette.
+2. Type `Terminal: Select Default Profile` and select `Git Bash`
 
-Launch **VS Code** and open your `CP125-Class-Repo` project. Open the terminal in **VS Code** by clicking `Terminal` and then `New Terminal`.
+This will cause the terminal to open with **Git Bash** instead of **PowerShell** by default.
 
-<p align="center">
-    <img src="/public/labs/lab-01/lab-1-8.png" alt="drawing" width="400"/>
-</p>
-
-Make sure you're in the root directory of your `CP125-Class-Repo`. You should see folders like `labs`, `LICENSE`, and `README.md` in your current directory.
 
 Now create a virtual environment using **Python**'s built-in `venv` module. Type the following command:
 
@@ -144,21 +138,22 @@ This creates a new directory called `cp125_env` that contains your isolated **Py
 
 You should see a new folder called `cp125_env` appear in your repository root directory. This folder contains a complete **Python** installation that's separate from your system **Python**.
 
-### Activating the Virtual Environment
+## Activating the Virtual Environment
 
 Creating the virtual environment is just the first step. To actually use it, you need to activate it. Run the command below.
 
 ```bash
-cp125_env\Scripts\activate
+source cp125_env/Scripts/activate
 ```
 
-After activation, you should see `(cp125_env)` appear at the beginning of your terminal prompt. This indicates that your virtual environment is active and any **Python** commands you run will use this isolated environment.
+After activation, you should see `(cp125_env)` appear at the beginning of your terminal directory. This indicates that your virtual environment is active and any **Python** commands you run will use this isolated environment.
 
-<p align="center">
-    <img src="/public/labs/lab-07/lab-7-1.png" alt="drawing" width="300"/>
-</p>
+::: tip
+Another good reason why we are using Git Bash instead of PowerShell is because Git Bash uses Linux commands instead of Windows commands. Online documentation almosts always use Linux commands, so it's a good idea to get used to using Linux commands.
+:::
 
-### Testing Your Virtual Environment
+
+## Testing Your Virtual Environment
 
 Let's verify that your virtual environment is working correctly. With the virtual environment activated, type:
 
@@ -168,9 +163,9 @@ python --version
 
 This should show your **Python** version. 
 
-### Creating a Simple Python Program
+## Creating a Simple Python Program
 
-Create a new file called `test_virtual_env.py` in the `/labs/lab07/` directory. Copy and paste this code.
+Create a new file called `test_virtual_env.py` in the `/labs/lab01/` directory. Copy and paste this code.
 
 ```python
 
@@ -187,7 +182,7 @@ print(course_code)
 Run this program to make sure it works:
 
 
-### Deactivating the Virtual Environment
+## Deactivating the Virtual Environment
 
 When you're done working in your virtual environment, you can deactivate it by simply typing:
 
@@ -215,7 +210,6 @@ Search for "Python Test Explorer" and install the extension by **Little Fox Team
     <img src="/public/labs/lab-07/lab-7-2.png" alt="drawing" width="500"/>
 </p>
 
-Also make sure you have the **Python** extension by **Microsoft** installed from [Lab 1](./lab-01.md)
 
 ### Installing pytest
 
@@ -242,6 +236,10 @@ On the sidebar, click the **Flask** symbol and then click **Configure Python Tes
     <img src="/public/labs/lab-07/lab-7-3.png" alt="drawing" width="300"/>
 </p>
 
+::: warning
+Some of you might not see this option. This is because our repo dont have any test yet. If you don't see it, just skip this step and the steps below.
+:::
+
 On the top bar, choose **Pytest**
 
 <p align="center">
@@ -254,16 +252,6 @@ Next, choose **Root Directory**
     <img src="/public/labs/lab-07/lab-7-5.png" alt="drawing" width="300"/>
 </p>
 
-### Running Tests in VS Code
-
-Once configured, you should see a new **Testing** panel in **VS Code**'s sidebar. Click on the Testing icon (it looks like a flask) to open the test explorer.
-
-
-In the Testing panel, you should see your test file and the individual test functions. You can:
-
-- **Run all tests** by clicking the play button at the top
-- **Run individual tests** by clicking the play button next to each test
-- **View test results** with green checkmarks for passing tests and red X's for failing tests.
 
 
 

@@ -36,27 +36,13 @@ export default defineConfig({
         ],
         activeMatch: '^/course/'
       },
-      /*
       {
         text: 'Tutorials',
         items: [
-          { text: 'Tutorial 1', link: '/tutorials/chapter-2-tutorial-1' },
-          { text: 'Tutorial 2', link: '/tutorials/chapter-2-tutorial-2' },
-          { text: 'Tutorial 3', link: '/tutorials/chapter-3-tutorial-3' },
-          { text: 'Tutorial 4', link: '/tutorials/chapter-3-tutorial-4' },
-          { text: 'Tutorial 5', link: '/tutorials/chapter-3-tutorial-5' },
-          { text: 'Tutorial 6', link: '/tutorials/chapter-4-tutorial-1' },
-          { text: 'Tutorial 7', link: '/tutorials/chapter-4-tutorial-2' },
-          { text: 'Tutorial 8', link: '/tutorials/chapter-4-tutorial-3' },
-          { text: 'Tutorial 9', link: '/tutorials/chapter-7-tutorial-1' },
-          { text: 'Tutorial 10', link: '/tutorials/chapter-7-tutorial-2' },
-          { text: 'Tutorial 11', link: '/tutorials/chapter-7-tutorial-3' },
-          { text: 'Tutorial 12', link: '/tutorials/fundamental-concepts' }
-
+          { text: 'Functions - Tutorial 1', link: '/tutorials/chapter-functions-tutorial-1' }
         ],
         activeMatch: '^/tutorials/'
       },
-      */
       {
         text: 'Labs',
         items: [
@@ -226,58 +212,12 @@ export default defineConfig({
         */
       ],
 
-      /*
       '/tutorials/': [
         {
-          text: 'Tutorial 1',
-          link: '/tutorials/chapter-2-tutorial-1'
-        },
-        {
-          text: 'Tutorial 2',
-          link: '/tutorials/chapter-2-tutorial-2'
-        },
-        {
-          text: 'Tutorial 3',
-          link: '/tutorials/chapter-3-tutorial-3'
-        },
-        {
-          text: 'Tutorial 4',
-          link: '/tutorials/chapter-3-tutorial-4'
-        },
-        {
-          text: 'Tutorial 5',
-          link: '/tutorials/chapter-3-tutorial-5'
-        },
-        {
-          text: 'Tutorial 6',
-          link: '/tutorials/chapter-4-tutorial-1'
-        },
-        {
-          text: 'Tutorial 7',
-          link: '/tutorials/chapter-4-tutorial-2'
-        },
-        {
-          text: 'Tutorial 8',
-          link: '/tutorials/chapter-4-tutorial-3'
-        },
-        {
-          text: 'Tutorial 9',
-          link: '/tutorials/chapter-7-tutorial-1'
-        },
-        {
-          text: 'Tutorial 10',
-          link: '/tutorials/chapter-7-tutorial-2'
-        },
-        {
-          text: 'Tutorial 11',
-          link: '/tutorials/chapter-7-tutorial-3'
-        },
-        {
-          text: 'Tutorial 12',
-          link: '/tutorials/fundamental-concepts'
+          text: 'Functions - Tutorial 1',
+          link: '/tutorials/chapter-functions-tutorial-1'
         }
       ],
-      */
 
       /*
       '/exams/': [
@@ -328,7 +268,7 @@ export default defineConfig({
     socialLinks: [
       {
         icon: 'github',
-        link: 'https://github.com/JSK-KML/CP115-Class-Repo'
+        link: 'https://github.com/JSK-KML/CP125-Class-Repo'
       }
     ],
 
