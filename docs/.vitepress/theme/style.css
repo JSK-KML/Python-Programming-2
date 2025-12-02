@@ -3,7 +3,7 @@
 
 :root {
     --vp-font-family-base: 'Plus Jakarta Sans', sans-serif;
-    word-spacing: 0.02em;
+    word-spacing: 0.1em;
 }
 
 /* Custom style for Open PDF button */
