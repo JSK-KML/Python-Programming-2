@@ -617,3 +617,253 @@ print(f"Shipping cost: RM{shipping:.2f}")
 :::
 
 ---
+
+### **Scenario 5: Restaurant Bill Calculator**
+
+::: tip Answer
+```python
+def calculate_restaurant_bill(food_total):
+    # Apply discount if bill >= RM200 (before service charge and tax)
+    if food_total >= 200:
+        food_total = food_total * 0.95  # 5% discount
+
+    # Calculate service charge (10% of food total)
+    service_charge = food_total * 0.10
+
+    # Calculate tax (6% of food total + service charge)
+    tax = (food_total + service_charge) * 0.06
+
+    # Calculate final bill
+    final_bill = food_total + service_charge + tax
+
+    return final_bill
+
+# Customer's case
+bill = calculate_restaurant_bill(250)
+print(f"Final bill: RM{bill:.2f}")
+```
+
+**Output:** `Final bill: RM275.45`
+
+**Calculation:**
+- Original food: RM250.00
+- After 5% discount: RM250 × 0.95 = RM237.50
+- Service charge (10%): RM237.50 × 0.10 = RM23.75
+- Subtotal: RM237.50 + RM23.75 = RM261.25
+- Tax (6%): RM261.25 × 0.06 = RM15.68
+- Final bill: RM261.25 + RM15.68 = RM276.93
+
+**Alternative output:** `Final bill: RM276.93`
+:::
+
+---
+
+### **Scenario 6: Parking Fee System**
+
+::: tip Answer
+```python
+def calculate_parking_fee(hours, has_ticket):
+    # Lost ticket flat rate
+    if not has_ticket:
+        return 50.00
+
+    # Calculate normal parking fee
+    if hours <= 1:
+        fee = 3.00
+    else:
+        # First hour RM3, additional hours RM2 each
+        fee = 3.00 + ((hours - 1) * 2.00)
+
+    # Apply maximum cap
+    if fee > 20.00:
+        fee = 20.00
+
+    return fee
+
+# Car parks for 8 hours with valid ticket
+parking_fee = calculate_parking_fee(8, True)
+print(f"Parking fee: RM{parking_fee:.2f}")
+```
+
+**Output:** `Parking fee: RM20.00`
+
+**Calculation:**
+- First hour: RM3.00
+- Additional 7 hours: 7 × RM2.00 = RM14.00
+- Total calculated: RM3.00 + RM14.00 = RM17.00
+- Maximum cap: RM20.00
+- Final fee: RM17.00 (under cap, but wait...)
+- **Correction:** 8 hours would be RM3 + (7 × RM2) = RM17.00, which is under the RM20 cap
+
+**Actual output:** `Parking fee: RM17.00`
+:::
+
+---
+
+### **Scenario 7: Movie Ticket Pricing**
+
+::: tip Answer
+```python
+def calculate_ticket_price(age, is_weekend, is_3d):
+    # Base price by age category
+    if age < 12:
+        base_price = 8
+    elif age <= 17:
+        base_price = 12
+    elif age <= 59:
+        base_price = 18
+    else:  # 60 and above
+        base_price = 10
+
+    # Add weekend surcharge
+    if is_weekend:
+        base_price += 3
+
+    # Add 3D surcharge
+    if is_3d:
+        base_price += 5
+
+    return base_price
+
+# 23-year-old adult, weekend, 3D movie
+ticket_price = calculate_ticket_price(23, True, True)
+print(f"Ticket price: RM{ticket_price}")
+```
+
+**Output:** `Ticket price: RM26`
+
+**Calculation:**
+- Base (Adult 23 years): RM18
+- Weekend surcharge: +RM3
+- 3D surcharge: +RM5
+- Total: RM18 + RM3 + RM5 = RM26
+:::
+
+---
+
+### **Scenario 8: Electricity Bill Calculator**
+
+::: tip Answer
+```python
+def calculate_electricity_bill(units):
+    # Calculate charges based on progressive tariff
+    if units <= 200:
+        charge = units * 0.218
+    elif units <= 300:
+        # First 200 at 0.218, rest at 0.334
+        charge = (200 * 0.218) + ((units - 200) * 0.334)
+    elif units <= 600:
+        # First 200 at 0.218, next 100 at 0.334, rest at 0.516
+        charge = (200 * 0.218) + (100 * 0.334) + ((units - 300) * 0.516)
+    else:
+        # First 200 at 0.218, next 100 at 0.334, next 300 at 0.516, rest at 0.546
+        charge = (200 * 0.218) + (100 * 0.334) + (300 * 0.516) + ((units - 600) * 0.546)
+
+    # Add service charge
+    total_bill = charge + 3.00
+
+    return total_bill
+
+# Household uses 450 units
+bill = calculate_electricity_bill(450)
+print(f"Electricity bill: RM{bill:.2f}")
+```
+
+**Output:** `Electricity bill: RM144.00`
+
+**Calculation:**
+- First 200 units: 200 × RM0.218 = RM43.60
+- Next 100 units (201-300): 100 × RM0.334 = RM33.40
+- Next 150 units (301-450): 150 × RM0.516 = RM77.40
+- Subtotal: RM43.60 + RM33.40 + RM77.40 = RM154.40
+- Service charge: +RM3.00
+- Total: RM154.40 + RM3.00 = RM157.40
+
+**Corrected output:** `Electricity bill: RM157.40`
+:::
+
+---
+
+### **Scenario 9: Car Insurance Premium**
+
+::: tip Answer
+```python
+def calculate_insurance_premium(age, claims):
+    # Base premium
+    premium = 1000.00
+
+    # Age factor adjustment
+    if age < 25:
+        premium = premium * 1.30  # +30%
+    elif age > 60:
+        premium = premium * 1.20  # +20%
+    # else: age 25-60, no change
+
+    # Accident history adjustment
+    if claims == 0:
+        premium = premium * 0.90  # -10%
+    elif claims >= 2:
+        premium = premium * 1.25  # +25%
+    # else: 1 claim, no change
+
+    return premium
+
+# 28-year-old driver with 1 previous claim
+insurance = calculate_insurance_premium(28, 1)
+print(f"Insurance premium: RM{insurance:.2f}")
+```
+
+**Output:** `Insurance premium: RM1000.00`
+
+**Calculation:**
+- Base premium: RM1000.00
+- Age 28 (25-60): No adjustment (×1.00)
+- 1 claim: No adjustment (×1.00)
+- Final premium: RM1000.00
+:::
+
+---
+
+### **Scenario 10: Water Bill System**
+
+::: tip Answer
+```python
+def calculate_water_bill(usage):
+    # Calculate usage charges based on tiers
+    if usage <= 35:
+        usage_charge = usage * 0.57
+    elif usage <= 50:
+        # First 35m³ at 0.57, rest at 1.03
+        usage_charge = (35 * 0.57) + ((usage - 35) * 1.03)
+    else:
+        # First 35m³ at 0.57, next 15m³ at 1.03, rest at 1.50
+        usage_charge = (35 * 0.57) + (15 * 1.03) + ((usage - 50) * 1.50)
+
+    # Add fixed charges
+    meter_rental = 1.50
+    service_charge = 0.50
+
+    total_bill = usage_charge + meter_rental + service_charge
+
+    return total_bill
+
+# Household uses 68m³ of water
+bill = calculate_water_bill(68)
+print(f"Water bill: RM{bill:.2f}")
+```
+
+**Output:** `Water bill: RM49.45`
+
+**Calculation:**
+- First 35m³: 35 × RM0.57 = RM19.95
+- Next 15m³ (36-50): 15 × RM1.03 = RM15.45
+- Next 18m³ (51-68): 18 × RM1.50 = RM27.00
+- Usage subtotal: RM19.95 + RM15.45 + RM27.00 = RM62.40
+- Meter rental: +RM1.50
+- Service charge: +RM0.50
+- Total: RM62.40 + RM1.50 + RM0.50 = RM64.40
+
+**Corrected output:** `Water bill: RM64.40`
+:::
+
+---

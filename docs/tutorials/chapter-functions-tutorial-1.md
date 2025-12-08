@@ -581,5 +581,96 @@ Customer orders 7.5kg item worth RM180
 
 ---
 
+### **Scenario 5: Restaurant Bill Calculator**
 
+A restaurant calculates bills with these rules:
+- Food total + Service charge (10% of food total)
+- Government tax: 6% of (Food total + Service charge)
+- Final bill = Food total + Service charge + Tax
+- If bill ≥ RM200, apply 5% discount to food total before calculating service charge and tax
+
+Call the function using these details:
+
+Customer orders RM250 worth of food
+
+---
+
+### **Scenario 6: Parking Fee System**
+
+A parking lot charges:
+- First hour: RM3
+- Each additional hour: RM2
+- Maximum charge per day: RM20
+- Lost ticket: Flat rate RM50
+
+Call the function using these details:
+
+Car parks for 8 hours with valid ticket
+
+---
+
+### **Scenario 7: Movie Ticket Pricing**
+
+Cinema ticket pricing:
+- Child (< 12 years): RM8
+- Student (12-17 years): RM12
+- Adult (18-59 years): RM18
+- Senior (≥ 60 years): RM10
+- Weekend surcharge: +RM3 per ticket
+- 3D movie: +RM5 per ticket
+
+Call the function using these details:
+
+23-year-old adult, weekend, 3D movie
+
+---
+
+### **Scenario 8: Electricity Bill Calculator**
+
+Electricity tariff rates:
+- First 200 units: RM0.218 per unit
+- Next 100 units (201-300): RM0.334 per unit
+- Next 300 units (301-600): RM0.516 per unit
+- Above 600 units: RM0.546 per unit
+- Service charge: RM3.00 (flat)
+
+Call the function using these details:
+
+Household uses 450 units in a month
+
+---
+
+### **Scenario 9: Car Insurance Premium**
+
+Insurance calculation based on:
+- Base premium: RM1000
+- Age factor:
+  - Under 25: +30%
+  - 25-60: No change
+  - Above 60: +20%
+- Accident history:
+  - No claims: -10%
+  - 1 claim: No change
+  - 2+ claims: +25%
+
+Call the function using these details:
+
+28-year-old driver with 1 previous claim
+
+---
+
+### **Scenario 10: Water Bill System**
+
+Water billing structure:
+- First 35m³: RM0.57 per m³
+- Next 15m³ (36-50m³): RM1.03 per m³
+- Above 50m³: RM1.50 per m³
+- Meter rental: RM1.50 (flat)
+- Service charge: RM0.50 (flat)
+
+Call the function using these details:
+
+Household uses 68m³ of water
+
+---
 
