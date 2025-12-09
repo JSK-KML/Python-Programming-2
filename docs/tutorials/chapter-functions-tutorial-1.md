@@ -5,510 +5,9 @@ outline: deep
 
 # Functions - Tutorial 1
 
-## Function Structure
 
-### **Exercise 1: Identify Pre-defined vs User-defined** <Badge type="tip" text="Question" />
 
-**Examine each code snippet and answer the questions:**
-
-**Code Snippet A:**
-```python:line-numbers
-def calculate_discount(price, rate):
-    return price * rate
-
-item_price = float(input("Enter price: RM"))
-discount = calculate_discount(item_price, 0.15)
-final_price = item_price - discount
-print(f"Final price: RM{final_price:.2f}")
-```
-
-**Questions:**
-1. List all pre-defined functions
-2. List all user-defined functions
-3. How many times is each function called?
-
----
-
-**Code Snippet B:**
-```python:line-numbers
-def get_tax(amount):
-    return amount * 0.06
-
-def get_total(price, tax):
-    return price + tax
-
-base_price = 100
-tax_amount = get_tax(base_price)
-total = get_total(base_price, tax_amount)
-print(f"Total: RM{total:.2f}")
-```
-
-**Questions:**
-1. List all pre-defined functions
-2. List all user-defined functions
-3. Which function calls another user-defined function?
-
----
-
-**Code Snippet C:**
-```python:line-numbers
-def display_receipt(item, price, quantity):
-    subtotal = price * quantity
-    print(f"Item: {item}")
-    print(f"Quantity: {quantity}")
-    print(f"Subtotal: RM{subtotal:.2f}")
-
-name = input("Enter item name: ")
-cost = float(input("Enter price: RM"))
-qty = int(input("Enter quantity: "))
-display_receipt(name, cost, qty)
-```
-
-**Questions:**
-1. How many pre-defined functions are called?
-2. How many user-defined functions are defined?
-3. What does the user-defined function return?
-
----
-
-## Fill in the Blanks
-
-### **Exercise 2: Complete Function Definitions** <Badge type="tip" text="Question" />
-
-**Fill in the blanks to make each function work correctly:**
-
-**Function A: Calculate Area**
-```python:line-numbers
-___ calculate_area(length, width)___
-    area = ___ * ___
-    return ___
-
-result = calculate_area(5, 10)
-print(f"Area: {result}")
-```
-
-**Expected Output:**
-```
-Area: 50
-```
-
----
-
-**Function B: Check Passing Grade**
-```python:line-numbers
-def is_passing(score)___
-    if score ___ 50:
-        return ___
-    else:
-        return ___
-
-print(is_passing(75))
-print(is_passing(45))
-```
-
-**Expected Output:**
-```
-True
-False
-```
-
----
-
-**Function C: Calculate Discounted Price**
-```python:line-numbers
-def apply_discount(price, discount_rate):
-    discount_amount = ___ * ___
-    final_price = ___ - ___
-    ___ ___
-
-original = 200
-discounted = apply_discount(original, 0.20)
-print(f"Discounted price: RM{discounted:.2f}")
-```
-
-**Expected Output:**
-```
-Discounted price: RM160.00
-```
-
----
-
-**Function D: Calculate BMI**
-```python:line-numbers
-def calculate_bmi(___, ___)___
-    bmi = weight / (height * height)
-    ___ ___
-
-my_weight = 70
-my_height = 1.75
-result = ___(my_weight, my_height)
-print(f"BMI: {result:.2f}")
-```
-
-**Expected Output:**
-```
-BMI: 22.86
-```
-
----
-
-**Function E: Greeting with Return**
-```python:line-numbers
-def create_greeting(name):
-    message = ___
-    ___ ___
-
-greeting = create_greeting("Ahmad")
-___(greeting)
-```
-
-**Expected Output:**
-```
-Welcome, Ahmad!
-```
-
----
-
-## Fix the Bugs
-
-### **Exercise 4: Find and Fix Errors** <Badge type="tip" text="Question" />
-
-**Each code snippet has one or more bugs. Identify the errors and provide corrected code:**
-
-**Code A:**
-```python:line-numbers
-def calculate_total(price, quantity)
-    total = price * quantity
-    return total
-
-result = calculate_total(50, 3)
-print(result)
-```
-
-**What's wrong:** ___
-**Corrected code:**
-
----
-
-**Code B:**
-```python:line-numbers
-def greet(name):
-print("Hello, " + name)
-
-greet("Ahmad")
-```
-
-**What's wrong:** ___
-**Corrected code:**
-
----
-
-**Code C:**
-```python:line-numbers
-def add_numbers(a, b):
-    sum = a + b
-
-result = add_numbers(10, 20)
-print(result)
-```
-
-**What's wrong:** ___
-**Corrected code:**
-
----
-
-**Code D:**
-```python:line-numbers
-calculate_discount(100, 0.15)
-
-def calculate_discount(price, rate):
-    return price * rate
-```
-
-**What's wrong:** ___
-**Corrected code:**
-
----
-
-**Code E:**
-```python:line-numbers
-def calculate_tax(amount):
-    tax = amount * 0.06
-    return tax
-
-calculate_tax(200)
-print(f"Tax: RM{tax:.2f}")
-```
-
-**What's wrong:** ___
-**Corrected code:**
-
----
-
-**Code F:**
-```python:line-numbers
-def get_total(price, quantity):
-    subtotal = price * quantity
-    tax = subtotal * 0.06
-    total = subtotal + tax
-    return total
-
-get_total(50, 3)
-print(f"Total: RM{total:.2f}")
-```
-
-**What's wrong:** ___
-**Corrected code:**
-
----
-
-**Code G:**
-```python:line-numbers
-def calculate_area(length, width):
-    area = length * width
-
-room_area = calculate_area(5, 4)
-print(f"Area: {room_area}")
-```
-
-**What's wrong:** ___
-**Corrected code:**
-
----
-
-**Code H:**
-```python:line-numbers
-def display_message(text):
-    message = "Important: " + text
-    print(message)
-    return message
-
-result == display_message("Meeting at 3pm")
-```
-
-**What's wrong:** ___
-**Corrected code:**
-
----
-
-## Parameters vs Arguments
-
-### **Exercise 5: Identify Parameters and Arguments** <Badge type="tip" text="Question" />
-
-**For each code snippet, answer the questions:**
-
-**Code A:**
-```python:line-numbers
-def calculate_bill(base_charge, usage, rate):
-    charge = base_charge + (usage * rate)
-    return charge
-
-electricity = calculate_bill(25, 150, 0.40)
-water = calculate_bill(15, 80, 0.30)
-```
-
-**Questions:**
-1. What are the parameters?
-2. What are the arguments in line 5?
-3. What value does `usage` have when calculating electricity?
-4. What value does `rate` have when calculating water?
-
----
-
-**Code B:**
-```python:line-numbers
-def register_student(name, student_id, faculty):
-    print(f"{name} ({student_id}) - {faculty}")
-
-register_student("Ahmad Bin Ali", "2024001", "Engineering")
-register_student("Siti Aminah", "2024002", "Science")
-```
-
-**Questions:**
-1. How many parameters does the function have?
-2. What value does `name` have in line 4?
-3. What value does `faculty` have in line 5?
-
----
-
-**Code C:**
-```python:line-numbers
-def calculate_final_grade(assignments, midterm, final_exam):
-    weighted = (assignments * 0.4) + (midterm * 0.3) + (final_exam * 0.3)
-    return weighted
-
-student1_grade = calculate_final_grade(85, 78, 90)
-student2_grade = calculate_final_grade(92, 88, 95)
-```
-
-**Questions:**
-1. List the parameters
-2. What are the arguments for student1?
-3. What value does `midterm` have for student2?
-
----
-
-## Refactoring - Factorization
-
-### **Exercise 6: Eliminate Repetition** <Badge type="tip" text="Question" />
-
-**Refactor each code by creating a function to eliminate repetition:**
-
-**Code A:**
-```python:line-numbers
-# Calculate tax for multiple items
-price1 = 50
-tax1 = price1 * 0.06
-total1 = price1 + tax1
-print(f"Item 1: RM{total1:.2f}")
-
-price2 = 75
-tax2 = price2 * 0.06
-total2 = price2 + tax2
-print(f"Item 2: RM{total2:.2f}")
-
-price3 = 100
-tax3 = price3 * 0.06
-total3 = price3 + tax3
-print(f"Item 3: RM{total3:.2f}")
-```
-
-**Task:**
-1. Create a function `calculate_total_with_tax(price)`
-2. Rewrite the code using your function
-
----
-
-**Code B:**
-```python:line-numbers
-# Calculate salary for employees
-hours1 = 40
-rate1 = 15
-overtime1 = 5
-salary1 = (hours1 * rate1) + (overtime1 * rate1 * 1.5)
-print(f"Employee 1: RM{salary1:.2f}")
-
-hours2 = 38
-rate2 = 18
-overtime2 = 3
-salary2 = (hours2 * rate2) + (overtime2 * rate2 * 1.5)
-print(f"Employee 2: RM{salary2:.2f}")
-
-hours3 = 42
-rate3 = 20
-overtime3 = 7
-salary3 = (hours3 * rate3) + (overtime3 * rate3 * 1.5)
-print(f"Employee 3: RM{salary3:.2f}")
-```
-
-**Task:**
-1. What calculation is repeated?
-2. Create a function to eliminate repetition
-3. How many parameters should your function have?
-
----
-
-**Code C:**
-```python:line-numbers
-# Calculate shipping cost
-weight1 = 2.5
-cost1 = 5 + (weight1 * 2)
-print(f"Package 1: RM{cost1:.2f}")
-
-weight2 = 5.0
-cost2 = 5 + (weight2 * 2)
-print(f"Package 2: RM{cost2:.2f}")
-
-weight3 = 1.2
-cost3 = 5 + (weight3 * 2)
-print(f"Package 3: RM{cost3:.2f}")
-```
-
-**Task:**
-1. Create `calculate_shipping(weight)` function
-2. Rewrite using the function
-
----
-
-## Single Responsibility
-
-### **Exercise 7: Analyze Function Responsibilities** <Badge type="tip" text="Question" />
-
-**For each function, identify how many jobs it does and suggest improvements:**
-
-**Function A:**
-```python:line-numbers
-def process_order(item_name, price, quantity):
-    print(f"Processing {item_name}")
-    subtotal = price * quantity
-    tax = subtotal * 0.06
-    total = subtotal + tax
-    print(f"Subtotal: RM{subtotal:.2f}")
-    print(f"Tax: RM{tax:.2f}")
-    print(f"Total: RM{total:.2f}")
-    return total
-```
-
-**Questions:**
-1. List all jobs this function does
-2. Does it follow Single Responsibility Principle?
-3. How would you split it into focused functions?
-
----
-
-**Function B:**
-```python:line-numbers
-def handle_registration(name, age, course):
-    if age < 17:
-        return "Too young"
-    
-    if age < 20:
-        fee = 500
-    else:
-        fee = 600
-    
-    if course == "Engineering":
-        fee = fee * 0.9
-    
-    print(f"Student: {name}, Age: {age}, Fee: RM{fee}")
-    return fee
-```
-
-**Questions:**
-1. How many different responsibilities does this have?
-2. List each responsibility
-3. Create smaller functions: `is_valid_age(age)`, `calculate_fee(age)`, `apply_discount(fee, course)`
-
----
-
-**Function C:**
-```python:line-numbers
-def calculate_grade(test1, test2, test3):
-    average = (test1 + test2 + test3) / 3
-    
-    if average >= 80:
-        grade = "A"
-    elif average >= 60:
-        grade = "B"
-    else:
-        grade = "C"
-    
-    print(f"Average: {average:.2f}")
-    print(f"Grade: {grade}")
-    
-    return grade
-```
-
-**Questions:**
-1. What are the different jobs?
-2. Should calculation and display be separate?
-3. Refactor into: `calculate_average()` and `get_letter_grade()`
-
----
-
-## General Function Questions
-
-### **Exercise 8: Scenario-Based Problems** <Badge type="tip" text="Question" />
+## **Exercise 1: Scenario-Based Problems** <Badge type="tip" text="Question" />
 
 **Read each scenario carefully and answer the questions:**
 
@@ -673,4 +172,159 @@ Call the function using these details:
 Household uses 68m³ of water
 
 ---
+
+## **Exercise 2: Code Improvement** <Badge type="tip" text="Question" />
+
+**The following code snippets function correctly, but they are written poorly. Your task is to IMPROVE them.**
+
+---
+
+### **Code A**
+
+```python
+# Calculating areas
+radius_value = 5
+pi_value = 3.14159
+answer = pi_value * radius_value * radius_value
+print(f"Area 1: {answer}")
+
+radius_value_2 = 10
+pi_value_2 = 3.14159
+answer_2 = pi_value_2 * radius_value_2 * radius_value_2
+print(f"Area 2: {answer_2}")
+
+radius_value_3 = 7
+pi_value_3 = 3.14159
+answer_3 = pi_value_3 * radius_value_3 * radius_value_3
+print(f"Area 3: {answer_3}")
+```
+
+---
+
+### **Code B**
+
+```python
+student_score = 85
+
+if student_score >= 90:
+    print("Grade: A")
+
+if student_score >= 80:
+    if student_score < 90:
+        print("Grade: B")
+
+if student_score >= 70:
+    if student_score < 80:
+        print("Grade: C")
+
+if student_score < 70:
+    print("Grade: F")
+```
+
+---
+
+### **Code C**
+
+```python
+item_price_1 = 50
+quantity_1 = 3
+total_cost_1 = item_price_1 * quantity_1
+if total_cost_1 > 100:
+    total_cost_1 = total_cost_1 * 0.9  # 10% discount
+print(f"Item 1 Cost: {total_cost_1}")
+
+item_price_2 = 120
+quantity_2 = 1
+total_cost_2 = item_price_2 * quantity_2
+if total_cost_2 > 100:
+    total_cost_2 = total_cost_2 * 0.9  # 10% discount
+print(f"Item 2 Cost: {total_cost_2}")
+
+grand_total_cost = total_cost_1 + total_cost_2
+print(f"Grand Total: {grand_total_cost}")
+```
+
+---
+
+### **Code D**
+
+```python
+# Conversion
+fahrenheit_temp = 100
+celsius_temp = (fahrenheit_temp - 32) * 5/9
+print(f"Temp 1: {celsius_temp:.2f}")
+
+fahrenheit_temp_2 = 212
+celsius_temp_2 = (fahrenheit_temp_2 - 32) * 5/9
+print(f"Temp 2: {celsius_temp_2:.2f}")
+
+fahrenheit_temp_3 = 32
+celsius_temp_3 = (fahrenheit_temp_3 - 32) * 5/9
+print(f"Temp 3: {celsius_temp_3:.2f}")
+```
+
+---
+
+### **Code E**
+
+```python
+# Interest calculation
+money_invested = 1000
+yearly_rate = 0.05
+years_waited = 3
+total_profit = money_invested * yearly_rate * years_waited
+print(f"Profit 1: {total_profit}")
+
+money_invested_2 = 5000
+yearly_rate_2 = 0.04
+years_waited_2 = 5
+total_profit_2 = money_invested_2 * yearly_rate_2 * years_waited_2
+print(f"Profit 2: {total_profit_2}")
+```
+
+---
+
+### **Code F**
+
+```python
+# Paint calculator
+wall_height = 10
+wall_width = 12
+wall_area = wall_height * wall_width
+paint_needed = wall_area / 350
+cost = paint_needed * 45
+print(f"Wall 1: Area={wall_area}, Paint={paint_needed:.2f} gallons, Cost=RM{cost:.2f}")
+
+wall_height_2 = 8
+wall_width_2 = 15
+wall_area_2 = wall_height_2 * wall_width_2
+paint_needed_2 = wall_area_2 / 350
+cost_2 = paint_needed_2 * 45
+print(f"Wall 2: Area={wall_area_2}, Paint={paint_needed_2:.2f} gallons, Cost=RM{cost_2:.2f}")
+```
+
+---
+
+### **Code G**
+
+```python
+# Employee Slip Generator
+emp_name = "Ali"
+base_pay = 2000
+overtime_hours = 10
+ot_rate = 15
+
+ot_pay = overtime_hours * ot_rate
+gross_pay = base_pay + ot_pay
+tax = gross_pay * 0.11
+net_pay = gross_pay - tax
+
+print("--- PAYSLIP ---")
+print(f"Name: {emp_name}")
+print(f"Base: RM{base_pay}")
+print(f"Overtime: RM{ot_pay}")
+print(f"Tax: RM{tax}")
+print(f"Net Pay: RM{net_pay}")
+print("----------------")
+```
 
