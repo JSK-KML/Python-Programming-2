@@ -456,3 +456,220 @@ overtime_pay, gross, tax, net = calculate_salary_details(base_pay, 10, 15)
 print_payslip(name, base_pay, overtime_pay, tax, net)
 ```
 :::
+
+---
+
+### **Code H (Student Score Processor)**
+
+::: tip Improved Code
+**Improvements:** Separated into 3 functions - average calculation, highest finder, and pass rate calculation.
+
+```python
+def calculate_average(total, count):
+    return total / count
+
+def find_highest(current_highest, new_score):
+    if new_score > current_highest:
+        return new_score
+    return current_highest
+
+def calculate_pass_rate(pass_count, total_count):
+    return (pass_count / total_count) * 100
+
+# Main
+total = 0
+highest = 0
+pass_count = 0
+
+for i in range(5):
+    score = int(input(f"Enter score {i+1}: "))
+    total = total + score
+    highest = find_highest(highest, score)
+
+    if score >= 50:
+        pass_count = pass_count + 1
+
+average = calculate_average(total, 5)
+pass_rate = calculate_pass_rate(pass_count, 5)
+
+print(f"Average: {average}")
+print(f"Highest: {highest}")
+print(f"Pass rate: {pass_rate}%")
+```
+:::
+
+---
+
+### **Code I (Sales Report Generator)**
+
+::: tip Improved Code
+**Improvements:** Separated into 3 functions - average calculation, best day checker, and below target checker.
+
+```python
+def calculate_average(total, count):
+    return total / count
+
+def is_best_day(current_best, new_sales):
+    if new_sales > current_best:
+        return True
+    return False
+
+def is_below_target(sales, target):
+    if sales < target:
+        return True
+    return False
+
+# Main
+total_sales = 0
+best_day = 0
+best_amount = 0
+low_days = 0
+
+for day in range(1, 8):
+    sales = float(input(f"Day {day} sales: RM"))
+    total_sales = total_sales + sales
+
+    if is_best_day(best_amount, sales):
+        best_amount = sales
+        best_day = day
+
+    if is_below_target(sales, 100):
+        low_days = low_days + 1
+
+average = calculate_average(total_sales, 7)
+
+print(f"Total: RM{total_sales}")
+print(f"Average: RM{average}")
+print(f"Best day: Day {best_day} (RM{best_amount})")
+print(f"Days below target: {low_days}")
+```
+:::
+
+---
+
+### **Scenario 11: Student Report Card Generator**
+
+::: tip Answer
+```python
+def calculate_average(score1, score2, score3):
+    return (score1 + score2 + score3) / 3
+
+def determine_grade(average):
+    if average >= 80:
+        return "A"
+    elif average >= 60:
+        return "B"
+    else:
+        return "C"
+
+def generate_report(name, math, science, english):
+    avg = calculate_average(math, science, english)
+    grade = determine_grade(avg)
+
+    report = f"Student: {name} | Avg: {avg:.1f} | Grade: {grade}"
+    return report
+
+# Test
+result = generate_report("Ahmad", 75, 82, 68)
+print(result)
+```
+
+**Output:** `Student: Ahmad | Avg: 75.0 | Grade: B`
+
+**Calculation:**
+- Average: (75 + 82 + 68) / 3 = 75.0
+- Grade: 75 ≥ 60 → B
+:::
+
+---
+
+### **Scenario 12: Product Inventory Manager**
+
+::: tip Answer
+```python
+def calculate_discount_price(price, quantity):
+    if quantity > 50:
+        return price * 0.75  # 25% off
+    elif quantity > 10:
+        return price * 0.85  # 15% off
+    else:
+        return price
+
+def check_stock(quantity, available):
+    if quantity <= available:
+        return True
+    else:
+        return False
+
+def calculate_order_total(price, quantity, available):
+    # Check stock first
+    if not check_stock(quantity, available):
+        return 0  # Early return if no stock
+
+    # Calculate discounted price
+    discounted = calculate_discount_price(price, quantity)
+
+    # Calculate total
+    total = discounted * quantity
+    return total
+
+# Test
+total = calculate_order_total(80, 45, 60)
+print(total)
+```
+
+**Output:** `3060.0`
+
+**Calculation:**
+- Quantity 45 > 10 → 15% discount applied
+- Discounted price: 80 × 0.85 = RM68
+- Stock check: 45 ≤ 60 ✓ (available)
+- Total: 68 × 45 = RM3060
+:::
+
+---
+
+### **Scenario 13: Car Ownership Calculator**
+
+::: tip Answer
+```python
+def calculate_insurance(age, accident_free):
+    premium = 200
+
+    if age < 25:
+        premium = premium + 50
+
+    if accident_free:
+        premium = premium * 0.90
+
+    return premium
+
+def calculate_fuel_cost(distance_km):
+    liters_per_100km = 8
+    price_per_liter = 2.05
+
+    liters_needed = (distance_km / 100) * liters_per_100km
+    cost = liters_needed * price_per_liter
+
+    return cost
+
+# Test
+insurance = calculate_insurance(23, True)
+fuel = calculate_fuel_cost(150)
+
+print(f"Monthly insurance: RM{insurance}")
+print(f"Fuel cost: RM{fuel}")
+```
+
+**Output:**
+```
+Monthly insurance: RM225.0
+Fuel cost: RM24.6
+```
+
+**Calculation:**
+- Insurance: 200 + 50 (under 25) = 250, then 250 × 0.90 = RM225
+- Fuel: (150/100) × 8 = 12 liters, 12 × 2.05 = RM24.60
+:::
+
+---

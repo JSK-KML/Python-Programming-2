@@ -173,6 +173,55 @@ Household uses 68m³ of water
 
 ---
 
+### **Scenario 11: Student Report Card Generator**
+
+A teacher needs to process exam results and generate a report card.
+
+**Requirements:**
+1. Calculate average of 3 subject scores
+2. Determine grade: A (≥80), B (≥60), C (<60)
+3. Generate formatted report card with student name, scores, average, and grade
+
+**Test with these details:**
+
+Student "Ahmad", Scores: Math 75, Science 82, English 68
+
+---
+
+### **Scenario 12: Product Inventory Manager**
+
+Manage product stock levels and pricing.
+
+**Requirements:**
+1. Calculate discounted price: If quantity > 10, apply 15% discount. If quantity > 50, apply 25% discount
+2. Check stock availability: Return True if requested quantity ≤ available stock, False otherwise
+3. Calculate order total: Price × quantity (after discount), but only if stock is available (return 0 if not available)
+
+**Test with these details:**
+
+Price RM80, Quantity 45, Available stock 60
+
+---
+
+### **Scenario 13: Car Ownership Calculator**
+
+Calculate the following for a car owner:
+
+1. Monthly insurance premium:
+   - Base premium: RM200/month
+   - Age factor: Under 25 years old pays extra RM50/month
+   - Accident-free discount: If no accidents in past 3 years, get 10% off total premium
+
+2. Fuel cost for a trip:
+   - Car uses 8 liters per 100km
+   - Current fuel price: RM2.05 per liter
+
+**Test with these details:**
+
+Driver age: 23, No accidents in past 3 years, Trip distance: 150km
+
+---
+
 ## **Exercise 2: Code Improvement** <Badge type="tip" text="Question" />
 
 **The following code snippets function correctly, but they are written poorly. Your task is to IMPROVE them.**
@@ -326,5 +375,63 @@ print(f"Overtime: RM{ot_pay}")
 print(f"Tax: RM{tax}")
 print(f"Net Pay: RM{net_pay}")
 print("----------------")
+```
+
+---
+
+### **Code H**
+
+```python
+# Process 5 student scores
+total = 0
+highest = 0
+pass_count = 0
+
+for i in range(5):
+    score = int(input(f"Enter score {i+1}: "))
+    total = total + score
+
+    if score > highest:
+        highest = score
+
+    if score >= 50:
+        pass_count = pass_count + 1
+
+average = total / 5
+pass_rate = (pass_count / 5) * 100
+
+print(f"Average: {average}")
+print(f"Highest: {highest}")
+print(f"Pass rate: {pass_rate}%")
+```
+
+---
+
+### **Code I**
+
+```python
+# Process daily sales for 7 days
+total_sales = 0
+best_day = 0
+best_amount = 0
+low_days = 0
+
+for day in range(1, 8):
+    sales = float(input(f"Day {day} sales: RM"))
+    total_sales = total_sales + sales
+
+    if sales > best_amount:
+        best_amount = sales
+        best_day = day
+
+    if sales < 100:
+        low_days = low_days + 1
+
+average = total_sales / 7
+
+print(f"Total: RM{total_sales}")
+print(f"Average: RM{average}")
+print(f"Best day: Day {best_day} (RM{best_amount})")
+print(f"Days below target: {low_days}")
 ```
 
