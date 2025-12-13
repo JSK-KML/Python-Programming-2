@@ -222,6 +222,20 @@ Driver age: 23, No accidents in past 3 years, Trip distance: 150km
 
 ---
 
+### **Scenario 14: Road Trip Planner**
+
+You are planning a road trip from Ipoh to Kuala Lumpur. Your friend asks you two questions:
+
+1. "How long will the trip take?" - Calculate travel time based on distance and average speed.
+
+2. "How much is the toll?" - Toll rate is RM0.15 per km.
+
+**Test with these details:**
+
+Distance: 350km, Average speed: 90km/h
+
+---
+
 ## **Exercise 2: Code Improvement** <Badge type="tip" text="Question" />
 
 **The following code snippets function correctly, but they are written poorly. Your task is to IMPROVE them.**

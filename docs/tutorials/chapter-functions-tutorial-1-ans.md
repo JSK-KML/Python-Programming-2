@@ -673,3 +673,38 @@ Fuel cost: RM24.6
 :::
 
 ---
+
+### **Scenario 14: Road Trip Planner**
+
+::: tip Answer
+```python
+def calculate_travel_time(distance, speed):
+    time_hours = distance / speed
+    hours = int(time_hours)
+    minutes = int((time_hours - hours) * 60)
+    return hours, minutes
+
+def calculate_toll(distance):
+    toll = distance * 0.15
+    return toll
+
+# Test
+hours, minutes = calculate_travel_time(350, 90)
+toll = calculate_toll(350)
+
+print(f"Travel time: {hours} hours {minutes} minutes")
+print(f"Toll charges: RM{toll:.2f}")
+```
+
+**Output:**
+```
+Travel time: 3 hours 53 minutes
+Toll charges: RM52.50
+```
+
+**Calculation:**
+- Travel time: 350 / 90 = 3.888... hours = 3 hours 53 minutes
+- Toll: 350 × 0.15 = RM52.50
+:::
+
+---

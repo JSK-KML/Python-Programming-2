@@ -16,18 +16,13 @@ export default defineConfig({
         text: 'Home',
         link: '/'
       },
-      /*
       {
         text: 'Assessments',
         items: [
           { text: 'Lab Test 1', link: '/assessments/lab-test-1' },
-          { text: 'Lab Test 2', link: '/assessments/lab-test-2' },
-          { text: 'Lab Test 3', link: '/assessments/lab-test-3' },
-          { text: 'Assignment', link: '/assessments/assignment' }
         ],
         activeMatch: '^/assessments/'
       },
-      */
       {
         text: 'Course Informations',
         items: [
@@ -67,12 +62,7 @@ export default defineConfig({
         text: 'Lectures',
         items: [
           { text: 'Chapter 1', link: '/lectures/chapter-01' },
-          // { text: 'Chapter 2', link: '/lectures/chapter-02' },
-          // { text: 'Chapter 3', link: '/lectures/chapter-03' },
-          // { text: 'Chapter 4', link: '/lectures/chapter-04' },
-          // { text: 'Chapter 5', link: '/lectures/chapter-05' },
-          // { text: 'Chapter 6', link: '/lectures/chapter-06' },
-          // { text: 'Chapter 7', link: '/lectures/chapter-07' }
+          { text: 'Chapter 2', link: '/lectures/chapter-02' },
         ],
         activeMatch: '^/lectures/'
       },
@@ -86,26 +76,12 @@ export default defineConfig({
     ],
 
     sidebar: {
-      /*
       '/assessments/': [
         {
           text: 'Lab Test 1',
           link: '/assessments/lab-test-1'
         },
-        {
-          text: 'Lab Test 2',
-          link: '/assessments/lab-test-2'
-        },
-        {
-          text: 'Lab Test 3',
-          link: '/assessments/lab-test-3'
-        },
-        {
-          text: 'Assignment',
-          link: '/assessments/assignment'
-        }
       ],
-      */
 
       '/labs/': [
         {
@@ -184,32 +160,10 @@ export default defineConfig({
           text: 'Chapter 1',
           link: '/lectures/chapter-01'
         },
-        /*
         {
           text: 'Chapter 2',
           link: '/lectures/chapter-02'
         },
-        {
-          text: 'Chapter 3',
-          link: '/lectures/chapter-03'
-        },
-        {
-          text: 'Chapter 4',
-          link: '/lectures/chapter-04'
-        },
-        {
-          text: 'Chapter 5',
-          link: '/lectures/chapter-05'
-        },
-        {
-          text: 'Chapter 6',
-          link: '/lectures/chapter-06'
-        },
-        {
-          text: 'Chapter 7',
-          link: '/lectures/chapter-07'
-        }
-        */
       ],
 
       '/tutorials/': [
