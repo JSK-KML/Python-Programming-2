@@ -604,6 +604,68 @@ A parking system determines hourly rates dynamically:
 **Task:**
 Write a program that calculates and returns the correct hourly rate (float) based on vehicle type and hour.
 
+## Exercise 5: Triangle Checker <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise5/exercise.py`.
+
+**Situation:**
+A geometry app needs a function to verify if three given line segments can physically form a triangle.
+
+**Rule:**
+A triangle is valid only if the sum of any two sides is greater than the third side:
+1. `side1 + side2 > side3`
+2. `side1 + side3 > side2`
+3. `side2 + side3 > side1`
+
+**Task:**
+Write a function `is_valid_triangle(a, b, c)` that returns `True` if valid, `False` otherwise.
+
+## Exercise 6: Leap Year Detector <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise6/exercise.py`.
+
+**Situation:**
+A calendar app needs to identify leap years correctly to handle February 29th.
+
+**Rules:**
+A year is a leap year if:
+1. It is exactly divisible by 4...
+2. BUT NOT if it is divisible by 100...
+3. UNLESS it is ALSO divisible by 400.
+
+**Examples:**
+- 2024: Yes (divisible by 4)
+- 1900: No (divisible by 100)
+- 2000: Yes (divisible by 400)
+
+**Task:**
+Write a function `is_leap_year(year)` that returns `True` or `False`.
+
+## Exercise 7: Rectangle Collision <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise7/exercise.py`.
+
+**Situation:**
+A game engine needs to detect if two objects (rectangles) have crashed into each other.
+
+**Task:**
+Write a function `check_collision(x1, y1, w1, h1, x2, y2, w2, h2)` that returns `True` if the rectangles overlap, `False` if they don't.
+
+**Parameters:**
+- `x1, y1`: Top-left coordinate of Rectangle 1
+- `w1, h1`: Width and Height of Rectangle 1
+- `x2, y2`: Top-left coordinate of Rectangle 2
+- `w2, h2`: Width and Height of Rectangle 2
+
+**Hint:**
+It is easier to check when they **DON'T** overlap:
+- Rect 1 is too far to the Left of Rect 2
+- Rect 1 is too far to the Right of Rect 2
+- Rect 1 is too high above Rect 2
+- Rect 1 is too low below Rect 2
+
+If NONE of these are true, they must be touching!
+
 ## Commit and Push Your Work
 
 After completing all exercises, save all your files and commit them to your repository.

@@ -3,7 +3,7 @@ title: Chapter 2 Lecture
 outline: deep
 ---
 
-# Chapter 2: List
+# Chapter 2: Lists
 
 
 <br>
@@ -12,7 +12,7 @@ outline: deep
 
 
 
-<iframe src="./chapter-01.pdf" width="100%" height="400" allowfullscreen></iframe>
+<iframe src="./chapter-02.pdf" width="100%" height="400" allowfullscreen></iframe>
 
 <br>
 
@@ -25,16 +25,16 @@ outline: deep
 <br>
 <br>
 
-## Additional  Chapter 2 Lecture
+## Additional Chapter 2 Lecture
 
 <br>
 <br>
 
-<iframe src="/Python-Programming-2/lectures/topic_1_functions.pdf" width="100%" height="400" allowfullscreen></iframe>
+<iframe src="/Python-Programming-2/lectures/topic_2_lists.pdf" width="100%" height="400" allowfullscreen></iframe>
 
 <br>
 
-<a href="/Python-Programming-2/lectures/topic_1_functions.pdf" target="_blank" rel="noopener">
+<a href="/Python-Programming-2/lectures/topic_2_lists.pdf" target="_blank" rel="noopener">
   <button class="open-pdf-btn">
     Open Fullscreen
   </button>

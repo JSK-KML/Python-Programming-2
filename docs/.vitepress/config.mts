@@ -19,7 +19,7 @@ export default defineConfig({
       {
         text: 'Assessments',
         items: [
-          { text: 'Lab Test 1', link: '/assessments/lab-test-1' },
+          // { text: 'Lab Test 1', link: '/assessments/lab-test-1' },
         ],
         activeMatch: '^/assessments/'
       },
@@ -78,8 +78,8 @@ export default defineConfig({
     sidebar: {
       '/assessments/': [
         {
-          text: 'Lab Test 1',
-          link: '/assessments/lab-test-1'
+          // text: 'Lab Test 1',
+          // link: '/assessments/lab-test-1'
         },
       ],
 
