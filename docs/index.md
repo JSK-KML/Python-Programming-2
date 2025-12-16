@@ -5,7 +5,7 @@ layout: home
 title: Home
 
 hero:
-  name: "CP115 Python Programming 2"
+  name: "CP125 Python Programming 2"
   text: "Course and Lab Information"
   tagline: Structured Python Labs and Exercises
   actions:

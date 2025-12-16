@@ -555,7 +555,7 @@ This approach makes debugging easier too. If the final number seems wrong, you c
 
 ## Exercise 1: Road Trip Budgeter <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab02/exercise1/exercise.py`.
+Navigate to `/labs/lab02/exercise1/exercise1.py`.
 
 **Situation:**
 
@@ -566,7 +566,7 @@ Write a program using boolean logic.
 
 ## Exercise 2: Camping Logistics <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab02/exercise2/exercise.py`.
+Navigate to `/labs/lab02/exercise2/exercise2.py`.
 
 **Situation:**
 
@@ -577,7 +577,7 @@ Write a program that calculates and returns the single **total cost** required f
 
 ## Exercise 3: Secure Vault System <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab02/exercise3/exercise.py`.
+Navigate to `/labs/lab02/exercise3/exercise3.py`.
 
 **Situation:**
 
@@ -592,7 +592,7 @@ Write a program that validates entry attempts and returns `True` (Access Granted
 
 ## Exercise 4: Dynamic Parking Rate <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab02/exercise4/exercise.py`.
+Navigate to `/labs/lab02/exercise4/exercise4.py`.
 
 **Situation:**
 
@@ -606,7 +606,7 @@ Write a program that calculates and returns the correct hourly rate (float) base
 
 ## Exercise 5: Triangle Checker <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab02/exercise5/exercise.py`.
+Navigate to `/labs/lab02/exercise5/exercise5.py`.
 
 **Situation:**
 A geometry app needs a function to verify if three given line segments can physically form a triangle.
@@ -622,7 +622,7 @@ Write a function `is_valid_triangle(a, b, c)` that returns `True` if valid, `Fal
 
 ## Exercise 6: Leap Year Detector <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab02/exercise6/exercise.py`.
+Navigate to `/labs/lab02/exercise6/exercise6.py`.
 
 **Situation:**
 A calendar app needs to identify leap years correctly to handle February 29th.
@@ -643,7 +643,7 @@ Write a function `is_leap_year(year)` that returns `True` or `False`.
 
 ## Exercise 7: Rectangle Collision <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab02/exercise7/exercise.py`.
+Navigate to `/labs/lab02/exercise7/exercise7.py`.
 
 **Situation:**
 A game engine needs to detect if two objects (rectangles) have crashed into each other.
@@ -665,6 +665,55 @@ It is easier to check when they **DON'T** overlap:
 - Rect 1 is too low below Rect 2
 
 If NONE of these are true, they must be touching!
+
+## Exercise 8: Bouncing Ball Simulation <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise8/exercise8.py`.
+
+**Situation:**
+
+A ball is dropped from a certain height. When it hits the ground, it bounces back up but only reaches 80% of its previous height due to energy loss. The ball continues bouncing, getting lower each time, until the bounce height becomes less than 1 unit. At that point, the ball is considered stopped.
+
+Your task is to simulate this bouncing behavior.
+
+**You need to calculate:**
+1. How many times the ball bounces before stopping
+2. The total distance traveled by the ball (including the initial drop and all bounces up and down)
+
+**Rules:**
+- Each bounce reaches 80% of the previous height
+- Ball stops when bounce height is less than 1
+- Total distance includes: initial drop + (each bounce up + down)
+
+**Task:**
+Write functions that work together to simulate the bouncing ball and return the bounce count and total distance.
+
+## Exercise 9: Level Up Calculator <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise9/exercise9.py`.
+
+**Situation:**
+
+In a game, leveling up requires XP. Each level requires more XP than the previous:
+
+- Level 1 → 2: 100 XP
+- Level 2 → 3: 200 XP
+- Level 3 → 4: 300 XP
+- ...and so on (+100 more each level)
+
+A player has a total amount of XP. Calculate what level they reach and how much XP is left over.
+
+**You need to find:**
+1. The player's final level
+2. The remaining XP after leveling
+
+**Rules:**
+- Start at level 1
+- Each level costs 100 more XP than the previous
+- Keep leveling up until not enough XP for next level
+
+**Task:**
+Write functions that work together to calculate the player's final level and remaining XP.
 
 ## Commit and Push Your Work
 
