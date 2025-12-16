@@ -34,7 +34,8 @@ export default defineConfig({
       {
         text: 'Tutorials',
         items: [
-          { text: 'Functions - Tutorial 1', link: '/tutorials/chapter-functions-tutorial-1' }
+          { text: 'Functions', link: '/tutorials/chapter-functions-tutorial-1' },
+          { text: 'Lists', link: '/tutorials/chapter-lists-tutorial-1' }
         ],
         activeMatch: '^/tutorials/'
       },
@@ -181,8 +182,12 @@ export default defineConfig({
 
       '/tutorials/': [
         {
-          text: 'Functions - Tutorial 1',
+          text: 'Functions',
           link: '/tutorials/chapter-functions-tutorial-1'
+        },
+        {
+          text: 'Lists',
+          link: '/tutorials/chapter-lists-tutorial-1'
         }
       ],
 
