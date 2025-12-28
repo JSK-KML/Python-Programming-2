@@ -12,7 +12,7 @@ Before starting any lab, you need to make sure that the repo in your **GitHub** 
 Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
 
 <p align="center">
-    <img src="/public/labs/lab-02/lab-2-1.png" alt="drawing" width="400"/>
+    <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
 </p>
 
 ## Why Do We Need Data Structures?

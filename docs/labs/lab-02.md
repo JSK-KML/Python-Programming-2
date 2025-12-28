@@ -12,7 +12,7 @@ Before starting any lab, you need to make sure that the repo in your **GitHub** 
 Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
 
 <p align="center">
-    <img src="/public/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
+    <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
 </p>
 
 ## Functions
@@ -717,6 +717,6 @@ Write functions that work together to calculate the player's final level and rem
 
 ## Commit and Push Your Work
 
-After completing all exercises, save all your files and commit them to your repository.
+After completing all exercises, save all your files and commit them 3to your repository.
 
 Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 2: Functions", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
