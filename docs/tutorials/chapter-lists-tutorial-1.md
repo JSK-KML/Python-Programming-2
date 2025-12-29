@@ -98,6 +98,83 @@ Write a function `compare_teams(team_a, team_b)` that returns the count of:
 
 ---
 
+### **Scenario 6: Catalog Sanitizer**
+
+A library's digital catalog has some messy data, including empty entries or names that are too short to be valid.
+
+**Data**: `["Zaid", "Ali", "", "Sara", "A", "Zulkifli"]`
+
+**Task**: Write functions that:
+1. Use a loop to build a **new list** containing only names that have **3 or more characters**.
+2. From this "sanitized" list, find and return the **first and last** names alphabetically.
+3. If the resulting list is empty, return an empty list `[]`.
+
+---
+
+### **Scenario 7: Inventory Batch Auditor**
+
+A warehouse receives shipments where the same item may appear multiple times in different batches.
+
+**Data**: `["Drill", "Hammer", "Drill", "Saw", "Drill", "Nut"]`
+
+**Task**: Write functions that:
+1. Use a loop to **count** how many times a specific `item_name` appears in the inventory list.
+2. Evaluate the count using these rules:
+   - If the item appears **3 or more times**, return: `"Stock Stable: [Count] batches found"`.
+   - If it appears **1 or 2 times**, return: `"Low Stock: [Count] batches found"`.
+   - If it is not found (0), return: `"Out of Stock"`.
+
+---
+
+### **Scenario 8: Selective Volatility**
+
+A trader wants to analyze the volatility of a stock, but they only care about prices between **RM100 and RM200**.
+
+**Data**: `[90, 150, 110, 210, 180, 105]`
+
+**Task**: Write functions that:
+1. Use a loop to extract all prices that fall within the **100 to 200** range (inclusive) into a new list.
+2. If this new list contains **at least 2 prices**:
+   - Calculate the volatility (`max - min`) of this subset.
+   - If the volatility is greater than 50, return `"High Volatility: [Value]"`, otherwise return `"Normal Volatility: [Value]"`.
+3. If there are fewer than 2 relevant prices, return `"Insufficient Data"`.
+
+---
+
+---
+
+### **Scenario 9: Game Lobby Analyzer**
+
+A multiplayer game server logs the ping (latency in milliseconds) of all connected players. A server is considered **"Unstable"** if the **average ping** exceeds **150ms**.
+
+**Data**: `[45, 120, 30, 85, 200]`
+
+**Task**: Write functions that:
+1. Calculate the **average ping** of the lobby.
+2. Find the **best ping** (lowest) and **worst ping** (highest).
+3. Count how many players have a **"bad connection"** (ping > 100ms).
+4. Determine if the lobby is **"Stable"** or **"Unstable"** based on whether the *average* exceeds 150ms.
+5. Return a formatted status string: `"Lobby Status - Avg: [X]ms | Best: [Y]ms | Worst: [Z]ms | Lagging: [N] | Status: [Stable/Unstable]"`
+
+---
+
+### **Scenario 10: Pet Shelter Manager**
+
+An animal shelter has a strict capacity of **5 animals**. Staff need a system to manage arrivals and check availability.
+
+**Task**: Write functions that:
+1. Check if a pet name already exists in the shelter list (no duplicates allowed).
+2. Add a new pet **only if** the name is not a duplicate **and** spots are available. Return `True` if successfully added, `False` otherwise.
+3. Return the number of **empty spots** remaining (5 - current count).
+   - `0` means the shelter is full.
+   - `1` to `5` means spots are available.
+
+---
+
+---
+
+---
+
 ## **Exercise 2: Code Improvement** <Badge type="tip" text="Question" />
 
 **The following code works but violates best practices. Improve the code by applying principles for lists and functions.**
@@ -206,5 +283,41 @@ print(f"Total: {total}")
 print(f"Average: {average:.2f}")
 print(f"Pass count: {pass_count}")
 print(f"Pass rate: {pass_rate:.1f}%")
+
+---
+
+### **Code F: Magic Indices**
+
+```python
+# Processing order data
+# index 0: item name
+# index 1: quantity
+# index 2: unit price
+order1 = ["Monitor", 2, 850.50]
+order2 = ["Mouse", 5, 45.00]
+
+cost1 = order1[1] * order1[2]
+cost2 = order2[1] * order2[2]
+
+print(f"Total for {order1[0]}: RM{cost1}")
+print(f"Total for {order2[0]}: RM{cost2}")
+```
+
+---
+
+### **Code G: Unrelated Data**
+
+```python
+# Event data for Saturday
+temp = 32.5
+is_raining = False
+expected_guests = 50
+location = "Hall A"
+
+# Storing it all in one list for "convenience"
+saturday_event = [temp, is_raining, expected_guests, location]
+
+print(f"Event Details: {saturday_event}")
+```
 ```
 
