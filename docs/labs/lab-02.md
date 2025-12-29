@@ -715,8 +715,65 @@ A player has a total amount of XP. Calculate what level they reach and how much 
 **Task:**
 Write functions that work together to calculate the player's final level and remaining XP.
 
+## Exercise 10: Drone Battery Manager <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise10/exercise10.py`.
+
+**Situation:**
+A drone is performing a forest survey. It consumes **1.5% battery per 10 meters** traveled. If the drone is in **"Sport Mode"**, this battery consumption **increases by 50%**. The drone needs to know if it has enough power to complete its mission and safely fly back to its starting point.
+
+**Task:**
+Write functions that work together to estimate battery usage for a **round trip** and return if it is safe to fly.
+
+## Exercise 11: ATM Request Processor <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise11/exercise11.py`.
+
+**Situation:**
+A bank ATM processes withdrawal requests. For security and mechanical reasons:
+1. All withdrawals must be in **multiples of RM10**.
+2. The customer must have a **sufficient account balance**.
+
+**Task:**
+Write functions that work together to validate these rules and return the new balance if successful, or an error message.
+
+## Exercise 12: RPG Strike Calculator <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise12/exercise12.py`.
+
+**Situation:**
+A role-playing game calculates combat damage based on a hero's **Luck** and **Base Attack**. If the hero's Luck is **above 70**, they land a "Critical Hit" that **doubles** their attack power. The final damage dealt is the attack power minus the **Enemy's Defense**.
+
+**Task:**
+Write functions that work together to calculate the enemy's final health (Health - Damage) and return it.
+
+## Exercise 13: Global Shipping Quoter <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise13/exercise13.py`.
+
+**Situation:**
+A shipping firm calculates delivery costs based on weight and destination:
+- **Domestic:** RM5.00 per kg
+- **International:** RM15.00 per kg
+- **Express Surcharge:** Add a flat RM10.00 if the user selects "Express Delivery."
+
+**Task:**
+Write functions that work together to calculate and return the final shipping quote.
+
+## Exercise 14: Smart Garden Controller <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab02/exercise14/exercise14.py`.
+
+**Situation:**
+A smart home system manages garden watering. It should turn on the pump ONLY if:
+1. Soil moisture is **below 30%**.
+2. It is a **safe time** to water. (It is dangerous to water between **10 AM and 4 PM** because the sun might scorch the leaves, UNLESS the temperature is **above 40°C**, in which case the plants need cooling anyway).
+
+**Task:**
+Write functions that work together to decide if the water pump should be triggered.
+
 ## Commit and Push Your Work
 
-After completing all exercises, save all your files and commit them 3to your repository.
+After completing all exercises, save all your files and commit them to your repository.
 
 Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 2: Functions", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
