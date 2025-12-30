@@ -171,6 +171,21 @@ An animal shelter has a strict capacity of **5 animals**. Staff need a system to
 
 ---
 
+### **Scenario 11: Queue Priority System**
+
+A hospital emergency room uses a priority queue. Each patient has a priority level (1-5, where 1 is most critical). The system needs to identify if there are any critical patients (priority 1 or 2) waiting.
+
+**Data**: `[3, 2, 4, 5, 1, 3, 4]`
+
+**Task**: Write functions that:
+1. Find the position (index) of the first critical patient (priority 1 or 2) in the queue.
+2. Count how many critical patients are waiting.
+3. If no critical patients exist, return `-1` for position and `0` for count.
+
+**Test with:**
+- `[3, 2, 4, 5, 1, 3, 4]` → First critical at index `1`, Count: `2`
+- `[3, 4, 5, 3, 4]` → First critical at index `-1`, Count: `0`
+
 ---
 
 ---

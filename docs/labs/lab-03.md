@@ -43,7 +43,7 @@ Run this code. It works, but notice the problems:
 2. You had to manually type each variable name in the calculation
 3. The calculation formula changes if you add or remove students
 
-Now imagine you have 50 students. Or 500 students. You'd need to create 500 variables and type all 500 names in your calculation!
+Now imagine you have 50 students. Or 500 students. You'd need to create 500 variables and type all 500 names in your calculation
 
 ::: warning PROBLEM
 Individual variables don't scale. The more data you have, the more unmanageable your code becomes. You can't loop through variables, and every change requires editing multiple lines.
@@ -75,7 +75,7 @@ scores = [85, 92, 78, 88, 95, 73, 91, 87]
 print(f"We now have {scores} scores")
 ```
 
-Run it again. The list grows easily!
+Run it again. The list grows easily
 
 ::: tip INFO
 A **data structure** is a way to organize and store multiple values so they can be used efficiently. Instead of many variables, you use ONE structure that holds everything.
@@ -138,16 +138,6 @@ print("Strings:", strings)
 print("Booleans:", booleans)
 ```
 
-Run this code. All of these work perfectly!
-
-But here's something interesting - you can even mix types:
-
-```python
-mixed = [25, "hello", 3.14, True]
-print(mixed)
-```
-
-This works, but should you do it? We'll explore why mixing types is usually a bad idea in a future lab.
 
 ## Accessing List Elements: Indexing
 
@@ -208,7 +198,7 @@ Use `[-1]` when you need the last item but don't know the list size. This is muc
 
 ### Nested List Indexing
 
-Lists can contain other lists! This is called **nesting**. Try this:
+Lists can contain other lists This is called **nesting**. Try this:
 
 ```python
 students = [
@@ -266,455 +256,162 @@ numbers[1] = 25  # Change the second element
 print(numbers)  # [10, 25, 30]
 ```
 
-Try this yourself. Change different indices and see what happens!
+Try this yourself. Change different indices and see what happens
 
-### Lists Can Grow and Shrink
 
-Unlike some other programming languages, **Python** lists can change size. We'll learn how to add and remove elements in the next lab, but for now, know that lists are **dynamic** - they can grow or shrink as needed.
 
-## List Characteristics
-
-Lists have 5 key characteristics that make them useful:
-
-### 1. Ordered
-
-Lists maintain the order of elements as they are inserted.
-
-```python
-days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
-print(days[0])  # Always Monday
-print(days[4])  # Always Friday
-```
-
-The order never changes unless you explicitly change it.
-
-### 2. Mutable (Changeable)
-
-You can modify elements after creation (as we just saw):
-
-```python
-names = ["Ali", "Sara", "John"]
-names[1] = "Aisha"  # Change "Sara" to "Aisha"
-print(names)  # ['Ali', 'Aisha', 'John']
-```
-
-### 3. Allows Duplicates
-
-Lists can have the same value multiple times:
-
-```python
-names = ["Ali", "Sara", "Ali", "John"]
-print(names)  # ['Ali', 'Sara', 'Ali', 'John']
-```
-
-Both "Ali" entries are kept!
-
-### 4. Supports Different Data Types
-
-A list can store multiple data types (though it's usually better to keep one type per list):
-
-```python
-mixed_list = [5, "Hello", 3.5, True]
-print(mixed_list)  # [5, 'Hello', 3.5, True]
-```
-
-### 5. Dynamic Size
-
-Lists can grow or shrink as needed. **Python** handles the memory management automatically.
-
-## How Lists Work Internally
-
-**Python** lists are implemented as **dynamic arrays**. Here's what that means:
-
-When you create a list, **Python** allocates extra memory beyond what's immediately needed. This allows the list to grow efficiently.
-
-```
-Initial: numbers = [1, 2, 3]
-┌───┬───┬───┬───┬───┬───┐
-│ 1 │ 2 │ 3 │   │   │   │  <- Extra space allocated
-└───┴───┴───┴───┴───┴───┘
-  Used: 3      Capacity: 6
-```
-
-When the capacity is exceeded, **Python** automatically resizes the list by allocating a larger block of memory.
-
-::: tip WHY THIS MATTERS
-Understanding that lists are dynamic arrays helps you appreciate why they're so flexible. You don't need to declare a size upfront - **Python** handles it all for you!
-:::
-
-## Exercise 1: Index Explorer <Badge type="warning" text="Task" />
+## Exercise 1: Pixel Brightness Checker <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise1/exercise1.py`.
 
 **Situation:**
 
-A program needs to access specific elements from a list of city names.
+An image processing app analyzes a row of pixels stored as grayscale values (0-255, where 0 is black and 255 is white). The app needs to detect "bright spots" - pixels that are brighter than BOTH their left and right neighbors.
+
+
+**Example:**
+```
+Pixels: [100, 120, 200, 150, 180, 160, 140]
+         0    1    2    3    4    5    6
+
+Index 2 (value 200): brighter than 120 and 150 → Bright spot
+Index 4 (value 180): brighter than 150 and 160 → Bright spot
+```
 
 **Task:**
 
-Write a program that:
-1. Takes 5 city names as input (one per line)
-2. Stores them in a list
-3. Prints:
-   - The first city
-   - The third city
-   - The last city (using negative indexing)
+Write a program that takes 7 pixel values, an index to check (1-5), and prints "Bright spot" or "Not a bright spot".
 
-**Example Input:**
-```
-Kuala Lumpur
-Tokyo
-New York
-Paris
-Dubai
-```
-
-**Example Output:**
-```
-First: Kuala Lumpur
-Third: New York
-Last: Dubai
-```
-
-## Exercise 2: List Modifier <Badge type="warning" text="Task" />
+## Exercise 2: Subway Station Hop Counter <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise2/exercise2.py`.
 
 **Situation:**
 
-A program needs to update specific elements in a list.
+A subway line has stations stored in order in a list. A passenger wants to know how many stops they need to travel between two stations.
+
+**Example:**
+```
+Stations: ["Central", "Marina", "Bukit", "Orchard", "Sentosa"]
+           0          1         2        3          4
+
+From "Marina" (index 1) to "Sentosa" (index 4)
+Stops = 3
+```
 
 **Task:**
 
-Write a program that:
-1. Takes 4 numbers as input (integers)
-2. Stores them in a list
-3. Changes the second element to 99
-4. Changes the last element to 88
-5. Prints the modified list
+Write a program that takes 5 station names, an origin index, a destination index, and prints how many stops between them.
 
-**Example Input:**
-```
-10
-20
-30
-40
-```
-
-**Example Output:**
-```
-[10, 99, 30, 88]
-```
-
-## Exercise 3: Nested List Navigator <Badge type="warning" text="Task" />
+## Exercise 3: Cinema Seat Finder <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise3/exercise3.py`.
 
 **Situation:**
 
-A program stores student data as nested lists and needs to extract specific information.
+A cinema booking system stores seat availability for a row as a list. Each element represents a seat: `0` means empty, `1` means taken. A couple wants to sit together, so the system needs to check if there are two adjacent empty seats anywhere in the row.
+
+**Example:**
+```
+Row: [1, 0, 0, 1, 0, 1, 0, 0]
+      0  1  2  3  4  5  6  7
+
+Adjacent empty pairs found at positions (1,2) and (6,7)
+Output: "Seats available"
+```
 
 **Task:**
 
-Write a program that:
-1. Creates a nested list with 3 students, each having [name, score1, score2]
-2. Takes 9 inputs total (3 students × 3 values each)
-3. Prints:
-   - The first student's name
-   - The second student's first score
-   - The third student's second score
+Write a program that takes 8 seat values (0 or 1) and prints "Seats available" or "No adjacent seats".
 
-**Example Input:**
-```
-Ali
-85
-92
-Sara
-90
-88
-Ahmad
-78
-82
-```
-
-**Example Output:**
-```
-First student: Ali
-Second student's first score: 90
-Third student's second score: 82
-```
-
-## Exercise 4: Index Range Checker <Badge type="warning" text="Task" />
+## Exercise 4: DNA Base Pair Matcher <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise4/exercise4.py`.
 
 **Situation:**
 
-A program needs to safely access list elements and handle invalid indices.
+A biology app analyzes DNA strands. DNA has 4 bases: A, T, C, G. In a double helix, bases pair up:
+- A pairs with T
+- C pairs with G
+
+Given a DNA strand as a list, the app needs to verify if two positions would form a valid base pair.
+
+**Example:**
+```
+Strand: ["A", "T", "C", "G", "A", "T"]
+         0    1    2    3    4    5
+
+Check positions 0 and 1: A and T → Valid pair
+Check positions 2 and 3: C and G → Valid pair
+Check positions 0 and 2: A and C → Invalid pair
+```
 
 **Task:**
 
-Write a program that:
-1. Takes 5 numbers as input (integers)
-2. Stores them in a list
-3. Takes an index to access (integer)
-4. If the index is valid (0-4), print the element at that index
-5. If the index is invalid, print "Invalid index"
+Write a program that takes 6 DNA bases (A, T, C, or G), two positions to check, and prints "Valid pair" or "Invalid pair".
 
-**Example Input 1:**
-```
-10
-20
-30
-40
-50
-2
-```
-
-**Example Output 1:**
-```
-30
-```
-
-**Example Input 2:**
-```
-10
-20
-30
-40
-50
-7
-```
-
-**Example Output 2:**
-```
-Invalid index
-```
-
-**Hint:** Check if the index is between 0 and 4 (inclusive).
-
-## Exercise 5: List Type Identifier <Badge type="warning" text="Task" />
+## Exercise 5: Weather Trend Analyzer <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise5/exercise5.py`.
 
 **Situation:**
 
-A program needs to identify what type of data a list contains.
+A weather app tracks daily temperatures. A "warming trend" is detected when the temperature increases for 2 consecutive days (day 2 > day 1 AND day 3 > day 2).
+
+**Example:**
+```
+Temps: [25, 27, 29, 28, 30, 32, 31]
+        0   1   2   3   4   5   6
+
+Days 0-1-2: 25 → 27 → 29 (increasing twice) → Warming trend found
+Days 3-4-5: 28 → 30 → 32 (increasing twice) → Warming trend found
+```
 
 **Task:**
 
-Write a program that:
-1. Takes 3 values as input (can be numbers or strings)
-2. Stores them in a list
-3. Checks the type of the first element
-4. Prints "Number list" if it's an integer or float
-5. Prints "String list" if it's a string
+Write a program that takes 7 daily temperatures and prints "Warming trend" if any 2 consecutive increases exist, otherwise "No warming trend".
 
-**Example Input 1:**
-```
-10
-20
-30
-```
-
-**Example Output 1:**
-```
-Number list
-```
-
-**Example Input 2:**
-```
-apple
-banana
-cherry
-```
-
-**Example Output 2:**
-```
-String list
-```
-
-**Hint:** Use `type()` to check the data type: `type(my_list[0])`
-
-## Exercise 6: Duplicate Detector <Badge type="warning" text="Task" />
+## Exercise 6: Race Overtake Detector <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise6/exercise6.py`.
 
 **Situation:**
 
-A program needs to check if a list contains duplicate values.
+A motorsport race tracker records car positions at two checkpoints. Each list contains car numbers in finishing order - index 0 is 1st place, index 1 is 2nd place, and so on.
+
+Between checkpoints, cars change positions. The system needs to detect if one car has overtaken another - meaning the car was behind at checkpoint 1 but moved ahead by checkpoint 2.
+
+**Example 1:**
+```
+Checkpoint 1: [5, 3, 7, 2, 9]
+Checkpoint 2: [5, 7, 3, 2, 9]
+
+Did Car 7 overtake Car 3?
+- Before: Car 7 at index 2, Car 3 at index 1 → Car 7 behind
+- After:  Car 7 at index 1, Car 3 at index 2 → Car 7 ahead
+→ True
+```
+
+**Example 2:**
+```
+Checkpoint 1: [5, 3, 7, 2, 9]
+Checkpoint 2: [5, 7, 3, 2, 9]
+
+Did Car 5 overtake Car 3?
+→ False (Car 5 was already ahead)
+```
 
 **Task:**
 
-Write a program that:
-1. Takes 5 numbers as input (integers)
-2. Stores them in a list
-3. Checks if any value appears more than once
-4. Prints "Has duplicates" or "No duplicates"
+Write functions that:
+1. Find a car's position (index) in a checkpoint list
+2. Use those positions to determine if one car overtook another between the two checkpoints
 
-**Example Input 1:**
-```
-10
-20
-10
-30
-40
-```
-
-**Example Output 1:**
-```
-Has duplicates
-```
-
-**Example Input 2:**
-```
-10
-20
-30
-40
-50
-```
-
-**Example Output 2:**
-```
-No duplicates
-```
-
-**Hint:** Compare each element with every other element using nested loops.
-
-## Exercise 7: Position Finder <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab03/exercise7/exercise7.py`.
-
-**Situation:**
-
-A program needs to find the position (index) of a specific value in a list.
-
-**Task:**
-
-Write a program that:
-1. Takes 5 numbers as input (integers)
-2. Stores them in a list
-3. Takes a target number to search for
-4. Finds and prints the index of the target number
-5. If not found, print "Not found"
-
-**Example Input 1:**
-```
-10
-20
-30
-40
-50
-30
-```
-
-**Example Output 1:**
-```
-2
-```
-
-**Example Input 2:**
-```
-10
-20
-30
-40
-50
-99
-```
-
-**Example Output 2:**
-```
-Not found
-```
-
-**Hint:** Loop through the list and check each element.
-
-## Exercise 8: List Reverser <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab03/exercise8/exercise8.py`.
-
-**Situation:**
-
-A program needs to print a list in reverse order.
-
-**Task:**
-
-Write a program that:
-1. Takes 4 words as input (strings)
-2. Stores them in a list
-3. Prints the list in reverse order (last element first)
-
-**Example Input:**
-```
-apple
-banana
-cherry
-date
-```
-
-**Example Output:**
-```
-date
-cherry
-banana
-apple
-```
-
-**Hint:** Use negative indexing or loop backwards from the last index to 0.
-
-## Exercise 9: List Comparator <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab03/exercise9/exercise9.py`.
-
-**Situation:**
-
-A program needs to compare two lists and check if they're identical.
-
-**Task:**
-
-Write a program that:
-1. Takes 3 numbers for the first list (integers)
-2. Takes 3 numbers for the second list (integers)
-3. Compares the lists element by element
-4. Prints "Lists are equal" if all elements match
-5. Prints "Lists are different" otherwise
-
-**Example Input 1:**
-```
-10
-20
-30
-10
-20
-30
-```
-
-**Example Output 1:**
-```
-Lists are equal
-```
-
-**Example Input 2:**
-```
-10
-20
-30
-10
-25
-30
-```
-
-**Example Output 2:**
-```
-Lists are different
-```
-
-**Hint:** Compare each element at the same index position.
+A car has "overtaken" if it was behind before but is ahead after.
 
 ## Commit and Push Your Work
 
 After completing all exercises, save all your files and commit them to your repository.
 
 Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 3: Lists and Data Structures", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
+

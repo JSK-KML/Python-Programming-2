@@ -671,7 +671,7 @@ If NONE of these are true, they must be touching!
 Navigate to `/labs/lab02/exercise8/exercise8.py`.
 
 **Situation:**
-
+ 
 A ball is dropped from a certain height. When it hits the ground, it bounces back up but only reaches 80% of its previous height due to energy loss. The ball continues bouncing, getting lower each time, until the bounce height becomes less than 1 unit. At that point, the ball is considered stopped.
 
 Your task is to simulate this bouncing behavior.
@@ -693,7 +693,7 @@ Write functions that work together to simulate the bouncing ball and return the 
 Navigate to `/labs/lab02/exercise9/exercise9.py`.
 
 **Situation:**
-
+ 
 In a game, leveling up requires XP. Each level requires more XP than the previous:
 
 - Level 1 → 2: 100 XP
@@ -771,8 +771,8 @@ A smart home system manages garden watering. It should turn on the pump ONLY if:
 
 **Task:**
 Write functions that work together to decide if the water pump should be triggered.
-
-## Commit and Push Your Work
+ 
+ ## Commit and Push Your Work
 
 After completing all exercises, save all your files and commit them to your repository.
 
