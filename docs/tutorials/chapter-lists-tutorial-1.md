@@ -186,7 +186,7 @@ A hospital emergency room uses a priority queue. Each patient has a priority lev
 - `[3, 2, 4, 5, 1, 3, 4]` → First critical at index `1`, Count: `2`
 - `[3, 4, 5, 3, 4]` → First critical at index `-1`, Count: `0`
 
----
+
 
 ---
 
