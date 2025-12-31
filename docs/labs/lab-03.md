@@ -266,21 +266,21 @@ Navigate to `/labs/lab03/exercise1/exercise1.py`.
 
 **Situation:**
 
-An image processing app analyzes a row of pixels stored as grayscale values (0-255, where 0 is black and 255 is white). The app needs to detect "bright spots" - pixels that are brighter than BOTH their left and right neighbors.
-
+An image processing app analyzes a row of pixels stored as grayscale values (0-255, where 0 is black and 255 is white). The app needs to count "bright spots" - pixels that are brighter than BOTH their left and right neighbors.
 
 **Example:**
 ```
 Pixels: [100, 120, 200, 150, 180, 160, 140]
          0    1    2    3    4    5    6
 
-Index 2 (value 200): brighter than 120 and 150 → Bright spot
-Index 4 (value 180): brighter than 150 and 160 → Bright spot
+Index 2: brighter than neighbors → Bright spot
+Index 4: brighter than neighbors → Bright spot
+Count = 2
 ```
 
 **Task:**
 
-Write a program that takes 7 pixel values, an index to check (1-5), and prints "Bright spot" or "Not a bright spot".
+Write a function that takes a list of pixel values, returns the count of bright spots.
 
 ## Exercise 2: Subway Station Hop Counter <Badge type="warning" text="Task" />
 
@@ -288,20 +288,27 @@ Navigate to `/labs/lab03/exercise2/exercise2.py`.
 
 **Situation:**
 
-A subway line has stations stored in order in a list. A passenger wants to know how many stops they need to travel between two stations.
+A subway line has stations stored in order in a list. A passenger wants to know how many stops between two stations by name.
+
+If a station name does not exist in the list, return `-1`.
 
 **Example:**
 ```
 Stations: ["Central", "Marina", "Bukit", "Orchard", "Sentosa"]
-           0          1         2        3          4
 
-From "Marina" (index 1) to "Sentosa" (index 4)
+From "Marina" to "Sentosa"
+Marina at index 1, Sentosa at index 4
 Stops = 3
+
+From "Marina" to "Unknown"
+→ -1 (station name does not exist)
 ```
 
 **Task:**
 
-Write a program that takes 5 station names, an origin index, a destination index, and prints how many stops between them.
+Write functions that:
+1. Find a station's position in the list
+2. Calculate the stops between two stations
 
 ## Exercise 3: Cinema Seat Finder <Badge type="warning" text="Task" />
 
@@ -317,42 +324,16 @@ Row: [1, 0, 0, 1, 0, 1, 0, 0]
       0  1  2  3  4  5  6  7
 
 Adjacent empty pairs found at positions (1,2) and (6,7)
-Output: "Seats available"
+→ True
 ```
 
 **Task:**
 
-Write a program that takes 8 seat values (0 or 1) and prints "Seats available" or "No adjacent seats".
+Write a function that takes a list of seats, returns `True` if adjacent empty seats exist, `False` otherwise.
 
-## Exercise 4: DNA Base Pair Matcher <Badge type="warning" text="Task" />
+## Exercise 4: Weather Trend Analyzer <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise4/exercise4.py`.
-
-**Situation:**
-
-A biology app analyzes DNA strands. DNA has 4 bases: A, T, C, G. In a double helix, bases pair up:
-- A pairs with T
-- C pairs with G
-
-Given a DNA strand as a list, the app needs to verify if two positions would form a valid base pair.
-
-**Example:**
-```
-Strand: ["A", "T", "C", "G", "A", "T"]
-         0    1    2    3    4    5
-
-Check positions 0 and 1: A and T → Valid pair
-Check positions 2 and 3: C and G → Valid pair
-Check positions 0 and 2: A and C → Invalid pair
-```
-
-**Task:**
-
-Write a program that takes 6 DNA bases (A, T, C, or G), two positions to check, and prints "Valid pair" or "Invalid pair".
-
-## Exercise 5: Weather Trend Analyzer <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab03/exercise5/exercise5.py`.
 
 **Situation:**
 
@@ -369,17 +350,17 @@ Days 3-4-5: 28 → 30 → 32 (increasing twice) → Warming trend found
 
 **Task:**
 
-Write a program that takes 7 daily temperatures and prints "Warming trend" if any 2 consecutive increases exist, otherwise "No warming trend".
+Write a function that takes a list of temperatures, returns `True` if a warming trend exists, `False` otherwise.
 
-## Exercise 6: Race Overtake Detector <Badge type="warning" text="Task" />
+## Exercise 5: Race Overtake Detector <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab03/exercise6/exercise6.py`.
+Navigate to `/labs/lab03/exercise5/exercise5.py`.
 
 **Situation:**
 
 A motorsport race tracker records car positions at two checkpoints. Each list contains car numbers in finishing order - index 0 is 1st place, index 1 is 2nd place, and so on.
 
-Between checkpoints, cars change positions. The system needs to detect if one car has overtaken another - meaning the car was behind at checkpoint 1 but moved ahead by checkpoint 2.
+All cars exist in both checkpoint lists.
 
 **Example 1:**
 ```
@@ -404,10 +385,8 @@ Did Car 5 overtake Car 3?
 **Task:**
 
 Write functions that:
-1. Find a car's position (index) in a checkpoint list
-2. Use those positions to determine if one car overtook another between the two checkpoints
-
-A car has "overtaken" if it was behind before but is ahead after.
+1. Find a car's position in a checkpoint list
+2. Determine if one car overtook another
 
 ## Commit and Push Your Work
 
