@@ -1,0 +1,23 @@
+---
+title: Chapter 3 Lecture
+outline: deep
+---
+
+# Chapter 3: Sets, Tuples, and Dictionaries
+
+
+<br>
+<br>
+
+<iframe src="/Python-Programming-2/lectures/topic_3_set_tuple_dict.pdf" width="100%" height="400" allowfullscreen></iframe>
+
+<br>
+
+<a href="/Python-Programming-2/lectures/topic_3_set_tuple_dict.pdf" target="_blank" rel="noopener">
+  <button class="open-pdf-btn">
+    Open Fullscreen
+  </button>
+</a>
+
+<br>
+<br>

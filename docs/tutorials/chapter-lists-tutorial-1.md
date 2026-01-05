@@ -190,149 +190,74 @@ A hospital emergency room uses a priority queue. Each patient has a priority lev
 
 ---
 
-## **Exercise 2: Code Improvement** <Badge type="tip" text="Question" />
-
-**The following code works but violates best practices. Improve the code by applying principles for lists and functions.**
 
 ---
 
-### **Code A**
+### **Scenario 12: Rate Limiter**
 
-```python
-# Student records (mixed types)
-student1 = ["Ali", 85, 90, 78]
-avg1 = (student1[1] + student1[2] + student1[3]) / 3
-print(f"{student1[0]}: {avg1}")
+An API gateway tracks requests per client to enforce limits and prevent duplicates.
 
-student2 = ["Sara", 72, 88, 65]
-avg2 = (student2[1] + student2[2] + student2[3]) / 3
-print(f"{student2[0]}: {avg2}")
+**Parameters**:
+- `request_log`: Current list of requests
+- `new_request`: The request to add
+- `limit`: Maximum allowed requests
 
-student3 = ["Ahmad", 91, 87, 93]
-avg3 = (student3[1] + student3[2] + student3[3]) / 3
-print(f"{student3[0]}: {avg3}")
-```
+**Task**: Write functions that:
+1. Check if the `new_request` already exists in the log (duplicate).
+2. Check if the log size has reached the `limit`.
+3. Return a **single string** status:
+   - `"Duplicate"` if it already exists.
+   - `"Throttled"` if the limit is reached.
+   - `"Accepted"` if neither of the above.
 
----
-
-### **Code B**
-
-```python
-numbers = [10, 25, 8, 42, 15, 5, 38, 20]
-
-# Remove numbers less than 20
-for num in numbers:
-    if num < 20:
-        numbers.remove(num)
-
-print(f"Filtered: {numbers}")
-print(f"Count: {len(numbers)}")
-print(f"Total: {sum(numbers)}")
-```
+**Test with:**
+- Log: `["GET /users"]`, New: `"GET /users"`, Limit: `5` → Returns `"Duplicate"`
+- Log: `["A", "B", "C"]`, New: `"D"`, Limit: `3` → Returns `"Throttled"`
+- Log: `["A", "B"]`, New: `"C"`, Limit: `5` → Returns `"Accepted"`
 
 ---
 
-### **Code C**
+### **Scenario 13: Playlist Duration Checker**
 
-```python
-daily_sales = [1200, 980, 1450, 1100, 1800]
+A music playlist is valid **only if** the total duration fits within a time slot AND no single song is too long.
 
-# Calculate total
-total = daily_sales[0]
-for i in range(1, len(daily_sales)):
-    total = total + daily_sales[i]
+**Parameters**:
+- `songs`: List of song durations in seconds
+- `time_slot`: Max total duration allowed
+- `max_song_length`: Max allowed duration for any single song
 
-# Calculate average
-average = total / len(daily_sales)
+**Task**: Write functions that:
+1. Calculate total duration of the playlist.
+2. Check if any song in the list is too long.
+3. Return a **single string** status:
+   - `"Invalid: Song too long"` if any song exceeds `max_song_length`.
+   - `"Invalid: Over time limit"` if total duration exceeds `time_slot`.
+   - `"Valid"` if both checks pass.
 
-# Find highest
-highest = daily_sales[0]
-for sale in daily_sales:
-    if sale > highest:
-        highest = sale
-
-print(f"Total: RM{total}")
-print(f"Average: RM{average}")
-print(f"Highest: RM{highest}")
-```
+**Test with:**
+- Songs: `[100, 200]`, Slot: `500`, Max: `150` → Returns `"Invalid: Song too long"`
+- Songs: `[100, 100, 100]`, Slot: `250`, Max: `150` → Returns `"Invalid: Over time limit"`
+- Songs: `[100, 100]`, Slot: `500`, Max: `150` → Returns `"Valid"`
 
 ---
 
-### **Code D**
+### **Scenario 14: Session Idle Tracker**
 
-```python
-# Count items in different categories
-electronics = [250, 80, 450, 120, 900]
-electronics_high = 0
-for price in electronics:
-    if price >= 200:
-        electronics_high = electronics_high + 1
-print(f"Electronics above 200: {electronics_high}")
+A system analyzes user activity timestamps to find the biggest "pause" or idle time between actions.
 
-furniture = [500, 150, 1200, 80, 300]
-furniture_high = 0
-for price in furniture:
-    if price >= 200:
-        furniture_high = furniture_high + 1
-print(f"Furniture above 200: {furniture_high}")
-```
+**Parameters**:
+- `timestamps`: List of timestamps (e.g., `[100, 200, 500]`)
 
----
+**Task**: Write functions that:
+1. Iterate through the timestamps to find the time gaps between consecutive events.
+2. Find and return the **largest single gap** (max idle time).
+3. If there are fewer than 2 timestamps, return `0`.
 
-### **Code E**
+**Test with:**
+- Timestamps: `[100, 200, 500]`
+  - Gap 1: 200 - 100 = 100
+  - Gap 2: 500 - 200 = 300
+  - Returns `300` (Max)
+- Timestamps: `[100, 150, 200]` → Returns `50`
 
-```python
-scores = [75, 82, 68, 90, 55, 78]
-
-# Process everything in one go
-total = sum(scores)
-average = total / len(scores)
-pass_count = 0
-for s in scores:
-    if s >= 50:
-        pass_count = pass_count + 1
-pass_rate = (pass_count / len(scores)) * 100
-
-print("=== EXAM REPORT ===")
-print(f"Total: {total}")
-print(f"Average: {average:.2f}")
-print(f"Pass count: {pass_count}")
-print(f"Pass rate: {pass_rate:.1f}%")
-
----
-
-### **Code F: Magic Indices**
-
-```python
-# Processing order data
-# index 0: item name
-# index 1: quantity
-# index 2: unit price
-order1 = ["Monitor", 2, 850.50]
-order2 = ["Mouse", 5, 45.00]
-
-cost1 = order1[1] * order1[2]
-cost2 = order2[1] * order2[2]
-
-print(f"Total for {order1[0]}: RM{cost1}")
-print(f"Total for {order2[0]}: RM{cost2}")
-```
-
----
-
-### **Code G: Unrelated Data**
-
-```python
-# Event data for Saturday
-temp = 32.5
-is_raining = False
-expected_guests = 50
-location = "Hall A"
-
-# Storing it all in one list for "convenience"
-saturday_event = [temp, is_raining, expected_guests, location]
-
-print(f"Event Details: {saturday_event}")
-```
-```
 
