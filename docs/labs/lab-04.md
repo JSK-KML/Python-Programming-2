@@ -152,9 +152,19 @@ Eventhough some of you might be able to find the bug just by reading it. It is s
 
 Navigate to `/labs/lab04/exercise2/exercise2.py`.
 
-This program calculates class statistics for student scores. However, it contains bugs.
+**Situation:**
 
+A teacher records exam scores for a class. At the end of the semester, they need a summary report showing the class average, how many students passed (scored 60 or above), and how many failed.
 
+**Given:**
+- Scores: `[85, 92, 58, 74, 66, 91]`
+- Passing mark: `60`
+
+**Task:**
+
+Write a program that calculates and returns the average score, the count of passing students, and the count of failing students.
+
+**Expected:** Average `77.7`, Passing `5`, Failed `1`
 
 **Your Task:**
 
@@ -168,8 +178,21 @@ This program calculates class statistics for student scores. However, it contain
 
 Navigate to `/labs/lab04/exercise3/exercise3.py`.
 
-This program tracks inventory and calculates restock costs. However, it contains bugs.
+**Situation:**
 
+A warehouse manager needs to monitor stock levels. Each product has a quantity in stock and a unit price. The manager needs to know the total value of all inventory, identify which items are running low (below 10 units), and calculate how much it would cost to restock those low items with 20 additional units each.
+
+**Given:**
+- Quantities: `[50, 5, 100, 3, 25]`
+- Prices per unit: `[10.00, 25.00, 5.00, 50.00, 15.00]`
+- Low stock threshold: `10`
+- Restock amount: `20` units per low item
+
+**Task:**
+
+Write a program that calculates the total inventory value, finds the positions (indices) of low-stock items, and calculates the total cost to restock all low-stock items.
+
+**Expected:** Total value `$1650.00`, Low stock at indices `[1, 3]`, Restock cost `$1500.00`
 
 **Your Task:**
 
