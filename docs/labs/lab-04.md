@@ -121,7 +121,7 @@ Remember, the highlighted line is the line that is about to be executed, not exe
     <img src="/labs/lab-04/lab-4-8.png" alt="drawing" width="400"/>
 </p>
 
-You can also reverse the program execution, to do that , in the floating bar, click the arrow upward icon. This will cause the program to reverse its execution.
+
 
 To stop the debugger, click the red square icon in the floating bar. 
 
