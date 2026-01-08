@@ -102,3 +102,61 @@ Two meetings overlap if one starts before the other ends AND ends after the othe
 - A: `(9, 0)` to `(10, 30)`, B: `(10, 0)` to `(11, 0)` → Should return `True` (overlap 10:00-10:30)
 - A: `(9, 0)` to `(9, 30)`, B: `(10, 0)` to `(11, 0)` → Should return `False` (no overlap)
 
+---
+
+### **Scenario 6: Triangle Area from Vertices**
+
+A geometry app calculates the area of triangles using vertex coordinates. Each vertex is represented as a tuple `(x, y)`.
+
+**Given:**
+- Vertex A: `(0, 0)`
+- Vertex B: `(4, 0)`
+- Vertex C: `(2, 3)`
+
+**Task:** Write a function that takes three coordinate tuples and returns the area of the triangle.
+
+**Test with:**
+- Vertices `(0, 0)`, `(4, 0)`, `(2, 3)` → Should return `6.0`
+- Vertices `(0, 0)`, `(6, 0)`, `(3, 4)` → Should return `12.0`
+
+---
+
+### **Scenario 7: Quadrant Detector**
+
+A coordinate system uses tuples `(x, y)` to represent points. The coordinate plane is divided into 4 quadrants:
+- Quadrant 1: x > 0 and y > 0
+- Quadrant 2: x < 0 and y > 0
+- Quadrant 3: x < 0 and y < 0
+- Quadrant 4: x > 0 and y < 0
+
+If a point lies on an axis (x = 0 or y = 0), return `0`.
+
+**Given:** `(5, -3)`
+
+**Task:** Write a function that takes a coordinate tuple and returns which quadrant (1, 2, 3, or 4) or `0` if on an axis.
+
+**Test with:**
+- `(5, -3)` → Should return `4`
+- `(-2, 5)` → Should return `2`
+- `(0, 5)` → Should return `0`
+
+---
+
+### **Scenario 8: Point Inside Rectangle Checker**
+
+A graphics system defines rectangles using a corner tuple `(left, bottom)`, width, and height.
+
+**Given:**
+- Corner: `(1, 1)`
+- Width: `4`
+- Height: `3`
+- Point: `(3, 2)`
+
+The rectangle spans from (1, 1) to (5, 4).
+
+**Task:** Write a function that takes a corner tuple, width, height, and a point tuple. Returns `True` if point is inside (inclusive), `False` otherwise.
+
+**Test with:**
+- Corner `(1, 1)`, Width `4`, Height `3`, Point `(3, 2)` → Should return `True`
+- Corner `(1, 1)`, Width `4`, Height `3`, Point `(6, 2)` → Should return `False`
+- Corner `(0, 0)`, Width `10`, Height `10`, Point `(10, 10)` → Should return `True` (on edge)
