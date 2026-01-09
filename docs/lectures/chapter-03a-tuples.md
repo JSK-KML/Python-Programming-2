@@ -1,6 +1,9 @@
 ---
-title: Chapter 3a - Tuples
-outline: deep
+marp: true
+theme: default
+paginate: true
+header: 'CP125 - Topic 3a: Tuples'
+footer: 'Immutable Sequences'
 ---
 
 # Topic 3a: Tuples
@@ -615,102 +618,14 @@ ValueError: too many values to unpack (expected 2)
 point = (10, 20)
 x, y, z = point
 ```
-
+---
 **Output:**
 ```
 ValueError: not enough values to unpack (expected 3, got 2)
 ```
 
-**Always ensure the count matches!**
+**Always ensure the count matches**
 
----
-
-# Tuple Unpacking: More Examples
-
-**With three elements:**
-```python
-rgb = (255, 128, 0)
-red, green, blue = rgb
-
-print(f"Red: {red}, Green: {green}, Blue: {blue}")
-# Red: 255, Green: 128, Blue: 0
-```
-
-**Swapping values:**
-```python
-a = 5
-b = 10
-
-a, b = b, a  # Swap using tuple unpacking
-
-print(a)  # 10
-print(b)  # 5
-```
-
----
-
-# Functions and Tuples
-
-**Returning multiple values as a tuple:**
-
-```python
-def get_min_max(numbers):
-    return min(numbers), max(numbers)  # Returns a tuple
-
-data = [5, 2, 8, 1, 9, 3]
-result = get_min_max(data)
-print(result)       # (1, 9)
-print(type(result)) # <class 'tuple'>
-
-# Unpack at the call site
-minimum, maximum = get_min_max(data)
-print(f"Min: {minimum}, Max: {maximum}")
-# Min: 1, Max: 9
-```
-
----
-
-# Functions and Tuples: More Examples
-
-**Calculate statistics:**
-
-```python
-def calculate_stats(numbers):
-    total = sum(numbers)
-    count = len(numbers)
-    average = total / count
-    return total, count, average
-
-scores = [85, 92, 78, 88, 95]
-total, count, avg = calculate_stats(scores)
-
-print(f"Total: {total}")    # Total: 438
-print(f"Count: {count}")    # Count: 5
-print(f"Average: {avg}")    # Average: 87.6
-```
-
-**This pattern is cleaner than returning a list or dictionary.**
-
----
-
-# Tuples as Function Parameters
-
-**Accept tuple as parameter:**
-
-```python
-def calculate_distance(point1, point2):
-    x1, y1 = point1  # Unpack first point
-    x2, y2 = point2  # Unpack second point
-    
-    distance = ((x2 - x1)**2 + (y2 - y1)**2) ** 0.5
-    return distance
-
-start = (0, 0)
-end = (3, 4)
-
-dist = calculate_distance(start, end)
-print(f"Distance: {dist}")  # Distance: 5.0
-```
 
 ---
 
@@ -770,67 +685,375 @@ print("yellow" not in colors)  # True
 
 <!-- Part 6: Built-in Tools -->
 
-# Built-in Functions for Tuples
+# Comparing Lists and Tuples: Functions
 
-| Function | Description | Example |
-|----------|-------------|---------|
-| `len(t)` | Number of elements | `len((1,2,3))` → `3` |
-| `min(t)` | Smallest element | `min((5,2,8))` → `2` |
-| `max(t)` | Largest element | `max((5,2,8))` → `8` |
-| `sum(t)` | Sum of elements | `sum((1,2,3))` → `6` |
-| `tuple(iterable)` | Convert to tuple | `tuple([1,2,3])` → `(1,2,3)` |
+**Do these functions work the same on lists and tuples?**
 
----
+| Function | List | Tuple |
+|----------|------|-------|
+| `len()` | `len([1,2,3])` → `3` | `len((1,2,3))` → `3` |
+| `min()` | `min([5,2,8])` → `2` | `min((5,2,8))` → `2` |
+| `max()` | `max([5,2,8])` → `8` | `max((5,2,8))` → `8` |
+| `sum()` | `sum([1,2,3])` → `6` | `sum((1,2,3))` → `6` |
 
-# Using `len()`, `min()`, `max()`, `sum()`
-
-```python
-scores = (85, 92, 78, 88, 95)
-
-print(f"Count: {len(scores)}")      # 5
-print(f"Minimum: {min(scores)}")    # 78
-print(f"Maximum: {max(scores)}")    # 95
-print(f"Total: {sum(scores)}")      # 438
-print(f"Average: {sum(scores)/len(scores)}")  # 87.6
-```
-
-**Same functions work on lists and tuples.**
+**Result: Exactly the same.**
 
 ---
 
-# Converting Between Types
+# Is Everything the Same?
 
+We've seen that `len()`, `min()`, `max()`, `sum()` behave identically.
+
+**But what about methods?**
+
+Let's compare 4 more operations:
+1. `.append()` — Add element to end
+2. `.remove()` — Remove element
+3. `.sort()` — Sort elements
+4. `.index()` — Find position of element
+
+**Are these the same for lists and tuples?**
+
+---
+
+# Comparing `.append()`
+
+**List has `.append()` method:**
 ```python
-# List to tuple
-my_list = [1, 2, 3]
-my_tuple = tuple(my_list)
-print(my_tuple)  # (1, 2, 3)
+fruits = ["apple", "banana"]
+fruits.append("cherry")
+print(fruits)
+```
 
-# Tuple to list
-my_tuple = (1, 2, 3)
-my_list = list(my_tuple)
-print(my_list)  # [1, 2, 3]
-
-# String to tuple
-my_string = "hello"
-char_tuple = tuple(my_string)
-print(char_tuple)  # ('h', 'e', 'l', 'l', 'o')
+**Output:**
+```
+['apple', 'banana', 'cherry']
 ```
 
 ---
 
-# Exercise 4: Built-in Functions
-
-**Given this tuple:**
+**Tuple does NOT have `.append()` method:**
 ```python
-temperatures = (28.5, 30.2, 27.8, 32.1, 29.5, 31.0, 28.8)
+fruits = ("apple", "banana")
+fruits.append("cherry")
 ```
 
-**Write code to:**
-1. Find the number of readings
-2. Find the lowest temperature
-3. Find the highest temperature
-4. Calculate the average temperature
+**Output:**
+```
+AttributeError: 'tuple' object has no attribute 'append'
+```
+
+**Why?** Because `.append()` modifies data. Tuples are immutable.
+
+---
+
+# Alternative for Tuples: Concatenation
+
+**Use `+` to create a new tuple:**
+
+```python
+fruits = ("apple", "banana")
+fruits = fruits + ("cherry",)
+print(fruits)
+```
+
+**Output:**
+```
+('apple', 'banana', 'cherry')
+```
+
+**Note:** Don't forget the trailing comma for single-element tuple `("cherry",)`
+
+---
+
+# `.append()` Summary
+
+| Aspect | List | Tuple |
+|--------|------|-------|
+| Method | `.append(item)` | ❌ None |
+| Alternative | — | Concatenation `+` |
+| Modifies original | Yes | No (creates new) |
+
+---
+
+# Comparing `.remove()`
+
+**List has `.remove()` method:**
+```python
+fruits = ["apple", "banana", "cherry"]
+fruits.remove("banana")
+print(fruits)
+```
+
+**Output:**
+```
+['apple', 'cherry']
+```
+
+---
+
+**Tuple does NOT have `.remove()` method:**
+```python
+fruits = ("apple", "banana", "cherry")
+fruits.remove("banana")
+```
+
+**Output:**
+```
+AttributeError: 'tuple' object has no attribute 'remove'
+```
+
+**Why?** Because `.remove()` modifies data. Tuples are immutable.
+
+---
+
+# Alternative for Tuples: Convert and Back
+
+**No direct alternative. Must convert:**
+
+```python
+fruits = ("apple", "banana", "cherry")
+
+temp = list(fruits)
+temp.remove("banana")
+fruits = tuple(temp)
+
+print(fruits)
+```
+
+**Output:**
+```
+('apple', 'cherry')
+```
+
+**If you need this often, use a list instead.**
+
+---
+
+# `.remove()` Summary
+
+| Aspect | List | Tuple |
+|--------|------|-------|
+| Method | `.remove(value)` | ❌ None |
+| Alternative | — | Convert to list first |
+| Modifies original | Yes | No (creates new) |
+
+---
+
+# Comparing `.sort()` vs `sorted()`
+
+**List has `.sort()` method:**
+```python
+numbers = [5, 2, 8, 1, 9]
+numbers.sort()
+print(numbers)
+```
+
+**Output:**
+```
+[1, 2, 5, 8, 9]
+```
+
+**The original list is modified.**
+
+---
+
+**Tuple does NOT have `.sort()` method:**
+```python
+numbers = (5, 2, 8, 1, 9)
+numbers.sort()
+```
+
+**Output:**
+```
+AttributeError: 'tuple' object has no attribute 'sort'
+```
+
+**Why?** Because `.sort()` modifies data in place. Tuples are immutable.
+
+---
+
+# The Alternative: `sorted()` Function
+
+**`sorted()` is a function, not a method. It works on both!**
+
+**List:**
+```python
+numbers = [5, 2, 8, 1, 9]
+result = sorted(numbers)
+print(result)
+print(numbers)  # Original unchanged
+```
+
+**Output:**
+```
+[1, 2, 5, 8, 9]
+[5, 2, 8, 1, 9]
+```
+
+---
+
+**Tuple:**
+```python
+numbers = (5, 2, 8, 1, 9)
+result = sorted(numbers)
+print(result)
+print(numbers)  # Original unchanged
+```
+
+**Output:**
+```
+[1, 2, 5, 8, 9]
+(5, 2, 8, 1, 9)
+```
+
+**Note:** `sorted()` always returns a **list**, not a tuple.
+
+---
+
+# `.sort()` vs `sorted()` Summary
+
+| Aspect | `.sort()` | `sorted()` |
+|--------|-----------|------------|
+| Type | Method | Function |
+| Syntax | `list.sort()` | `sorted(sequence)` |
+| Works on List | ✅ | ✅ |
+| Works on Tuple | ❌ | ✅ |
+| Modifies original | Yes | No |
+| Returns | `None` | New list |
+
+---
+
+# Comparing `.index()`
+
+**List:**
+```python
+fruits = ["apple", "banana", "cherry"]
+print(fruits.index("banana"))
+```
+
+**Output:**
+```
+1
+```
+
+---
+
+**Tuple:**
+```python
+fruits = ("apple", "banana", "cherry")
+print(fruits.index("banana"))
+```
+
+**Output:**
+```
+1
+```
+
+**Result: Exactly the same.**
+
+---
+
+# `.index()` — Value Not Found
+
+**List:**
+```python
+fruits = ["apple", "banana", "cherry"]
+print(fruits.index("orange"))
+```
+
+**Output:**
+```
+ValueError: 'orange' is not in list
+```
+
+---
+
+**Tuple:**
+```python
+fruits = ("apple", "banana", "cherry")
+print(fruits.index("orange"))
+```
+
+**Output:**
+```
+ValueError: tuple.index(x): x not in tuple
+```
+
+**Result: Same behavior. Same error.**
+
+---
+
+# Safe `.index()` — Check First!
+
+**Always check if the value exists before using `.index()`:**
+
+```python
+fruits = ("apple", "banana", "cherry")
+target = "orange"
+
+if target in fruits:
+    position = fruits.index(target)
+    print(f"Found at index {position}")
+else:
+    print(f"{target} not found")
+```
+
+**Output:**
+```
+orange not found
+```
+
+**The `in` keyword prevents the ValueError.**
+
+---
+
+# Summary: Lists vs Tuples
+
+| Operation | List | Tuple | Same? |
+|-----------|------|-------|-------|
+| `len()` | ✅ | ✅ | Exactly the same |
+| `min()` | ✅ | ✅ | Exactly the same |
+| `max()` | ✅ | ✅ | Exactly the same |
+| `sum()` | ✅ | ✅ | Exactly the same |
+| `.append()` | ✅ | ❌ | Use `+` concatenation |
+| `.remove()` | ✅ | ❌ | Convert to list first |
+| `.sort()` | ✅ | ❌ | Use `sorted()` instead |
+| `.index()` | ✅ | ✅ | Exactly the same |
+
+---
+
+# The Pattern
+
+**Operations that READ data → Work on both**
+- `len()`, `min()`, `max()`, `sum()` ✅
+- `.index()` ✅
+
+**Operations that MODIFY data → List only**
+- `.append()` ❌
+- `.remove()` ❌
+- `.sort()` ❌
+
+**Tuples reject any operation that tries to change them.**
+
+
+---
+
+# Exercise 4: Compare Operations
+
+**Given:**
+```python
+list_data = [85, 92, 78, 88, 95]
+tuple_data = (85, 92, 78, 88, 95)
+```
+
+**For each operation, predict: Will it work on both?**
+
+1. `list_data.append(100)` vs `tuple_data.append(100)`
+2. `list_data.remove(88)` vs `tuple_data.remove(88)`
+3. `list_data.sort()` vs `tuple_data.sort()`
+4. `sorted(list_data)` vs `sorted(tuple_data)`
+5. `list_data.index(78)` vs `tuple_data.index(78)`
 
 ---
 
@@ -1020,12 +1243,11 @@ scores.append(78)  # Simple and efficient
 # Coordinates — x and y belong together as one point
 point = (10, 20)
 
-# Database connection — all needed to connect
-db_config = ("localhost", 3306, "admin", "secret123")
-#             host       port   user    password
-
 # RGB color — three values that define one color
 color = (255, 128, 0)
+
+# Date — day, month, year belong together
+date = (15, 1, 2024)
 ```
 
 ---
@@ -1038,29 +1260,27 @@ color = (255, 128, 0)
 # Good: Values that form a logical unit
 coordinates = (3.14, 101.68)  # One location
 rgb = (255, 128, 0)           # One color
-date = (2024, 1, 15)          # One date
+date = (15, 1, 2024)          # One date
 
 # Bad: Unrelated values thrown together
-random_stuff = (42, "hello", True, 3.14)  # No logical connection
+random_stuff = (42, 99, 7, 123)  # No logical connection
 ```
 
 ---
 
-# Principle 4: Unpacking Connection Data
+# Principle 4: Why Positional Indexing is OK Here
 
-```python
-# Database connection tuple
-db_config = ("localhost", 3306, "admin", "secret123")
+**In Topic 2, we said: "Don't rely on index positions."**
 
-# Unpack with meaningful names
-host, port, username, password = db_config
+But tuples are different. Some data has a **universally known order**:
 
-# Now use them
-print(f"Connecting to {host}:{port} as {username}")
-# Connecting to localhost:3306 as admin
-```
+| Tuple | Everyone knows... |
+|-------|-------------------|
+| `(x, y)` | x comes first, y comes second |
+| `(r, g, b)` | Red, Green, Blue — always this order |
+| `(day, month, year)` | Standard date format |
 
-**The values are different types, but they belong together.**
+**When the order is universally understood, positional indexing is acceptable.**
 
 ---
 
@@ -1070,10 +1290,9 @@ print(f"Connecting to {host}:{port} as {username}")
 
 | Good Use (Cohesive) | Bad Use (Random) |
 |---------------------|------------------|
-| `(x, y)` coordinates | `(42, "hello", True)` |
-| `(host, port, user, pass)` | Unrelated values |
-| `(year, month, day)` | Data with no connection |
-| `(red, green, blue)` | |
+| `(x, y)` coordinates | `(42, 99, 7)` random numbers |
+| `(day, month, year)` | Unrelated values |
+| `(red, green, blue)` | Data with no connection |
 
 **Rule: If the values form a single concept together, use a tuple.**
 
