@@ -6,7 +6,7 @@ outline: deep
 # Assignment CP125
 
 ::: danger DEADLINE
-**Submission Deadline:** <!-- UPDATE_REQUIRED: Enter date and time here (e.g., 8.00 PM, 30th October 2025) --> 
+**Submission Deadline:** 26 January 2026**
 
 Late submissions will **NOT** be accepted.
 :::
