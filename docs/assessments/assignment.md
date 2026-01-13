@@ -6,7 +6,7 @@ outline: deep
 # Assignment CP125
 
 ::: danger DEADLINE
-**Submission Deadline:** 26 January 2026**
+**Submission Deadline: 30 January 2026**
 
 Late submissions will **NOT** be accepted.
 :::
@@ -48,7 +48,7 @@ Late submissions will **NOT** be accepted.
 - Do **NOT** paste code as normal text
 
 
-#### **5. Test Cases (minimum 4)** <Badge type="tip" text="Required" />
+#### **5. Test Cases (minimum 4)** 
 
 For each test case, include:
 - **Test Case Number** (e.g., Test Case #1) in the title

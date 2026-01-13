@@ -160,3 +160,174 @@ The rectangle spans from (1, 1) to (5, 4).
 - Corner `(1, 1)`, Width `4`, Height `3`, Point `(3, 2)` → Should return `True`
 - Corner `(1, 1)`, Width `4`, Height `3`, Point `(6, 2)` → Should return `False`
 - Corner `(0, 0)`, Width `10`, Height `10`, Point `(10, 10)` → Should return `True` (on edge)
+
+---
+
+### **Scenario 9: Auction Bid Validator**
+
+An auction system validates incoming bids.
+
+**Parameters:**
+- `bids`: A list of bid amounts
+- `min_bid`: The minimum acceptable bid amount
+
+**Rules:**
+- Remove all bids that are below the minimum bid amount
+- Find the highest valid bid remaining
+- Find the original position of that winning bid
+
+**Return:** A tuple `(winning_bid, original_position)`. If no valid bids remain, return `(0, -1)`.
+
+**Test with:**
+- Bids `[500, 300, 480, 550, 200, 600]`, Min `400` → `(600, 5)`
+- Bids `[100, 200, 150]`, Min `300` → `(0, -1)`
+
+```python
+def auction_validator(bids, min_bid):
+    original_bids = bids[:]
+    
+    to_remove = []
+    for bid in bids:
+        if bid < min_bid:
+            to_remove.append(bid)
+    
+    for bid in to_remove:
+        bids.remove(bid)
+    
+    if len(bids) == 0:
+        return (0, -1)
+    
+    winner = max(bids)
+    original_pos = original_bids.index(winner)
+    
+    return (winner, original_pos)
+```
+
+---
+
+### **Scenario 10: Ticket Queue Resolver**
+
+A ticketing system needs to track positions after sorting.
+
+**Parameters:**
+- `queue`: A list of ticket IDs (strings)
+- `ticket_id`: The ticket to find
+
+**Rules:**
+- Sort the queue alphabetically
+- Find the new position of the given ticket after sorting
+
+**Return:** The new position (index) of the ticket. Return `-1` if not found.
+
+**Test with:**
+- Queue `["VIP-1", "REG-5", "VIP-2", "REG-3"]`, Ticket `"REG-5"` → `1`
+- Queue `["VIP-1", "REG-5"]`, Ticket `"UNKNOWN"` → `-1`
+
+```python
+def ticket_resolver(queue, ticket_id):
+    if ticket_id not in queue:
+        return -1
+    
+    queue_copy = queue[:]
+    queue_copy.sort()
+    
+    new_position = queue_copy.index(ticket_id)
+    return new_position
+```
+
+---
+
+### **Scenario 11: Anomaly Isolation**
+
+A sensor system needs to detect and remove anomalies from readings.
+
+**Parameters:**
+- `readings`: A list of sensor values
+- `lower_bound`: Minimum valid value
+- `upper_bound`: Maximum valid value
+
+**Rules:**
+- Values outside the range are anomalies
+- Record the position of each anomaly
+- Remove all anomalies from the list
+- Sort the remaining clean data and calculate the median
+
+**Return:** A tuple `(list_of_anomaly_positions, median_of_clean_data)`. If no clean data remains, median is `0`.
+
+**Test with:**
+- Readings `[98, 102, 99, 250, 101, 100, 300, 97]`, Range `90-110` → `([3, 6], 99.5)`
+
+```python
+def anomaly_isolation(readings, lower_bound, upper_bound):
+    anomaly_positions = []
+    anomalies = []
+    
+    for i in range(len(readings)):
+        if readings[i] < lower_bound or readings[i] > upper_bound:
+            anomaly_positions.append(i)
+            anomalies.append(readings[i])
+    
+    clean = readings[:]
+    for a in anomalies:
+        clean.remove(a)
+    
+    if len(clean) == 0:
+        return (anomaly_positions, 0)
+    
+    clean.sort()
+    n = len(clean)
+    if n % 2 == 0:
+        median = (clean[n//2 - 1] + clean[n//2]) / 2
+    else:
+        median = clean[n//2]
+    
+    return (anomaly_positions, median)
+```
+
+---
+
+### **Scenario 12: Roster Conflict Resolver**
+
+A tournament system needs to resolve player conflicts between two teams.
+
+**Parameters:**
+- `team_a`: A list of player names
+- `team_b`: A list of player names
+
+**Rules:**
+- Find players appearing in BOTH lists (conflicts)
+- Remove conflicts from BOTH lists
+- Sort both remaining lists alphabetically
+- Determine which team has more players left
+
+**Return:** A tuple `(winner, team_a_remaining, team_b_remaining)` where winner is `"Team A"`, `"Team B"`, or `"Tie"`.
+
+**Test with:**
+- Team A `["Ali", "Sara", "Ahmad", "Mei"]`, Team B `["Sara", "John", "Ahmad", "Lee"]` → `("Tie", ["Ali", "Mei"], ["John", "Lee"])`
+
+```python
+def roster_resolver(team_a, team_b):
+    conflicts = []
+    for player in team_a:
+        if player in team_b and player not in conflicts:
+            conflicts.append(player)
+    
+    a_clean = team_a[:]
+    b_clean = team_b[:]
+    
+    for conflict in conflicts:
+        a_clean.remove(conflict)
+        b_clean.remove(conflict)
+    
+    a_clean.sort()
+    b_clean.sort()
+    
+    if len(a_clean) > len(b_clean):
+        result = "Team A"
+    elif len(b_clean) > len(a_clean):
+        result = "Team B"
+    else:
+        result = "Tie"
+    
+    return (result, a_clean, b_clean)
+```
