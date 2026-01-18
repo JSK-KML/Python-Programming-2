@@ -474,6 +474,129 @@ Write a function that:
 
 ---
 
+## Exercise 6: API Response Time Monitor <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab05/exercise6/exercise6.py`.
+
+**Background:**
+
+Modern web applications consist of multiple **microservices** that communicate through APIs (Application Programming Interfaces). Each API call is logged with:
+- **Endpoint**: The API route being called (e.g., `/login`, `/data`)
+- **Response time**: How long the request took (in milliseconds)
+- **Status code**: HTTP status (200 = success, 500 = error, etc.)
+
+DevOps teams monitor these logs to identify slow endpoints that need optimization.
+
+**Data Format:**
+
+API calls are stored as a **list of tuples**:
+```
+(endpoint, response_time_ms, status_code)
+```
+
+For example: `("/login", 45, 200)` means the `/login` endpoint took 45ms and returned success.
+
+**Situation:**
+
+Your monitoring system needs to identify slow endpoints. However, you should only consider **successful requests** (status code 200) because errors naturally take different amounts of time.
+
+An endpoint is considered "slow" if its **average response time** for successful calls exceeds a given threshold. Additionally, an endpoint must have **at least 2 successful calls** to be evaluated (single calls are not statistically significant).
+
+**Example:**
+```
+Input:
+api_calls = [("/login", 45, 200), ("/login", 120, 200), ("/data", 80, 200),
+             ("/login", 50, 500), ("/data", 95, 200), ("/search", 30, 200),
+             ("/health", 150, 200)]
+threshold = 70
+
+Output:
+["/data", "/login"]
+
+Explanation:
+- Only status 200 calls are considered
+- /login has 2 successful calls, average exceeds 70ms → included
+- /data has 2 successful calls, average exceeds 70ms → included
+- /search has 1 successful call → excluded (need at least 2)
+- /health has 1 successful call → excluded (need at least 2)
+- Results sorted alphabetically
+```
+
+**Task:**
+
+Write a function `find_slow_endpoints(api_calls, threshold)` that returns a sorted list of endpoint names meeting the criteria.
+
+---
+
+## Exercise 7: Firewall Rule Conflict Detector <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab05/exercise7/exercise7.py`.
+
+**Background:**
+
+A **firewall** controls network traffic by applying rules to ports. Each rule specifies:
+- **Rule ID**: Unique identifier for the rule
+- **Port**: Network port number (e.g., 80 for HTTP, 443 for HTTPS)
+- **Action**: Either "ALLOW" (permit traffic) or "BLOCK" (deny traffic)
+
+When multiple rules target the same port, the **first rule** in the list takes precedence. This means later rules are ignored.
+
+**What is a Conflict?**
+
+A **conflict** occurs when the same port has both "ALLOW" and "BLOCK" rules. This indicates:
+- Redundant configuration (wasted resources)
+- Potential security misconfiguration
+- Rules that will never execute (dead rules)
+
+**Data Format:**
+
+Firewall rules are stored as a **list of tuples**:
+```
+(rule_id, port, action)
+```
+
+For example: `(1, 80, "ALLOW")` means rule #1 allows traffic on port 80.
+
+**Situation:**
+
+A network administrator needs to audit the firewall configuration and identify all ports that have conflicting rules (both ALLOW and BLOCK actions). Additionally, return the **rule ID of the first conflicting rule** for each port (the rule that comes second and creates the conflict).
+
+**Example 1:**
+```
+Input:
+rules = [(1, 80, "ALLOW"), (2, 443, "ALLOW"), (3, 80, "BLOCK"),
+         (4, 22, "BLOCK"), (5, 443, "BLOCK"), (6, 8080, "ALLOW")]
+
+Output:
+[(80, 3), (443, 5)]
+
+Explanation:
+- Port 80: First rule is 1 (ALLOW), conflict created by rule 3 (BLOCK)
+- Port 443: First rule is 2 (ALLOW), conflict created by rule 5 (BLOCK)
+- Port 22: Only BLOCK, no conflict
+- Port 8080: Only ALLOW, no conflict
+- Results sorted by port number
+```
+
+**Example 2:**
+```
+Input:
+rules = [(1, 80, "ALLOW"), (2, 80, "ALLOW"), (3, 443, "BLOCK")]
+
+Output:
+[]
+
+Explanation:
+- Port 80 has only ALLOW (no conflict)
+- Port 443 has only BLOCK (no conflict)
+```
+
+**Task:**
+
+Write a function `find_conflicting_ports(rules)` that returns a sorted list of tuples `(port, conflicting_rule_id)` where each tuple represents a port with a conflict and the ID of the rule that created the conflict.
+
+---
+
 
 
 ## Commit and Push Your Work
