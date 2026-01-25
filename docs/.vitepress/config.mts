@@ -38,7 +38,8 @@ export default defineConfig({
           { text: 'Functions', link: '/tutorials/chapter-functions-tutorial-1' },
           { text: 'Lists', link: '/tutorials/chapter-lists-tutorial-1' },
           { text: 'Tuples', link: '/tutorials/chapter-tuples-tutorial-1' },
-          { text: 'Sets', link: '/tutorials/chapter-sets-tutorial-1' }
+          { text: 'Sets', link: '/tutorials/chapter-sets-tutorial-1' },
+          { text: 'Dictionaries', link: '/tutorials/chapter-dictionaries-tutorial-1' }
         ],
         activeMatch: '^/tutorials/'
       },
@@ -148,7 +149,6 @@ export default defineConfig({
           text: 'Lab 13',
           link: '/labs/lab-13'
         }
-        */
       ],
 
       '/course/': [
@@ -193,6 +193,10 @@ export default defineConfig({
         {
           text: 'Sets',
           link: '/tutorials/chapter-sets-tutorial-1'
+        },
+        {
+          text: 'Dictionaries',
+          link: '/tutorials/chapter-dictionaries-tutorial-1'
         }
       ],
 
