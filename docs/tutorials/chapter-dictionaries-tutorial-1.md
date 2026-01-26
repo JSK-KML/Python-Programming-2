@@ -36,26 +36,7 @@ prices = {"flour": 0.50, "eggs": 0.20}
 ```
 *(Explanation: Flour: 2 * 0.50 = 1.0. Eggs: 3 * 0.20 = 0.6. Total = 1.6)*
 
-<details>
-<summary>Click to reveal solution</summary>
 
-```python
-def calculate_recipe_cost(ingredients, price_per_unit):
-    total_cost = 0.0
-    
-    for item in ingredients:
-        name = item["name"]
-        qty = item["quantity"]
-        
-        # Get price, default to 0 if not found
-        price = price_per_unit.get(name, 0)
-        
-        total_cost += qty * price
-        
-    return total_cost
-```
-
-</details>
 
 ---
 
@@ -82,21 +63,7 @@ data = [
 ["Mouse", "Keyboard"]
 ```
 
-<details>
-<summary>Click to reveal solution</summary>
-
-```python
-def find_out_of_stock(inventory):
-    result = []
-    
-    for item in inventory:
-        if item["stock"] == 0:
-            result.append(item["product"])
-            
-    return result
-```
-
-</details>
+<
 
 ---
 
@@ -123,26 +90,7 @@ votes = [
 {"Alice": 2, "Bob": 1}
 ```
 
-<details>
-<summary>Click to reveal solution</summary>
 
-```python
-def count_votes(votes):
-    counts = {}
-    
-    for vote in votes:
-        candidate_name = vote["candidate"]
-        
-        # If candidate already in dict, add 1. Else start at 1.
-        if candidate_name in counts:
-            counts[candidate_name] += 1
-        else:
-            counts[candidate_name] = 1
-            
-    return counts
-```
-
-</details>
 
 ---
 
@@ -172,26 +120,7 @@ target = "Math"
 ```
 *(Explanation: Math scores are 80 and 90. Average = 170 / 2 = 85.0)*
 
-<details>
-<summary>Click to reveal solution</summary>
 
-```python
-def calculate_average(results, target_subject):
-    total_score = 0
-    count = 0
-    
-    for record in results:
-        if record["subject"] == target_subject:
-            total_score += record["score"]
-            count += 1
-            
-    if count == 0:
-        return 0
-        
-    return total_score / count
-```
-
-</details>
 
 ---
 
@@ -221,21 +150,7 @@ limit = 80
 ```
 *(Explanation: 100 > 80 and 200 > 80. 50 is not.)*
 
-<details>
-<summary>Click to reveal solution</summary>
 
-```python
-def find_high_value_transactions(transactions, threshold):
-    results = []
-    
-    for tx in transactions:
-        if tx["amount"] > threshold:
-            results.append(tx["id"])
-            
-    return results
-```
-
-</details>
 
 ---
 
@@ -262,23 +177,3 @@ data = [
 ```
 *(Explanation: Names converted to lowercase and joined with dot.)*
 
-<details>
-<summary>Click to reveal solution</summary>
-
-```python
-def generate_emails(employees):
-    email_list = []
-    
-    for emp in employees:
-        # Get names and convert to lowercase
-        first = emp["first"].lower()
-        last = emp["last"].lower()
-        
-        # Form the email string
-        email = f"{first}.{last}@company.com"
-        email_list.append(email)
-        
-    return email_list
-```
-
-</details>
