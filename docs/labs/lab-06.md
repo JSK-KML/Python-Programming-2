@@ -292,6 +292,89 @@ Write a function `audit_zero_trust(baseline_set, current_log_list)` that:
 
 ---
 
+## Exercise 6: Class Roster Manager <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab06/exercise6/exercise6.py`.
+
+**Situation:**
+
+A teacher manages a class roster with a maximum capacity of 7 students. Students drop throughout the week. If the class falls below 5 students, random students from the waitlist are added until the class reaches exactly 7 students (or runs out of waitlist).
+
+**Example:**
+```
+enrolled = {"Alice", "Bob", "Charlie", "Diana", "Eva", "Frank", "George"}
+drop_requests = ["Alice", "Charlie", "Diana", "Eva"]
+waitlist = {"Henry", "Iris", "Jack"}
+
+Processing drops:
+- Alice drops → Removed
+- Charlie drops → Removed  
+- Diana drops → Removed
+- Eva drops → Removed
+
+After drops: {"Bob", "Frank", "George"} (3 students)
+
+Check minimum: 3 < 5 → Need to add from waitlist
+Target: 7 students (class limit)
+Need to add: 7 - 3 = 4 students
+Waitlist has: 3 students (Henry, Iris, Jack)
+Randomly add all 3 from waitlist → {"Bob", "Frank", "George", "Henry", "Iris", "Jack"}
+
+Final: 6 students (couldn't reach 7, ran out of waitlist)
+Result: 6
+```
+
+**Task:**
+
+Write `manage_roster(enrolled, drop_requests, waitlist)` that processes all drop requests, adds from waitlist if fewer than 5 students remain (using `.pop()` until class reaches 7 or waitlist is empty), and returns the count of final enrolled students.
+
+---
+
+## Exercise 7: Playlist Manager <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab06/exercise7/exercise7.py`.
+
+**Situation:**
+
+A music app manages a playlist. Users add songs one by one from a list, import an entire playlist from Spotify, and remove banned songs. If the playlist gets too long (more than 6 songs), songs are randomly removed until there are exactly 6.
+
+**Example:**
+```
+current_playlist = {"Song_A", "Song_B", "Song_C"}
+add_songs = ["Song_D", "Song_E", "Song_F"]
+import_playlist = {"Song_G", "Song_H", "Song_I"}
+banned_songs = {"Song_B", "Song_E", "Song_H"}
+
+Step 1 - Add songs individually:
+- Song_D added → {"Song_A", "Song_B", "Song_C", "Song_D"}
+- Song_E added → {"Song_A", "Song_B", "Song_C", "Song_D", "Song_E"}
+- Song_F added → {"Song_A", "Song_B", "Song_C", "Song_D", "Song_E", "Song_F"}
+
+Step 2 - Import entire Spotify playlist:
+→ {"Song_A", "Song_B", "Song_C", "Song_D", "Song_E", "Song_F", "Song_G", "Song_H", "Song_I"} (9 songs)
+
+Step 3 - Remove all banned songs at once:
+→ {"Song_A", "Song_C", "Song_D", "Song_F", "Song_G", "Song_I"} (6 songs)
+
+Step 4 - Check if playlist too long:
+- Current: 6 songs, max: 6 → No random removal needed
+
+Result: 6
+```
+
+**Task:**
+
+Write `manage_playlist(current_playlist, add_songs, import_playlist, banned_songs)` that:
+- Loops through add_songs and adds each song individually
+- Adds all songs from import_playlist in one operation
+- Removes all banned_songs in one operation
+- While playlist size > 6, randomly removes songs one at a time
+- Returns the count of final songs
+
+---
+
+---
+
 ## Commit and Push Your Work
 
 After completing all exercises, save all your files and commit them to your repository.
