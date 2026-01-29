@@ -177,3 +177,114 @@ data = [
 ```
 *(Explanation: Names converted to lowercase and joined with dot.)*
 
+
+
+---
+
+### **Scenario 7: Database Record Filtering with Removal**
+
+A database administrator needs to archive old, inactive user accounts. The system maintains a user table where each record contains multiple fields. Inactive users (those with `status: "inactive"`) should be removed from the active users table and transferred to an archive.
+
+**Input:**
+- `users`: A list of user records `[{"user_id": "U001", "name": "Ali", "status": "active"}, ...]`
+- Each user record has: `user_id` (str), `name` (str), `status` (str), `login_count` (int)
+
+**Task:** Write a function `archive_inactive_users(users)` that:
+1. Identifies all users with `status: "inactive"`
+2. Returns a **list of user IDs** (strings) for the inactive users
+
+**Example Input:**
+```python
+user_table = [
+    {"user_id": "U001", "name": "Ali", "status": "active", "login_count": 45},
+    {"user_id": "U002", "name": "Sara", "status": "inactive", "login_count": 2},
+    {"user_id": "U003", "name": "John", "status": "active", "login_count": 30},
+    {"user_id": "U004", "name": "Maya", "status": "inactive", "login_count": 0}
+]
+```
+
+**Example Output:**
+```python
+["U002", "U004"]
+```
+*(Explanation: U002 and U004 have `status: "inactive"`. The function returns a list of their user IDs.)*
+
+
+
+---
+
+### **Scenario 8: Sales Records Consolidation**
+
+A retail company has two regional sales databases that need to be merged. Each database stores transactions with the same structure. When the same `transaction_id` appears in both databases, keep the record with the **higher `amount`** (assuming it's the corrected version).
+
+**Input:**
+- `region1_sales`: List of transaction records from region 1
+- `region2_sales`: List of transaction records from region 2
+- Each record has: `transaction_id` (str), `product` (str), `amount` (float), `date` (str)
+
+**Task:** Write a function `merge_sales_data(region1_sales, region2_sales)` that returns a **list** of consolidated transaction records where:
+- All unique transactions from both regions are included
+- For duplicate `transaction_id`, keep the record with the higher `amount`
+- Order doesn't matter
+
+**Example Input:**
+```python
+region_a = [
+    {"transaction_id": "T001", "product": "Laptop", "amount": 1200.00, "date": "2024-01-15"},
+    {"transaction_id": "T002", "product": "Mouse", "amount": 25.00, "date": "2024-01-16"},
+    {"transaction_id": "T003", "product": "Keyboard", "amount": 75.00, "date": "2024-01-17"}
+]
+
+region_b = [
+    {"transaction_id": "T002", "product": "Mouse", "amount": 30.00, "date": "2024-01-16"},
+    {"transaction_id": "T004", "product": "Monitor", "amount": 350.00, "date": "2024-01-18"}
+]
+```
+
+**Example Output:**
+```python
+[
+    {"transaction_id": "T001", "product": "Laptop", "amount": 1200.00, "date": "2024-01-15"},
+    {"transaction_id": "T002", "product": "Mouse", "amount": 30.00, "date": "2024-01-16"},
+    {"transaction_id": "T003", "product": "Keyboard", "amount": 75.00, "date": "2024-01-17"},
+    {"transaction_id": "T004", "product": "Monitor", "amount": 350.00, "date": "2024-01-18"}
+]
+```
+*(Explanation: T002 appears in both regions with amounts 25.00 and 30.00 → keep the record with 30.00. T001 and T003 only in region A. T004 only in region B.)*
+
+
+
+---
+
+### **Scenario 9: Student Enrollment Grouping**
+
+A university stores student enrollment data as individual records. The registrar needs to reorganize this data to see which students are enrolled in each course. This requires grouping students by their `course_code`.
+
+**Input:**
+- `enrollments`: A list of enrollment records `[{"student_id": "S001", "student_name": "Ali", "course_code": "CP125"}, ...]`
+- Each enrollment has: `student_id` (str), `student_name` (str), `course_code` (str), `semester` (str)
+
+**Task:** Write a function `group_students_by_course(enrollments)` that returns a dictionary where:
+- Keys are `course_code` values
+- Values are **lists of student names** (strings)
+
+**Example Input:**
+```python
+records = [
+    {"student_id": "S001", "student_name": "Ali", "course_code": "CP125", "semester": "Fall2024"},
+    {"student_id": "S002", "student_name": "Sara", "course_code": "CP126", "semester": "Fall2024"},
+    {"student_id": "S003", "student_name": "John", "course_code": "CP125", "semester": "Fall2024"},
+    {"student_id": "S004", "student_name": "Maya", "course_code": "CP126", "semester": "Fall2024"},
+    {"student_id": "S005", "student_name": "Bob", "course_code": "CP125", "semester": "Fall2024"}
+]
+```
+
+**Example Output:**
+```python
+{
+    "CP125": ["Ali", "John", "Bob"],
+    "CP126": ["Sara", "Maya"]
+}
+```
+*(Explanation: Three students enrolled in CP125, two in CP126. Only student names are stored.)*
+
