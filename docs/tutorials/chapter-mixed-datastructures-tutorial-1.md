@@ -162,3 +162,165 @@ current_date = 48
 *(Explanation: Ali has a book due on 45, which is before 48. Sara has books due on 40 and 42, both before 48.)*
 
 ---
+
+### **Scenario 7: Discount Code Validator (List + Dictionary)**
+
+An online store allows customers to use ONE discount code per order. You need to check if the discount code is valid and calculate the final price.
+
+**How Discount Codes Work:**
+- Each code has two properties: **minimum purchase amount** and **discount percentage**
+- The discount is only applied if the cart total is **greater than or equal to** the minimum purchase
+- If the code doesn't exist OR the cart total is too low, no discount is applied
+
+**Given:**
+- `cart`: A List of items. Each item is a dictionary with `"name"` (string), `"price"` (float), and `"qty"` (integer).
+- `discount_code`: A string representing the code the customer entered (e.g., `"SAVE10"`).
+- `codes`: A Dictionary where each key is a code name, and the value is another dictionary with `"min_purchase"` and `"discount"`.
+
+**Task:** Write a function `apply_discount(cart, discount_code, codes)` that calculates and returns the final total price after applying the discount (if valid).
+
+**Example Input:**
+```python
+cart = [
+    {"name": "Laptop", "price": 1000, "qty": 1},
+    {"name": "Mouse", "price": 50, "qty": 2}
+]
+discount_code = "SAVE10"
+codes = {
+    "SAVE10": {"min_purchase": 500, "discount": 0.10},
+    "SAVE20": {"min_purchase": 2000, "discount": 0.20}
+}
+```
+
+**Example Output:**
+```python
+990.0
+```
+*(Calculation: Cart total = 1000 + (50×2) = 1100. Code "SAVE10" requires min 500. 1100 >= 500, so apply 10% discount: 1100 × 0.90 = 990)*
+
+---
+
+### **Scenario 8: Playlist Artist Filter (List + Dictionary)**
+
+A music streaming app wants to improve the listening experience by removing songs where the **same artist plays twice in a row**. 
+
+**Rules:**
+- Keep the first song always
+- For each following song, check if its artist is the same as the **previous kept song**
+- If the artist is the same, skip this song
+- If the artist is different, keep this song
+
+**Given:**
+- `playlist`: A List of song IDs (integers).
+- `song_artists`: A Dictionary mapping Song ID -> Artist Name (string).
+
+**Task:** Write a function `remove_consecutive_artists(playlist, song_artists)` that returns a new List of song IDs with no consecutive duplicate artists.
+
+**Example Input:**
+```python
+playlist = [101, 102, 103, 104, 105]
+song_artists = {
+    101: "Taylor Swift",
+    102: "Taylor Swift",
+    103: "Ed Sheeran",
+    104: "Taylor Swift",
+    105: "Ed Sheeran"
+}
+```
+
+**Example Output:**
+```python
+[101, 103, 104, 105]
+```
+*(Song 102 is removed because Taylor Swift played right before it)*
+
+---
+
+### **Scenario 10: Category-Based Product Filter (Dictionary + Set)**
+
+An online store needs to filter products based on customer preferences. The customer specifies which categories they're interested in and which brands they want to avoid.
+
+**Given:**
+- `products`: A Dictionary mapping Product Name -> Dictionary with `"category"` and `"brand"`.
+- `preferred_categories`: A Set of category names the customer likes.
+- `blocked_brands`: A Set of brand names the customer wants to avoid.
+
+**Task:** Write a function `filter_products(products, preferred_categories, blocked_brands)` that returns a **List** of product names that match the preferred categories AND are NOT from blocked brands.
+
+**Example Input:**
+```python
+products = {
+    "iPhone": {"category": "Electronics", "brand": "Apple"},
+    "Galaxy": {"category": "Electronics", "brand": "Samsung"},
+    "Shirt": {"category": "Clothing", "brand": "Nike"}
+}
+preferred_categories = {"Electronics"}
+blocked_brands = {"Apple"}
+```
+
+**Example Output:**
+```python
+["Galaxy"]
+```
+*(iPhone is Electronics but blocked brand. Shirt is not preferred category)*
+
+---
+
+### **Scenario 11: Student Performance Trend (List + Dictionary)**
+
+A teacher tracks student performance across multiple assessments. A student is flagged as "Critically Declining" if:
+1. **Every score** is strictly less than the previous score (complete declining trend)
+2. The difference between the **first and last score** is at least 20 points
+
+**Note:** Students can have different numbers of assessments (e.g., some have 3 scores, others have 5).
+
+**Given:**
+- `records`: A List of dictionaries. Each dictionary contains `"name"` (string) and `"scores"` (list of integers with at least 2 elements).
+
+**Task:** Write a function `flag_critical_students(records)` that returns a **Set** of student names who are critically declining.
+
+**Example Input:**
+```python
+records = [
+    {"name": "Ali", "scores": [90, 75, 60, 50]},
+    {"name": "Sara", "scores": [80, 70, 65]},
+    {"name": "Bob", "scores": [70, 75, 80]},
+    {"name": "Dana", "scores": [100, 95, 90, 85, 60]}
+]
+```
+
+**Example Output:**
+```python
+{"Ali", "Dana"}
+```
+
+---
+
+### **Scenario 12: Contact Deduplicator with Phone Normalization (List + Set)**
+
+A contact system has duplicate entries with phone numbers in different formats. Before deduplication, normalize all phone numbers by:
+1. Removing all non-digit characters (dashes, spaces, etc.)
+2. If the number starts with "60" (Malaysia code), keep it as is
+3. Otherwise, add "60" as a prefix
+
+Then deduplicate based on normalized phone OR email.
+
+**Given:**
+- `contacts`: A List `[{"name": str, "phone": str, "email": str}]`
+
+**Task:** Write a function `clean_contacts(contacts)` that returns deduplicated contacts with normalized phones.
+
+**Example Input:**
+```python
+contacts = [
+    {"name": "Ali", "phone": "012-345-6789", "email": "ali@x.com"},
+    {"name": "Ahmad", "phone": "60123456789", "email": "ahmad@x.com"}
+]
+```
+
+**Example Output:**
+```python
+[{"name": "Ali", "phone": "60123456789", "email": "ali@x.com"}]
+```
+
+---
