@@ -39,7 +39,8 @@ export default defineConfig({
           { text: 'Lists', link: '/tutorials/chapter-lists-tutorial-1' },
           { text: 'Tuples', link: '/tutorials/chapter-tuples-tutorial-1' },
           { text: 'Sets', link: '/tutorials/chapter-sets-tutorial-1' },
-          { text: 'Dictionaries', link: '/tutorials/chapter-dictionaries-tutorial-1' }
+          { text: 'Dictionaries', link: '/tutorials/chapter-dictionaries-tutorial-1' },
+          { text: 'Combined Data Structures', link: '/tutorials/chapter-mixed-datastructures-tutorial-1' }
         ],
         activeMatch: '^/tutorials/'
       },
@@ -169,6 +170,10 @@ export default defineConfig({
         {
           text: 'Dictionaries',
           link: '/tutorials/chapter-dictionaries-tutorial-1'
+        },
+        {
+          text: 'Combined Data Structures',
+          link: '/tutorials/chapter-mixed-datastructures-tutorial-1'
         }
       ],
 
