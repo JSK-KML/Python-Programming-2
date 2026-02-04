@@ -557,9 +557,9 @@ def find_incomplete_students(enrollments, required_courses):
                 missing.append(required)
         
         if len(missing) > 0:
-            incomplete.append((student, len(missing)))
+            incomplete.append((len(missing), student))
     
-    return sorted(incomplete, key=lambda x: x[1], reverse=True)
+    return sorted(incomplete, reverse=True)
 ```
 
 **Example:**
@@ -575,7 +575,7 @@ enrollments = [
 required = {"Math", "Physics", "CS"}
 
 find_incomplete_students(enrollments, required)
-→ [("S2", 2), ("S3", 1)]
+→ [(2, "S2"), (1, "S3")]
 
 S1: completed all 3 → 0 missing
 S2: missing {Physics, CS} → 2 missing ✓
