@@ -373,6 +373,225 @@ Write `manage_playlist(current_playlist, add_songs, import_playlist, banned_song
 
 ---
 
+## Exercise 8: Score Analyzer <Badge type="warning" text="Bug Hunt" />
+
+Navigate to `/labs/lab06/exercise8/exercise8.py`.
+
+**Situation:**
+
+A high school teacher uses an automated grading system. After each exam, the system receives student performance data as a list of tuples: `(student_id, score)`. The teacher needs a quick statistical summary to understand class performance and identify high performers.
+
+The system should calculate:
+1. **Highest score** - The best performance in the class
+2. **Average score** - The class mean to gauge overall performance  
+3. **Above average count** - How many students exceeded the class average (for recognition)
+
+**Example Scenario:**
+```
+Test results received:
+("S1", 85) → Student S1 scored 85
+("S2", 90) → Student S2 scored 90
+("S3", 75) → Student S3 scored 75
+("S4", 95) → Student S4 scored 95
+("S5", 80) → Student S5 scored 80
+
+Analysis:
+- Highest score: 95 (Student S4)
+- Class average: (85+90+75+95+80)/5 = 85.0
+- Students above average (>85): S2(90), S4(95) = 2 students
+
+Expected output: (95, 85.0, 2)
+```
+
+**The Problem:**
+
+The `analyze_scores()` function has **3 bugs** that produce incorrect results. The function fails the automated tests and produces wrong statistics.
+
+**Task:**
+
+1. **Run the code** and observe the incorrect output or error
+2. **Use the debugger** to step through the function line by line
+3. **Identify all 3 bugs** by examining variable values at each step
+4. **Fix the bugs** so all tests pass
+
+---
+
+## Exercise 9: Course Enrollment Checker <Badge type="warning" text="Bug Hunt" />
+
+Navigate to `/labs/lab06/exercise9/exercise9.py`.
+
+**Situation:**
+
+A university's academic advising office needs to verify graduation eligibility. Each degree program has a set of **required courses** that ALL students must complete. The system receives enrollment records as a list of tuples: `(student_id, completed_courses_set)` where each student's completed courses are stored as a set.
+
+The advisor needs to identify which students have completed **all required courses** for their program (students may have taken additional elective courses beyond the requirements).
+
+**Example Scenario:**
+```
+Computer Science degree requires: {"Math", "Physics", "CS"}
+
+Enrollment records:
+("S1", {"Math", "Physics", "CS"}) 
+  → Has Math ✓, Physics ✓, CS ✓
+  → Completed all requirements → QUALIFIED
+
+("S2", {"Math", "Physics"})
+  → Has Math ✓, Physics ✓, but missing CS ✗
+  → Incomplete requirements → NOT QUALIFIED
+
+("S3", {"Math", "Physics", "CS", "English"})
+  → Has Math ✓, Physics ✓, CS ✓ (plus extra: English)
+  → Completed all requirements → QUALIFIED
+
+Expected output: ["S1", "S3"] (sorted alphabetically)
+```
+
+**The Problem:**
+
+The `find_qualified_students()` function has **3 bugs** related to set operations. The function returns an empty list when it should find qualified students, and the output isn't sorted.
+
+**Task:**
+
+1. **Run the code** and observe it returns wrong results (likely empty list)
+2. **Use the debugger** to step through the set operations
+3. **Identify all 3 bugs** by examining the set values
+4. **Fix the bugs** so all tests pass
+
+---
+
+## Exercise 10: Event Attendance Tracker <Badge type="tip" text="Refactoring" />
+
+Navigate to `/labs/lab06/exercise10/exercise10.py`.
+
+**Situation:**
+
+A conference organizer tracks attendance using a simple logging system. Each time someone checks into an event, their ID and the event name are recorded as a tuple: `(attendee_id, event_name)`. The organizer wants to identify "power attendees" - people who attended multiple different events - for special recognition.
+
+A previous programmer created a working function to solve this, but the code is messy and hard to maintain. Your task is to **refactor** it into clean, modular helper functions.
+
+**The Messy Code (Reference Only - DO NOT COPY):**
+
+```python
+def find_frequent_attendees(attendance_logs, min_events):
+    """Find attendees who attended at least min_events unique events."""
+    all_attendees = []
+    for attendee_id, event_name in attendance_logs:
+        if attendee_id not in all_attendees:
+            all_attendees.append(attendee_id)
+    
+    qualified = []
+    for attendee_id in all_attendees:
+        events_attended = []
+        for att_id, event_name in attendance_logs:
+            if att_id == attendee_id and event_name not in events_attended:
+                events_attended.append(event_name)
+        
+        if len(events_attended) >= min_events:
+            qualified.append(attendee_id)
+    
+    return sorted(qualified)
+```
+
+**Example:**
+```
+attendance_logs = [
+    ("A1", "Workshop_Python"),
+    ("A1", "Workshop_Data"),
+    ("A2", "Workshop_Python"),
+    ("A1", "Workshop_Python"),  # duplicate
+    ("A3", "Workshop_Data"),
+    ("A2", "Workshop_Data"),
+    ("A2", "Workshop_Web")
+]
+
+find_frequent_attendees(attendance_logs, 2)
+→ ["A1", "A2"]
+
+A1: attended 2 unique events (Python, Data) ✓
+A2: attended 3 unique events (Python, Data, Web) ✓
+A3: attended 1 event (Data) ✗
+```
+
+**Task:**
+
+Refactor the messy code into 4 clean functions:
+1. `get_unique_attendees()` - Extract all unique attendee IDs (use set!)
+2. `count_unique_events()` - Count unique events for one attendee (use set!)
+3. `filter_by_threshold()` - Filter and sort qualified attendees
+4. `find_frequent_attendees()` - Main function orchestrating the above helpers
+
+**Hint:** Replace lists with **sets** where appropriate for better performance and cleaner code.
+
+---
+
+## Exercise 11: Course Completion Tracker <Badge type="tip" text="Refactoring" />
+
+Navigate to `/labs/lab06/exercise11/exercise11.py`.
+
+**Situation:**
+
+A university's academic department needs to track which students are at risk of not graduating due to incomplete course requirements. The system receives enrollment records as tuples: `(student_id, course_name)` each time a student completes a course. The department has a set of required courses that ALL students must complete.
+
+The current function works but is messy and inefficient. Your task is to **refactor** it into clean, modular functions.
+
+**The Messy Code (Reference Only - DO NOT COPY):**
+
+```python
+def find_incomplete_students(enrollments, required_courses):
+    """Find students who haven't completed all required courses."""
+    all_students = []
+    for student_id, course in enrollments:
+        if student_id not in all_students:
+            all_students.append(student_id)
+    
+    incomplete = []
+    for student in all_students:
+        completed = []
+        for sid, course in enrollments:
+            if sid == student and course not in completed:
+                completed.append(course)
+        
+        missing = []
+        for required in required_courses:
+            if required not in completed:
+                missing.append(required)
+        
+        if len(missing) > 0:
+            incomplete.append((student, len(missing)))
+    
+    return sorted(incomplete, key=lambda x: x[1], reverse=True)
+```
+
+**Example:**
+```
+enrollments = [
+    ("S1", "Math"),
+    ("S1", "Physics"),
+    ("S1", "CS"),
+    ("S2", "Math"),
+    ("S3", "Math"),
+    ("S3", "CS")
+]
+required = {"Math", "Physics", "CS"}
+
+find_incomplete_students(enrollments, required)
+→ [("S2", 2), ("S3", 1)]
+
+S1: completed all 3 → 0 missing
+S2: missing {Physics, CS} → 2 missing ✓
+S3: missing {Physics} → 1 missing ✓
+```
+
+**Task:**
+
+Refactor the messy code into 4 clean functions:
+1. `get_student_courses()` - Get set of courses for one student
+2. `find_missing_courses()` - Find missing courses using set difference
+3. `build_student_report()` - Build and sort the report
+4. `find_incomplete_students()` - Main function orchestrating the above helpers
+
+**Hint:** Use **set difference** (`-`) to find missing courses efficiently.
+
 ---
 
 ## Commit and Push Your Work
