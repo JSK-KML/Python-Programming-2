@@ -15,7 +15,7 @@
 ### Submission Process
 1. Complete your Python program
 2. Save the file as: `lab-test-2.py`
-3. Upload the file to the Google Form at [here](https://forms.gle/JkxHsEiniRhvjCc6)
+3. Upload the file to the Google Form at [here](https://forms.gle/rJkxHsEiniRhvjCc6)
 4. Fill in all required information in the form
 
 ### What to Submit
