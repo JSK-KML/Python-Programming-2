@@ -12,15 +12,10 @@ hero:
     - theme: brand
       text: Course Informations
       link: /course/course
-    - theme: alt
-      text: Mobile Editor
-      link: /editor-mobile.html
 
 features:
   - title: Course Informations
-    details: Complete course overview including assessment breakdown, weekly schedules, learning objectives, and grading criteria to help you succeed in CP115 Python Programming
-  - title: Python Editor
-    details: Interactive Python coding environment with syntax highlighting, instant execution, and mobile-friendly interface for practicing programming exercises anywhere
+    details: Complete course overview including assessment breakdown, weekly schedules, learning objectives, and grading criteria to help you succeed in CP125 Python Programming
 ---
 
 
