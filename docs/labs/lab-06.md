@@ -1,9 +1,9 @@
 ---
 outline: deep
-title: Lab 6 - Sets & Hashing
+title: Lab 6 - Sets 
 ---
 
-# Lab 06: Sets & Hashing
+# Lab 06: Sets 
 
 
 ## Pull and Update in VS Code
