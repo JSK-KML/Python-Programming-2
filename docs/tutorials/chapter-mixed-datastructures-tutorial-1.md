@@ -324,3 +324,135 @@ contacts = [
 ```
 
 ---
+
+### **Scenario 13: Flight Seat Tracker (List + Tuple)**
+
+An airline stores seat bookings as a list of tuples. Each tuple contains the passenger's name and their booked seat number. Given the full list of all seats on the plane, you need to find which seats are still available.
+
+**Given:**
+- `bookings`: A List of Tuples where each tuple is `(passenger_name, seat_number)`.
+- `all_seats`: A List of all seat numbers (integers) on the plane.
+
+**Task:** Write a function `find_available_seats(bookings, all_seats)` that returns a **List** of seat numbers that have not been booked.
+
+**Example Input:**
+```python
+bookings = [("Ali", 12), ("Sara", 5), ("John", 8)]
+all_seats = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+```
+
+**Example Output:**
+```python
+[1, 2, 3, 4, 6, 7, 9, 10, 11]
+```
+*(Explanation: Seats 5, 8, and 12 are booked. All remaining seats are returned.)*
+
+---
+
+### **Scenario 14: Restaurant Menu Lookup (Dict + Tuple)**
+
+A restaurant stores its full menu as a dictionary. Each item maps to a tuple containing its category and price. A customer wants to browse only items from a specific category.
+
+**Given:**
+- `menu`: A Dictionary where Key is Item Name (string) and Value is a Tuple `(category, price)`.
+- `category`: A string representing the category to filter by.
+
+**Task:** Write a function `get_items_by_category(menu, category)` that returns a **List** of item names that belong to the given category.
+
+**Example Input:**
+```python
+menu = {
+    "Nasi Lemak": ("Main", 12.50),
+    "Teh Tarik": ("Drink", 3.00),
+    "Rendang": ("Main", 15.00),
+    "Cendol": ("Dessert", 5.50)
+}
+category = "Main"
+```
+
+**Example Output:**
+```python
+["Nasi Lemak", "Rendang"]
+```
+*(Explanation: Both "Nasi Lemak" and "Rendang" have "Main" as their category in the tuple value.)*
+
+---
+
+### **Scenario 15: Blog Tag Collector (List + Set)**
+
+A blog platform stores published posts as a list of dictionaries. Each post has a list of tags. The platform wants to build a master set of all unique tags used across all posts.
+
+**Given:**
+- `posts`: A List of Dictionaries. Each dictionary has `"title"` (string) and `"tags"` (list of strings).
+
+**Task:** Write a function `collect_unique_tags(posts)` that returns a **Set** of all unique tags across all posts.
+
+**Example Input:**
+```python
+posts = [
+    {"title": "Python Tips", "tags": ["python", "coding", "tips"]},
+    {"title": "Web Dev Basics", "tags": ["html", "css", "coding"]},
+    {"title": "Data Science", "tags": ["python", "data"]}
+]
+```
+
+**Example Output:**
+```python
+{"python", "coding", "tips", "html", "css", "data"}
+```
+*(Explanation: "python" and "coding" appear in multiple posts but are only included once in the set.)*
+
+---
+
+### **Scenario 16: Message Moderation System (Set + Tuple)**
+
+A chat platform has a set of banned words. Messages are stored as immutable tuples of words (already split). The system needs to check whether a message contains any banned content before it is sent.
+
+**Given:**
+- `message`: A Tuple of strings (individual words in the message).
+- `banned_words`: A Set of banned word strings.
+
+**Task:** Write a function `contains_banned(message, banned_words)` that returns `True` if **any** word in the message is in the banned set, and `False` otherwise.
+
+**Example Input:**
+```python
+message = ("hello", "this", "is", "spam", "content")
+banned_words = {"spam", "phishing", "scam"}
+```
+
+**Example Output:**
+```python
+True
+```
+*(Explanation: The word "spam" is in the message tuple and also in the banned_words set.)*
+
+---
+
+### **Scenario 17: Product Bundle Validator (List + Dict + Set)**
+
+An online store sells product bundles. A customer selects a bundle — a list of product IDs they want to purchase together. However, not all IDs may be valid. The store's catalog is stored as a dictionary mapping product IDs to product names. You need to identify which product IDs in the bundle are **not found** in the catalog.
+
+**Given:**
+- `bundle`: A List of product ID integers the customer selected.
+- `catalog`: A Dictionary mapping product ID (integer) to product name (string).
+
+**Task:** Write a function `validate_bundle(bundle, catalog)` that returns a **Set** of product IDs from the bundle that do **not** exist in the catalog.
+
+**Example Input:**
+```python
+bundle = [101, 205, 309, 410, 999]
+catalog = {
+    101: "Laptop",
+    205: "Mouse",
+    309: "Keyboard",
+    410: "Monitor"
+}
+```
+
+**Example Output:**
+```python
+{999}
+```
+*(Explanation: Product ID 999 is in the bundle but does not exist in the catalog. All other IDs are valid.)*
+
+---
