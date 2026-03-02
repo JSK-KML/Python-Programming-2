@@ -490,7 +490,7 @@ Your function `filter_passing_scores(input_file, output_file)` should:
 - Write passing students to output file (same format: `student_id score`)
 - Return the count of passing students
 
-**Expected Output Format (`data/passing.txt`):**
+**Expected Output Format (`lab08/exercise1/data/passing.txt`):**
 ```
 S001 85
 S002 92
@@ -538,7 +538,7 @@ Your function `merge_lists(file1, file2, output_file)` should:
 - Write unique sorted names to output file (one per line)
 - Return the count of unique names
 
-**Expected Output Format (`data/merged.txt`):**
+**Expected Output Format (`lab08/exercise2/data/merged.txt`):**
 ```
 Alice
 Bob
@@ -586,7 +586,7 @@ Your function `calculate_order_total(products_file, order_file, output_file)` sh
 - Write results to output CSV with header: `product_id,total_cost`
 - Return the grand total (sum of all total costs)
 
-**Expected Output Format (`data/total.csv`):**
+**Expected Output Format (`lab08/exercise3/data/total.csv`):**
 ```csv
 product_id,total_cost
 P001,2400.00
@@ -625,7 +625,7 @@ Your function `calculate_final_grades(input_file, output_file)` should:
 - Write results to output CSV with header: `student_id,final_grade`
 - Return the average of all final grades
 
-**Expected Output Format (`data/grades.csv`):**
+**Expected Output Format (`lab08/exercise4/data/grades.csv`):**
 ```csv
 student_id,final_grade
 S001,88.00
@@ -666,7 +666,7 @@ Your function `summarize_sales(input_file, output_file)` should:
 - Write summary to output text file with all four statistics
 - Return a tuple: `(total, average, highest, lowest)`
 
-**Expected Output Format (`data/summary.txt`):**
+**Expected Output Format (`lab08/exercise5/data/summary.txt`):**
 ```
 Total Revenue: $8150.00
 Average Revenue: $2037.50
