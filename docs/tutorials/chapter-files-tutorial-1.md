@@ -14,13 +14,15 @@ outline: deep
 │   │   ├── 📄 names.txt
 │   │   └── 📄 attendance.csv
 │   └── 📁 2025/
-│       └── 📄 enrollment.txt
+│       ├── 📄 enrollment.txt
+│       └── 📄 new_students.csv
 ├── 📁 grades/
 │   ├── 📄 midterm.csv
 │   └── 📄 final.csv
 ├── 📁 reports/
 │   ├── 📄 summary.txt
-│   └── 📄 statistics.txt
+│   ├── 📄 statistics.txt
+│   └── 📄 top_performers.csv
 └── 📁 config/
     └── 📄 passing_grade.txt
 ```
@@ -201,4 +203,85 @@ Hassan Yusof
 Nurul Aina
 Sara Hassan
 Zainab Ali
+```
+
+---
+
+## **Question 6: Attendance Tracker Updater** <Badge type="tip" text="Question" />
+
+**Task:**
+Read attendance records from `attendance.csv` in the 2024 folder. Filter students with attendance >= 90%. Append these top performers to `top_performers.csv` in `reports` (file already exists with header). Return the count of students appended.
+
+**File Contents:**
+
+`attendance.csv` (in students/2024/):
+```
+Name,Attendance
+Ali Ahmad,85.5
+Sara Hassan,92.0
+Ahmad Ibrahim,78.5
+Fatimah Omar,88.0
+Hassan Yusof,95.5
+```
+
+`top_performers.csv` (in reports/ - already exists):
+```
+Name,Attendance
+Amira Tan,93.0
+```
+
+**Function Signature:**
+```python
+def append_top_performers(input_file, output_file):
+    pass
+```
+
+**Expected output in `top_performers.csv` after appending:**
+```
+Name,Attendance
+Amira Tan,93.0
+Sara Hassan,92.0
+Hassan Yusof,95.5
+```
+
+---
+
+## **Question 7: Grade Consolidator** <Badge type="tip" text="Question" />
+
+**Task:**
+Read new student grades from `new_students.csv` in the 2025 folder. Append all students (skip the header) to `final.csv` in the `grades` folder. Return the total count of all students in the final CSV (excluding header).
+
+**File Contents:**
+
+`new_students.csv` (in students/2025/):
+```
+Name,Score
+Nurul Aina,87
+Zainab Ali,91
+Aminah Ismail,85
+```
+
+`final.csv` (in grades/ - already exists):
+```
+Name,Score
+Ali Ahmad,90
+Sara Hassan,82
+Ahmad Ibrahim,88
+```
+
+**Function Signature:**
+```python
+def append_new_students(new_file, target_file):
+    pass
+```
+
+**Expected output in `final.csv` after appending:**
+```
+Name,Score
+Ali Ahmad,90
+Sara Hassan,82
+Ahmad Ibrahim,88
+Nurul Aina,87
+Zainab Ali,91
+Aminah Ismail,85
 ```

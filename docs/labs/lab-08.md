@@ -473,21 +473,28 @@ A teacher has a text file with student scores. You need to filter out only the s
 
 `data/scores.txt`:
 ```
-S001 85
-S002 92
-S003 78
-S004 88
-S005 65
-S006 91
+S001
+85
+S002
+92
+S003
+78
+S004
+88
+S005
+65
+S006
+91
 ```
 
 **Task:**
 
 Your function `filter_passing_scores(input_file, output_file)` should:
 
-- Read the scores file
+- Read the scores file where student IDs and scores are on alternating lines
+- Parse the data to match each student ID with their score
 - Find all students with score >= 80
-- Write passing students to output file (same format: `student_id score`)
+- Write passing students to output file (format: `student_id score` on same line)
 - Return the count of passing students
 
 **Expected Output Format (`lab08/exercise1/data/passing.txt`):**
