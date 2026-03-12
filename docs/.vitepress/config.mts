@@ -42,7 +42,8 @@ export default defineConfig({
           { text: 'Sets', link: '/tutorials/chapter-sets-tutorial-1' },
           { text: 'Dictionaries', link: '/tutorials/chapter-dictionaries-tutorial-1' },
           { text: 'Combined Data Structures', link: '/tutorials/chapter-mixed-datastructures-tutorial-1' },
-          { text: 'Files', link: '/tutorials/chapter-files-tutorial-1' }
+          { text: 'Files', link: '/tutorials/chapter-files-tutorial-1' },
+          { text: 'DataFrame & Data Analysis', link: '/tutorials/chapter-dataframe-tutorial-1' }
         ],
         activeMatch: '^/tutorials/'
       },
@@ -207,6 +208,10 @@ export default defineConfig({
         {
           text: 'Files',
           link: '/tutorials/chapter-files-tutorial-1'
+        },
+        {
+          text: 'DataFrame & Data Analysis',
+          link: '/tutorials/chapter-dataframe-tutorial-1'
         }
       ],
 
