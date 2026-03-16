@@ -59,7 +59,10 @@ Create a program with **TWO functions** that performs the following tasks:
 
 ### Rubric
 
-<img src="/assessments/lab-test-3-rubric.png" alt="Lab Test 3 Rubric" width="50%">
+<p align="center">
+   <img src="/assessments/lab-test-3-rubric.png" alt="Lab Test 3 Rubric" width="70%">
+</p>
+
 
 ---
 
