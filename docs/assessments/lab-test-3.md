@@ -38,7 +38,7 @@
 
 ### Required File
 
-**Download the `bmi.csv` file:** [Download here](../bmi.csv)
+**Download the `bmi.csv` file:** [Download here](/assessments/bmi.csv)
 
 ---
 
