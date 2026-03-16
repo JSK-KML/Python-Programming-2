@@ -52,8 +52,7 @@ Create a program with **TWO functions** that performs the following tasks:
 
 #### Section 2 (Function 2)
 1. **Add your own data** (Gender, Height, Weight, and BMI Index) to the file using standard input
-2. **Close the file**
-3. **Re-read the file** to verify that the new row has been successfully added
+2. **Print the file** to verify that the new row has been successfully added
 
 
 
