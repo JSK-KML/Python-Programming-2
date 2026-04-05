@@ -498,6 +498,164 @@ print(count)  # 25
 
 ---
 
+## Exercise 5: High Performers Filter <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab09/exercise5/exercise5.py`.
+
+**Background:**
+
+A teacher wants to identify students who excelled in all subjects (scoring above 85 in each) to feature them in the school newsletter.
+
+**Task:**
+
+Write a function `high_performers(filename)` that identifies these exceptional students and returns how many there are along with their names
+
+**Parameters:**
+- `filename` (str): Path to CSV file
+
+**Returns:**
+- Dictionary with keys:
+  - `"count"` (int): Number of high performers
+  - `"names"` (set): Set of student names
+
+**Example:**
+```python
+result = high_performers("data/students.csv")
+print(result)
+# {
+#     "count": 8,
+#     "names": {"Ali", "Sara", "Hassan", "Fatima", "Omar", "Layla", "Yusuf", "Amira"}
+# }
+```
+
+---
+
+## Exercise 6: Warehouse Inventory Alert <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab09/exercise6/exercise6.py`.
+
+**Background:**
+
+A warehouse manager needs to identify critical inventory issues. Products are critical when their current stock has fallen below the reorder threshold and they haven't been restocked in over 30 days. These items need immediate attention.
+
+**Task:**
+
+Write a function `critical_inventory(filename)` that identifies which products are in critical status and returns the total number of products tracked, how many are critical, and which specific products need immediate restocking
+
+**Parameters:**
+- `filename` (str): Path to inventory CSV file
+
+**Returns:**
+- Dictionary with keys:
+  - `"total_products"` (int): Total number of products
+  - `"critical_count"` (int): Number of critical items
+  - `"critical_products"` (set): Set of critical product names
+
+**Example:**
+```python
+result = critical_inventory("data/inventory.csv")
+print(result)
+# {
+#     "total_products": 50,
+#     "critical_count": 7,
+#     "critical_products": {"Laptop_X1", "Monitor_Pro", "Keyboard_Mech", ...}
+# }
+```
+
+---
+
+## Exercise 7: Employee Promotion Candidates <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab09/exercise7/exercise7.py`.
+
+**Background:**
+
+The HR department is preparing for the annual promotion cycle. To be considered for promotion, employees must have both strong performance (above company average) and sufficient experience (at least 2 years with the company). HR needs to know who qualifies.
+
+**Task:**
+
+Write a function `promotion_candidates(filename)` that determines which employees meet the promotion criteria and returns the company's average performance score, the experience requirement, how many employees qualify, and their names
+
+**Parameters:**
+- `filename` (str): Path to employee CSV file
+
+**Returns:**
+- Dictionary with keys:
+  - `"average_performance"` (float): Company average performance (rounded to 1 decimal)
+  - `"min_years_required"` (int): Minimum years required (always 2)
+  - `"candidate_count"` (int): Number of qualified candidates
+  - `"candidate_names"` (set): Set of candidate names
+
+**Example:**
+```python
+result = promotion_candidates("data/employees.csv")
+print(result)
+# {
+#     "average_performance": 78.5,
+#     "min_years_required": 2,
+#     "candidate_count": 12,
+#     "candidate_names": {"John Smith", "Sarah Lee", "Michael Chen", ...}
+# }
+```
+
+---
+
+## Exercise 8: Maximum Scores by Subject <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab09/exercise8/exercise8.py`.
+
+**Background:**
+
+A school administrator wants to visualize the highest achievement in each subject (Math, Science, English, Physics, Chemistry) to understand which subjects have the strongest top performers. This will help identify where advanced programs are most successful.
+
+**Task:**
+
+Write a function `plot_subject_maximums(filename)` that creates a line chart showing the peak performance in each subject. The chart should display subjects on the horizontal axis and their maximum scores on the vertical axis, with points marked on the line. Return the total number of students analyzed
+
+**Example:**
+```python
+count = plot_subject_maximums("data/students.csv")
+# Chart window appears showing line plot of maximum scores
+print(count)  # 25
+```
+
+**Chart Requirements:**
+- x-axis label: "Subject"
+- y-axis label: "Maximum Score"
+- Title: "Maximum Scores by Subject"
+- Use `marker='o'` to show points on line
+
+---
+
+## Exercise 9: Subject Distribution Comparison <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab09/exercise9/exercise9.py`.
+
+**Background:**
+
+The curriculum committee wants to compare how scores are spread across Math, Science, and English. By visualizing all three distributions on the same chart, they can identify which subjects show consistent performance versus which have wide variation in student achievement.
+
+**Task:**
+
+Write a function `compare_subject_distributions(filename)` that creates a histogram showing the score distribution for all three subjects on one chart. Make the distributions transparent so they can be compared visually, and include a legend to identify each subject. Return the total number of students analyzed
+
+**Example:**
+```python
+count = compare_subject_distributions("data/students.csv")
+# Chart window appears showing overlapping histograms
+print(count)  # 25
+```
+
+**Chart Requirements:**
+- All histograms: bins=10, alpha=0.5
+- Labels: "Math", "Science", "English"
+- x-axis label: "Score"
+- y-axis label: "Frequency"
+- Title: "Score Distribution Comparison"
+- Must include `plt.legend()`
+
+---
+
 ## Commit and Push Your Work
 
 After completing all exercises, save all your files and commit them to your repository.
