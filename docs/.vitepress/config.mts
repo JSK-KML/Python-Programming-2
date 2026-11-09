@@ -6,7 +6,7 @@ export default defineConfig({
   description: "Course and Labs Informations",
   base: '/Python-Programming-2/',
   head: [
-    ['link', { rel: 'icon', type: 'image/png', href: '/favicon.png' }] // Updated href
+    ['link', { rel: 'icon', type: 'image/png', href: '/Python-Programming-2/favicon.png' }]
   ],
 
   themeConfig: {
@@ -16,17 +16,17 @@ export default defineConfig({
         text: 'Home',
         link: '/'
       },
-      {
-        text: 'Assessments',
-        items: [
-          { text: 'Lab Test 1', link: '/assessments/lab-test-1' },
-          { text: 'Lab Test 2', link: '/assessments/lab-test-2' },
-          { text: 'Lab Test 3', link: '/assessments/lab-test-3' },
-          { text: 'Assignment', link: '/assessments/assignment' },
-          { text: 'Check Marks', link: '/assessments/marks' }
-        ],
-        activeMatch: '^/assessments/'
-      },
+//       {
+//         text: 'Assessments',
+//         items: [
+//           { text: 'Lab Test 1', link: '/assessments/lab-test-1' },
+//           { text: 'Lab Test 2', link: '/assessments/lab-test-2' },
+//           { text: 'Lab Test 3', link: '/assessments/lab-test-3' },
+//           { text: 'Assignment', link: '/assessments/assignment' },
+//           { text: 'Check Marks', link: '/assessments/marks' }
+//         ],
+//         activeMatch: '^/assessments/'
+//       },
       {
         text: 'Course Informations',
         items: [
