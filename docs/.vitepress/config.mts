@@ -53,6 +53,7 @@ export default defineConfig({
         text: 'Labs',
         items: [
           // { text: 'Installation', link: '/labs/installation' },
+          { text: 'Pre-Lab', link: '/labs/pre-lab-01' },
           { text: 'Lab 1', link: '/labs/lab-01' },
           // { text: 'Lab 2', link: '/labs/lab-02' },
           // { text: 'Lab 3', link: '/labs/lab-03' },
@@ -117,6 +118,10 @@ export default defineConfig({
           // text: 'Installation',
           // link: '/labs/installation'
         // },
+        {
+          text: 'Pre-Lab',
+          link: '/labs/pre-lab-01'
+        },
         {
           text: 'Lab 1',
           link: '/labs/lab-01'
