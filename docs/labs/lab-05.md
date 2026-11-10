@@ -1,13 +1,14 @@
 ---
 outline: deep
-title: Lab 5 - Tuples
+title: Lab 5 - Sets 
 ---
 
-# Lab 05: Tuples
+# Lab 05: Sets 
+
 
 ## Pull and Update in VS Code
 
-Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. [Sync the repo](./lab-01.md#syncing-fork) if the `upstream` repo have been updated.
+Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. Sync the repo if the `upstream` repo have been updated.
 
 Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
 
@@ -15,593 +16,586 @@ Once the online repo is in-sync, bring those changes down to your PC by clicking
     <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
 </p>
 
-## What is a Tuple?
+## Introduction
 
-A tuple is like a list, but with one key difference: **tuples cannot be changed after creation**.
+In this lab, we will learn about **Sets** in Python. You will learn how sets are used for tracking unique items and performing efficient mathematical operations.
 
-```python
-# List - uses square brackets
-fruits_list = ["apple", "banana", "cherry"]
+### The Visitor Tracking Problem
 
-# Tuple - uses parentheses
-fruits_tuple = ("apple", "banana", "cherry")
-```
+In the lecture, we discussed a common problem: tracking unique visitors to a website. As your website grows from 10 visitors to 10 million, the way you store this data matters.
 
-Both store multiple values. Both are ordered. Both support indexing. But only lists can be modified.
+### The Problem with Lists
 
-### Why Use Tuples?
-
-Tuples protect data that should never change. If you accidentally try to modify a tuple, Python raises an error immediately:
+Navigate to `/labs/lab05/` and open `performance_test.py`. This script simulates a visitor log growing to 10 million users:
 
 ```python
-coordinates = (3.14, 101.68)
-coordinates[0] = 0  # TypeError: 'tuple' object does not support item assignment
+import time
+
+# 1. Simulating a database of 10 million visitor IDs
+print("Generating visitor log...")
+visitors_list = list(range(10_000_000))
+print("Log generated.")
+
+# 2. A new visitor arrives (User ID: 9,999,999)
+new_visitor = 9_999_999
+
+# 3. Check if they have visited before (Linear Search)
+print(f"Checking if Visitor {new_visitor} exists...")
+start_time = time.time()
+
+if new_visitor in visitors_list:
+    print("Visitor found!")
+
+end_time = time.time()
+print(f"List Search Time: {end_time - start_time:.5f} seconds")
 ```
 
-This "fail fast" behavior helps you catch bugs early.
+Run this code. You will notice a significant delay. This is because the computer must scan every single ID in the list, one by one. This is called **Linear Time** or `O(n)`.
 
-### The Single-Element Trap
+### The Solution: Sets and Hashing
 
-Creating a single-element tuple requires a trailing comma:
+Now, modify your code to use a **Set** instead of a List:
 
 ```python
-single = (5,)   # Correct: tuple with one element
-wrong = (5)     # Wrong: just the integer 5
-
-print(type(single))  # <class 'tuple'>
-print(type(wrong))   # <class 'int'>
+# Change this line:
+visitors_list = set(range(10_000_000))
 ```
 
-Without the comma, Python interprets `(5)` as a grouped expression, not a tuple.
+Run it again. The result is instant (**0.00000 seconds**). This is because Sets use **Hashing** to find data in **Constant Time** or $O(1)$.
 
-## Tuple Operations
+---
 
-Tuples support the same read operations as lists:
+## The Constraint: Immutability
+
+Hashing demands **stability**. If an object changes (mutates), its hash changes, and the Set loses track of it. Therefore, **you cannot put mutable items (like lists) into a Set.**
+
+### The Crash Test
+
+Open the file `crash_test.py`. It contains the following code:
 
 ```python
-colors = ("red", "green", "blue", "yellow")
+# A list of coordinates (mutable lists)
+points = [
+    [10, 20],
+    [5, 5],
+    [10, 20] # Duplicate
+]
 
-# Indexing
-print(colors[0])    # red
-print(colors[-1])   # yellow
-
-# Slicing
-print(colors[1:3])  # ('green', 'blue')
-
-# Membership
-print("red" in colors)  # True
-
-# Length
-print(len(colors))  # 4
+# Try to remove duplicates using a set
+unique_points = set(points)
+print(unique_points)
 ```
 
-The key difference: you cannot modify, add, or remove elements.
+Run it. You will get: `TypeError: unhashable type: 'list'`.
 
-## Tuple Unpacking
+### The Solution: Tuples
 
-Instead of accessing elements by index, you can **unpack** a tuple into named variables:
+To store complex data in a Set, you must use **Tuples**. Tuples are immutable, so they have a stable hash. Change the code to use parentheses `()` instead of brackets `[]` and run it again to see it work.
+
+---
+
+## Set Methods
+
+Sets are mutable, so you can dynamically add and remove items. Open `guest_manager.py` and observe how we manage a guest list:
 
 ```python
-point = (3.14, 101.68)
+guests = {"Alice", "Bob"}
 
-# Using indexing (clunky)
-x = point[0]
-y = point[1]
+# 1. Adding items
+guests.add("Charlie")
+guests.update(["David", "Eve"]) # Add multiple from a list
 
-# Using unpacking (clean and professional)
-x, y = point
+# 2. Removing items
+guests.remove("Alice")      # Must exist or CRASH
+guests.discard("Zorro")     # Safe removal (no error)
 
-print(x)  # 3.14
-print(y)  # 101.68
+print(f"Final guests: {guests}")
 ```
 
-This is especially powerful in loops:
+---
 
-```python
-results = [("A", 90), ("B", 85)]
-
-for name, score in results:
-    print(f"Student {name} got {score}")
-```
-
-
-## Exercise 1: Drone Backward Checker <Badge type="warning" text="Task" />
+## Exercise 1: Advanced Visitor Behavior Auditor <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab05/exercise1/exercise1.py`.
 
 **Situation:**
+A web analyst at an e-commerce platform monitors user engagement. You receive session logs as a list of tuples: `(timestamp, user_id, action_type)`. You must identify "Power Users"—real individuals (not in the `bot_ids` set) who have interacted with more than a specified `threshold` of **unique** action types.
 
-A delivery drone records its flight path as a tuple of coordinate tuples: `(x, y, z)`. The system needs to ensure the drone is always moving forward. 
+**Example Scenario:**
+- **Logs:** `[("10:01", "u1", "view"), ("10:02", "u2", "view"), ("10:05", "u1", "scroll"), ("10:10", "u1", "view"), ("10:12", "u9", "extract")]`
+- **Known Bots:** `{"u9"}`
+- **Threshold:** 1
 
-A drone is considered to have moved **backward** if its current `x` value is less than the previous `x` OR its current `y` value is less than the previous `y`.
-
-**Example:**
-```
-Path: ((0, 0, 10), (5, 5, 12), (4, 6, 10), (10, 10, 15))
-       Point 0     Point 1     Point 2      Point 3
-
-Check Point 1 to 2:
-- Pt 1: x=5, y=5
-- Pt 2: x=4, y=6
-- Since 4 < 5, the drone moved backward in the x-direction.
-→ Result: True
-```
+**Analysis Logic:**
+1.  **Filter Bots**: First, identify that user `u9` is in the `bot_ids` set. They are removed from the analysis.
+2.  **Count Unique Actions**: 
+    - Loop through the remaining logs. 
+    - User `u2` has only one unique action: `{"view"}`.
+    - User `u1` has two unique actions: `{"view", "scroll"}`.
+3.  **Evaluate Threshold**: Compare each user's unique count to the threshold of 1.
+    - `u2` has 1 action. Since 1 is not strictly greater than 1, they are omitted.
+    - `u1` has 2 actions. Since 2 is greater than 1, they are a Power User.
+4.  **Final Result:** `["u1"]` (The ID as a sorted list).
 
 **Task:**
-
-Write a function that takes a tuple of waypoint tuples and returns `True` if backward movement was detected, and `False` otherwise.
+Write a function `get_legit_power_users(log_data, bot_ids, threshold)` that:
+1. Loops through the log data to filter out any `user_id` found in the `bot_ids` set.
+2. Uses a grouping strategy to find all **unique** `action_type` strings performed by each valid user.
+3. Returns a **sorted list** of IDs for only those users who performed strictly more than `threshold` unique actions.
 
 ---
 
-## Exercise 2: Largest Temperature Drop <Badge type="warning" text="Task" />
+## Exercise 2: Personnel Merit Sync <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab05/exercise2/exercise2.py`.
 
 **Situation:**
+A corporate HR department is identifying "Specialists" for a project. To qualify, an employee must possess **all** the project's `required_skills` and at least one **"Rarity Skill"**. A skill is considered "Rare" if it is held by **fewer than 3** people in the entire company `candidates_list`.
 
-A climate sensor records hourly temperature readings stored in a tuple. An analyst needs to find the **maximum single drop** in temperature between any two consecutive hours. A "drop" only occurs if the temperature decreases.
+**Example Scenario:**
+- **Candidates:** `[("Ali", {"Python", "Git"}), ("Sara", {"Git", "Cloud", "COBOL"}), ("Zaki", {"Git", "Cloud"})]`
+- **Project Requirements:** `{"Git"}`
+- **Rare Skills:** `{"Cloud", "Python", "COBOL"}` (held by < 3 people).
 
-**Example:**
-```
-Readings: (32.5, 31.0, 31.5, 28.0, 24.5)
-           hr 0  hr 1  hr 2  hr 3  hr 4
-
-Drops between hours:
-- Hr 0 to 1: 32.5 → 31.0 (Drop of 1.5)
-- Hr 1 to 2: 31.0 → 31.5 (No drop)
-- Hr 2 to 3: 31.5 → 28.0 (Drop of 3.5)
-- Hr 3 to 4: 28.0 → 24.5 (Drop of 3.5)
-
-Largest drop found: 3.5
-```
+**Analysis Logic:**
+1.  **Calculate Frequencies**: Loop through all candidate skills. Count how many people have each skill.
+2.  **Filter Rare Skills**: Identify skills with a frequency of less than 3.
+3.  **Evaluate Candidates**:
+    - **Ali** has the requirement "Git". He also has "Python" which is a Rare Skill. Ali is a match.
+    - **Sara** has the requirement "Git". She also has "Cloud" and "COBOL" which are Rare Skills. Sara is a match.
+    - **Zaki** has the requirement "Git". He also has "Cloud" which is a Rare Skill. Zaki is a match.
+4.  **Final Result:** `[("Ali", {"Python"}), ("Sara", {"Cloud", "COBOL"}), ("Zaki", {"Cloud"})]`
 
 **Task:**
-
-Write a function that takes a tuple of temperatures and returns the value of the largest consecutive drop found. If no drops occur, return `0.0`.
-
----
-
-
-## Functions and Methods: List vs. Tuple
-
-Many built-in functions behave identically for both lists and tuples. However, because tuples are immutable (read-only), they do not support methods that modify data in-place.
-
-### 1. Functions (Exactly the Same)
-
-Functions like `len()`, `min()`, `max()`, and `sum()` work exactly the same way on both structures.
-
-| Function | List Example | Tuple Example | Result |
-| :--- | :--- | :--- | :--- |
-| `len()` | `len([1, 2, 3])` | `len((1, 2, 3))` | `3` |
-| `min()` | `min([5, 2, 8])` | `min((5, 2, 8))` | `2` |
-| `max()` | `max([5, 2, 8])` | `max((5, 2, 8))` | `8` |
-| `sum()` | `sum([1, 2, 3])` | `sum((1, 2, 3))` | `6` |
-
-### 2. Methods (Key Differences)
-
-Methods belong to the object itself. Lists have many more methods because they can be modified.
-
-| Method | List | Tuple | Reasoning |
-| :--- | :--- | :--- | :--- |
-| `.index(val)` | Supported | Supported | Does not modify data |
-| `.count(val)` | Supported | Supported | Does not modify data |
-| `.append(val)` | Supported | Not Supported | Tuples cannot grow |
-| `.remove(val)` | Supported | Not Supported | Tuples cannot shrink |
-| `.sort()` | Supported | Not Supported | Cannot reorder items in-place |
-
-#### Sorting a Tuple
-While tuples do not have a `.sort()` method, you can use the `sorted()` function. Note that `sorted()` always returns a **new list**, regardless of the input type.
-
-```python
-scores = (90, 80, 85)
-# Use sorted() function, NOT scores.sort()
-sorted_scores = sorted(scores)
-print(sorted_scores)  # [80, 85, 90] (This is now a list)
-```
-
-## Tuple Nesting and Grouping
-
-Tuples are often used to group related information together. When you have a collection of these groups, you get a **tuple of tuples**.
-
-```python
-# A list of student records
-# Each record is (name, score, attendance_percent)
-students = (
-    ("Ali", 85, 95),
-    ("Sara", 92, 98),
-    ("Ahmad", 78, 80)
-)
-
-# Accessing nested data
-first_student = students[0]
-print(first_student)        # ("Ali", 85, 95)
-print(first_student[0])     # "Ali"
-
-# Or using unpacking in a loop (preferred)
-for name, score, attendance in students:
-    if attendance < 90:
-        print(f"Warning: {name} has low attendance")
-```
+Write a function `match_specialists(candidates_list, project_requirements)` that:
+1. Calculates global skill frequencies from the `candidates_list`.
+2. Identifies which candidates possess a superset of the project requirements.
+3. For those valid candidates, identifies their specific "Rare" skills (held by `< 3` people company-wide).
+4. Returns a **List of Tuples** where each tuple contains the specialist's name and their set of rare skills.
 
 ---
 
-## Exercise 3: Network Hop Analyzer <Badge type="warning" text="Task" />
+## Set Operations
 
+The true power of Sets comes from mathematical operations. These let you compare large datasets instantly—without using a single `for` loop.
+
+Navigate to `/labs/lab05/` and open `set_math.py`. This script mimics a marketing analyst comparing user engagement between the **Homepage** and the **Checkout** page.
+
+```python
+# Visitors to different sections
+homepage_visitors = {"user_1", "user_2", "user_3", "user_4"}
+checkout_visitors = {"user_3", "user_4", "user_5", "user_6"}
+
+# 1. Intersection (&): Who visited BOTH? (Loyal Users)
+loyal = homepage_visitors & checkout_visitors
+print(f"Loyal Users: {loyal}")
+
+# 2. Difference (-): Who visited the homepage but NEVER reached checkout? (Lost Sales)
+lost_sales = homepage_visitors - checkout_visitors
+print(f"Lost Conversions: {lost_sales}")
+
+# 3. Symmetric Difference (^): Who visited only ONE page (either home or checkout, but not both)?
+one_pagers = homepage_visitors ^ checkout_visitors
+print(f"Single Page Visitors: {one_pagers}")
+
+# 4. Union (|): What is our total unique audience across both pages?
+total_audience = homepage_visitors | checkout_visitors
+print(f"Total Unique Reach: {total_audience}")
+```
+
+### Analysis of Operations
+Observe how Python calculates these relationships:
+- **Intersection (`&`)**: Identifies items present in BOTH sets.
+- **Difference (`-`)**: Identifies items in the first set but NOT the second.
+- **Symmetric Difference (`^`)**: Identifies items in either set, but NOT BOTH.
+- **Union (`|`)**: Combines ALL unique items from both sets.
+
+---
+
+## Exercise 3: Blocklist Redundancy Auditor <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab05/exercise3/exercise3.py`.
 
-**Background:**
-
-When you visit a website, your data doesn't go directly to the server. It passes through multiple **routers** along the way. Each router is called a **"hop"**.
-
-A **traceroute** tool measures the time (in milliseconds) it takes for data to reach each hop. Network engineers use this to find slow points in the network.
-
-**Data Format:**
-
-Traceroute results are stored as a **tuple of tuples**. Each inner tuple represents one hop:
-```
-(hop_number, latency_in_ms)
-```
-
-For example: `(3, 45)` means "hop number 3 took 45 milliseconds"
-
-**What is a Bottleneck?**
-
-A **bottleneck** is where the network suddenly slows down. We detect it by finding the **largest jump in latency** between two consecutive hops.
-
 **Situation:**
+A network administrator is merging three security blocklists (A, B, and C). To optimize the firewall, you need to categorize URLs based on their presence across these lists.
 
-Given a traceroute result, find the index of the hop where the bottleneck **begins** (the starting point of the largest jump).
+**Example Scenario:**
+- **List A:** `{"malware.exe", "virus.zip"}`
+- **List B:** `{"virus.zip", "adware.dmg"}`
+- **List C:** `{"virus.zip", "spyware.exe"}`
 
-**Example:**
-```
-Traceroute: ((1, 5), (2, 8), (3, 45), (4, 48), (5, 50))
-             idx 0    idx 1   idx 2    idx 3    idx 4
-
-Calculate jumps between consecutive hops:
-- From (1, 5) to (2, 8):   |8 - 5| = 3ms
-- From (2, 8) to (3, 45):  |45 - 8| = 37ms  ← LARGEST
-- From (3, 45) to (4, 48): |48 - 45| = 3ms
-- From (4, 48) to (5, 50): |50 - 48| = 2ms
-
-The largest jump (37ms) starts at hop (2, 8)
-(2, 8) is at index 1 in the traceroute
-
-→ Return 1
-```
+**Analysis Logic:**
+1.  **Universal Set**: Calculate the intersection of all three lists. Result: `{"virus.zip"}`.
+2.  **Redundant Set**: Identify URLs present in at least two lists (A and B, B and C, or A and C). Result: `{"virus.zip"}`.
+3.  **Unique A Set**: Subtract lists B and C from list A. Result: `{"malware.exe"}`.
+4.  **Final Result:** `({"virus.zip"}, {"virus.zip"}, {"malware.exe"})`
 
 **Task:**
-
-Write a function that:
-1. Iterates through the traceroute to calculate absolute latency jumps between consecutive hops.
-2. Identifies the record where the largest jump begins.
-3. Returns the index of the detected record.
-
+Write a function `audit_blocklists(list_a, list_b, list_c)` that returns a **tuple** containing three sets in this exact order: 
+1. The **Universal** set (URLs present in all three lists).
+2. The **Redundant** set (URLs present in at least two lists).
+3. The **Unique A** set (URLs present in only List A).
 
 ---
 
-## Lists vs. Tuples: A Quick Summary
-
-| Feature | List `[]` | Tuple `()` |
-| :--- | :--- | :--- |
-| **Mutable?** | Yes (can `.append`, `.remove`) | No (read-only) |
-| **Speed** | Slightly slower | Slightly faster |
-| **Typical Use** | Collection of similar items | Group of related data (like x, y) |
-| **Safety** | Can be changed by mistake | Protected from changes |
-
----
-
-
-## List Review: Building Lists with append()
-
-Unlike tuples, lists can grow dynamically. The `.append()` method adds an element to the end of a list.
-
-```python
-passing_scores = []
-
-all_scores = [45, 82, 67, 91, 55, 78, 88]
-
-for score in all_scores:
-    if score >= 60:
-        passing_scores.append(score)
-
-print(passing_scores)  # [82, 67, 91, 78, 88]
-```
-
-This pattern is extremely common:
-1. Start with an empty list
-2. Loop through data
-3. If condition is met, append to the list
-
-
-
-## Exercise 4: Query Performance Filter <Badge type="warning" text="Task" />
+## Exercise 4: Database Reconciliation Bridge <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab05/exercise4/exercise4.py`.
 
-**Background:**
-
-Database administrators monitor how long queries take to execute. Sometimes a query runs unusually slow due to temporary issues (server busy, waiting for locks, etc.). These slow queries are called **outliers** and should be removed before analyzing typical performance.
-
-**What is an Outlier?**
-
-A slow outlier is any query time that exceeds `mean + standard deviation`.
-
-**Standard Deviation Formulas:**
-```
-mean = sum of all values / count
-
-variance = sum of (each value - mean)² / count
-
-std_dev = √variance
-```
-
 **Situation:**
+During a database migration, you must reconcile `Legacy` records against a `Modern` system. The legacy data is a list of `(id, email)` tuples. You must also sanitize the data by removing any records belonging to a legal `blacklist`.
 
-Given a list of query execution times (in milliseconds), remove all slow outliers and return the remaining times sorted from fastest to slowest.
+**Example Scenario:**
+- **Legacy:** `[(101, "ali@mail.com"), (102, "sara@mail.com")]`
+- **Modern IDs:** `{101, 105}`
+- **Blacklist:** `{"sara@mail.com"}`
 
-**Example:**
-```
-Query times: [45, 52, 48, 180, 51, 47, 50, 12]
-
-Mean = 60.625
-Std Dev ≈ 46.75
-Upper limit = 60.625 + 46.75 = 107.375
-
-180 > 107.375 → REMOVE
-
-Sorted result: [12, 45, 47, 48, 50, 51, 52]
-```
+**Analysis Logic:**
+1.  **Sanitization**: Loop through the legacy records. The record with the email `sara@mail.com` is blacklisted and removed. Only the ID `101` remains valid from Legacy.
+2.  **Identify Lost IDs**: Compare the valid Legacy ID (`101`) to the Modern Set (`101, 105`). Since `101` is already in the modern system, no IDs are "lost".
+3.  **Identify Ghost IDs**: Check if IDs exist in the Modern system that were never in the sanitized Legacy list. ID `105` is found in Modern but not in Legacy.
+4.  **Final Result:** `(set(), {105})`
 
 **Task:**
-
-Write a function that:
-1. Calculates the **mean** (average) of all query times.
-2. Calculates the **standard deviation** using the provided formula.
-3. Use a safe removal pattern to **remove** all times that exceed `mean + std_dev`.
-4. Returns the cleaned list **sorted** from fastest to slowest.
-
+Write a function `synchronize_databases(legacy_list, modern_set, blacklist)` that:
+1. Loops through the legacy list to create a set of IDs, excluding any record in the `blacklist`.
+2. Identifies IDs present in the sanitized legacy set but missing from the modern system.
+3. Identifies IDs present in the modern system but missing from the sanitized legacy set.
+4. Returns a tuple: `(lost_set, ghost_set)`.
 
 ---
 
-## List Review: Safe Removal in Loops
-
-Removing elements while iterating is dangerous. The list shifts, causing elements to be skipped.
-
-**The Wrong Way:**
-```python
-words = ["hi", "go", "apple", "me", "cat", "banana"]
-
-for word in words:
-    if len(word) < 3:
-        words.remove(word)
-
-print(words)  # ["go", "apple", "cat", "banana"] — "go" was skipped!
-```
-
-**The Safe Way — iterate over a copy:**
-```python
-words = ["hi", "go", "apple", "me", "cat", "banana"]
-
-for word in words[:]:  # [:] creates a copy
-    if len(word) < 3:
-        words.remove(word)
-
-print(words)  # ["apple", "cat", "banana"] — Correct!
-```
-
-Alternatively, build a new list with items you want to **keep**:
-```python
-words = ["hi", "go", "apple", "me", "cat", "banana"]
-result = []
-
-for word in words:
-    if len(word) >= 3:
-        result.append(word)
-
-print(result)  # ["apple", "cat", "banana"]
-```
-
-## Exercise 5: Session Cleaner <Badge type="warning" text="Task" />
+## Exercise 5: Zero-Trust Access Auditor <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab05/exercise5/exercise5.py`.
 
-**Background:**
-
-A **load balancer** distributes network traffic across multiple servers. It maintains:
-- A **server pool**: The complete registry of all server IDs (both active and inactive). This is fixed infrastructure that does not change during runtime.
-- **Active sessions**: Current connections between clients and servers.
-
-When a server fails its **health check**, all sessions connected to that server must be removed.
-
 **Situation:**
+A "Zero-Trust" security system works on the principle: "Never trust, always verify." You are given a **Baseline set**—a master list of authorized `(user_id, ip_address)` pairs that are officially permitted. You must compare this against a list of **Current Logs** to detect unauthorized access.
 
-A load balancer stores:
-- **Server pool** as a tuple: All registered server IDs (e.g., `("srv-A", "srv-B", "srv-C", "srv-D")`)
-- **Active sessions** as a list of tuples: Each session is `(server_id, client_id)`
-- **Dead servers** as a list: Server IDs that failed health check
+**Example Scenario:**
+- **Baseline:** `{( "u1", "192.168.1.1" ), ( "u2", "192.168.1.5" )}`
+- **Current Logs:** `[( "u1", "192.168.1.1" ), ( "u3", "10.0.0.99" )]`
 
-The system must:
-1. Verify each dead server exists in the server pool (skip if not registered)
-2. Remove ALL sessions connected to dead servers
-3. Sort remaining sessions alphabetically
-
-**Example:**
-```
-Server pool: ("srv-A", "srv-B", "srv-C", "srv-D")
-
-Active sessions: 
-  [("srv-B", "cli-1"), ("srv-A", "cli-2"), ("srv-C", "cli-3"), 
-   ("srv-B", "cli-4"), ("srv-D", "cli-5")]
-
-Dead servers: ["srv-B", "srv-D"]
-
-Step 1 - Verify dead servers in pool:
-  - "srv-B" exists in pool ✓
-  - "srv-D" exists in pool ✓
-
-Step 2 - Identify sessions to remove:
-  - ("srv-B", "cli-1") → REMOVE
-  - ("srv-A", "cli-2") → KEEP
-  - ("srv-C", "cli-3") → KEEP
-  - ("srv-B", "cli-4") → REMOVE
-  - ("srv-D", "cli-5") → REMOVE
-
-Step 3 - Sort remaining:
-→ [("srv-A", "cli-2"), ("srv-C", "cli-3")]
-```
-
-**Example 2 (unregistered dead server):**
-```
-Server pool: ("srv-A", "srv-B")
-Active sessions: [("srv-A", "cli-1"), ("srv-B", "cli-2")]
-Dead servers: ["srv-B", "srv-X"]
-
-"srv-X" is NOT in pool → skip it
-Only remove sessions for "srv-B"
-
-→ [("srv-A", "cli-1")]
-```
+**Analysis Logic:**
+1.  **Find Authorized (Intersection)**: Compare the authorized baseline against the logs. The tuple `( "u1", "192.168.1.1" )` is confirmed.
+2.  **Find Alerts (In Logs but not Baseline)**: Identify log entries that were never authorized in the baseline. The login from `u3` at `10.0.0.99` creates an alert.
+3.  **Find Inactive (In Baseline but not Logs)**: Identify authorized users who did not log in during this session. User `u2` at `192.168.1.5` is inactive.
+4.  **Final Result:** `({("u1", "192.168.1.1")}, {("u3", "10.0.0.99")}, {("u2", "192.168.1.5")})`
 
 **Task:**
-
-Write a function that:
-1. Validates the `dead_servers` list by checking if each server exists in the `server_pool`.
-2. Identifies all sessions in `active_sessions` connected to those validated dead servers.
-3. **Removes** those sessions from the list.
-4. Returns the remaining list **sorted** alphabetically by server ID.
-
+Write a function `audit_zero_trust(baseline_set, current_log_list)` that:
+1. Converts the current log list into a set of `(user, ip)` tuples.
+2. Identifies authorized logins present in both sets.
+3. Identifies alert logins present in the current logs but missing from the baseline.
+4. Identifies inactive authorized pairs present in the baseline but missing from the current logs.
+5. Returns a **tuple** of three sets: `(authorized, alerts, inactive)`.
 
 ---
 
-## Exercise 6: API Response Time Monitor <Badge type="warning" text="Task" />
+## Exercise 6: Class Roster Manager <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab05/exercise6/exercise6.py`.
 
-**Background:**
-
-Modern web applications consist of multiple **microservices** that communicate through APIs (Application Programming Interfaces). Each API call is logged with:
-- **Endpoint**: The API route being called (e.g., `/login`, `/data`)
-- **Response time**: How long the request took (in milliseconds)
-- **Status code**: HTTP status (200 = success, 500 = error, etc.)
-
-DevOps teams monitor these logs to identify slow endpoints that need optimization.
-
-**Data Format:**
-
-API calls are stored as a **list of tuples**:
-```
-(endpoint, response_time_ms, status_code)
-```
-
-For example: `("/login", 45, 200)` means the `/login` endpoint took 45ms and returned success.
-
 **Situation:**
 
-Your monitoring system needs to identify slow endpoints. However, you should only consider **successful requests** (status code 200) because errors naturally take different amounts of time.
-
-An endpoint is considered "slow" if its **average response time** for successful calls exceeds a given threshold. Additionally, an endpoint must have **at least 2 successful calls** to be evaluated (single calls are not statistically significant).
+A teacher manages a class roster with a maximum capacity of 7 students. Students drop throughout the week. If the class falls below 5 students, random students from the waitlist are added until the class reaches exactly 7 students (or runs out of waitlist).
 
 **Example:**
 ```
-Input:
-api_calls = [("/login", 45, 200), ("/login", 120, 200), ("/data", 80, 200),
-             ("/login", 50, 500), ("/data", 95, 200), ("/search", 30, 200),
-             ("/health", 150, 200)]
-threshold = 70
+enrolled = {"Alice", "Bob", "Charlie", "Diana", "Eva", "Frank", "George"}
+drop_requests = ["Alice", "Charlie", "Diana", "Eva"]
+waitlist = {"Henry", "Iris", "Jack"}
 
-Output:
-["/data", "/login"]
+Processing drops:
+- Alice drops → Removed
+- Charlie drops → Removed  
+- Diana drops → Removed
+- Eva drops → Removed
 
-Explanation:
-- Only status 200 calls are considered
-- /login has 2 successful calls, average exceeds 70ms → included
-- /data has 2 successful calls, average exceeds 70ms → included
-- /search has 1 successful call → excluded (need at least 2)
-- /health has 1 successful call → excluded (need at least 2)
-- Results sorted alphabetically
+After drops: {"Bob", "Frank", "George"} (3 students)
+
+Check minimum: 3 < 5 → Need to add from waitlist
+Target: 7 students (class limit)
+Need to add: 7 - 3 = 4 students
+Waitlist has: 3 students (Henry, Iris, Jack)
+Randomly add all 3 from waitlist → {"Bob", "Frank", "George", "Henry", "Iris", "Jack"}
+
+Final: 6 students (couldn't reach 7, ran out of waitlist)
+Result: 6
 ```
 
 **Task:**
 
-Write a function `find_slow_endpoints(api_calls, threshold)` that returns a sorted list of endpoint names meeting the criteria.
+Write `manage_roster(enrolled, drop_requests, waitlist)` that processes all drop requests, adds from waitlist if fewer than 5 students remain (using `.pop()` until class reaches 7 or waitlist is empty), and returns the count of final enrolled students.
 
 ---
 
-## Exercise 7: Firewall Rule Conflict Detector <Badge type="warning" text="Task" />
+## Exercise 7: Playlist Manager <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab05/exercise7/exercise7.py`.
 
-**Background:**
-
-A **firewall** controls network traffic by applying rules to ports. Each rule specifies:
-- **Rule ID**: Unique identifier for the rule
-- **Port**: Network port number (e.g., 80 for HTTP, 443 for HTTPS)
-- **Action**: Either "ALLOW" (permit traffic) or "BLOCK" (deny traffic)
-
-When multiple rules target the same port, the **first rule** in the list takes precedence. This means later rules are ignored.
-
-**What is a Conflict?**
-
-A **conflict** occurs when the same port has both "ALLOW" and "BLOCK" rules. This indicates:
-- Redundant configuration (wasted resources)
-- Potential security misconfiguration
-- Rules that will never execute (dead rules)
-
-**Data Format:**
-
-Firewall rules are stored as a **list of tuples**:
-```
-(rule_id, port, action)
-```
-
-For example: `(1, 80, "ALLOW")` means rule #1 allows traffic on port 80.
-
 **Situation:**
 
-A network administrator needs to audit the firewall configuration and identify all ports that have conflicting rules (both ALLOW and BLOCK actions). Additionally, return the **rule ID of the first conflicting rule** for each port (the rule that comes second and creates the conflict).
+A music app manages a playlist. Users add songs one by one from a list, import an entire playlist from Spotify, and remove banned songs. If the playlist gets too long (more than 6 songs), songs are randomly removed until there are exactly 6.
 
-**Example 1:**
+**Example:**
 ```
-Input:
-rules = [(1, 80, "ALLOW"), (2, 443, "ALLOW"), (3, 80, "BLOCK"),
-         (4, 22, "BLOCK"), (5, 443, "BLOCK"), (6, 8080, "ALLOW")]
+current_playlist = {"Song_A", "Song_B", "Song_C"}
+add_songs = ["Song_D", "Song_E", "Song_F"]
+import_playlist = {"Song_G", "Song_H", "Song_I"}
+banned_songs = {"Song_B", "Song_E", "Song_H"}
 
-Output:
-[(80, 3), (443, 5)]
+Step 1 - Add songs individually:
+- Song_D added → {"Song_A", "Song_B", "Song_C", "Song_D"}
+- Song_E added → {"Song_A", "Song_B", "Song_C", "Song_D", "Song_E"}
+- Song_F added → {"Song_A", "Song_B", "Song_C", "Song_D", "Song_E", "Song_F"}
 
-Explanation:
-- Port 80: First rule is 1 (ALLOW), conflict created by rule 3 (BLOCK)
-- Port 443: First rule is 2 (ALLOW), conflict created by rule 5 (BLOCK)
-- Port 22: Only BLOCK, no conflict
-- Port 8080: Only ALLOW, no conflict
-- Results sorted by port number
-```
+Step 2 - Import entire Spotify playlist:
+→ {"Song_A", "Song_B", "Song_C", "Song_D", "Song_E", "Song_F", "Song_G", "Song_H", "Song_I"} (9 songs)
 
-**Example 2:**
-```
-Input:
-rules = [(1, 80, "ALLOW"), (2, 80, "ALLOW"), (3, 443, "BLOCK")]
+Step 3 - Remove all banned songs at once:
+→ {"Song_A", "Song_C", "Song_D", "Song_F", "Song_G", "Song_I"} (6 songs)
 
-Output:
-[]
+Step 4 - Check if playlist too long:
+- Current: 6 songs, max: 6 → No random removal needed
 
-Explanation:
-- Port 80 has only ALLOW (no conflict)
-- Port 443 has only BLOCK (no conflict)
+Result: 6
 ```
 
 **Task:**
 
-Write a function `find_conflicting_ports(rules)` that returns a sorted list of tuples `(port, conflicting_rule_id)` where each tuple represents a port with a conflict and the ID of the rule that created the conflict.
+Write `manage_playlist(current_playlist, add_songs, import_playlist, banned_songs)` that:
+- Loops through add_songs and adds each song individually
+- Adds all songs from import_playlist in one operation
+- Removes all banned_songs in one operation
+- While playlist size > 6, randomly removes songs one at a time
+- Returns the count of final songs
 
 ---
 
+## Exercise 8: Score Analyzer <Badge type="warning" text="Bug Hunt" />
 
+Navigate to `/labs/lab05/exercise8/exercise8.py`.
+
+**Situation:**
+
+A high school teacher uses an automated grading system. After each exam, the system receives student performance data as a list of tuples: `(student_id, score)`. The teacher needs a quick statistical summary to understand class performance and identify high performers.
+
+The system should calculate:
+1. **Highest score** - The best performance in the class
+2. **Average score** - The class mean to gauge overall performance  
+3. **Above average count** - How many students exceeded the class average (for recognition)
+
+**Example Scenario:**
+```
+Test results received:
+("S1", 85) → Student S1 scored 85
+("S2", 90) → Student S2 scored 90
+("S3", 75) → Student S3 scored 75
+("S4", 95) → Student S4 scored 95
+("S5", 80) → Student S5 scored 80
+
+Analysis:
+- Highest score: 95 (Student S4)
+- Class average: (85+90+75+95+80)/5 = 85.0
+- Students above average (>85): S2(90), S4(95) = 2 students
+
+Expected output: (95, 85.0, 2)
+```
+
+**The Problem:**
+
+The `analyze_scores()` function has **3 bugs** that produce incorrect results. The function fails the automated tests and produces wrong statistics.
+
+**Task:**
+
+1. **Run the code** and observe the incorrect output or error
+2. **Use the debugger** to step through the function line by line
+3. **Identify all 3 bugs** by examining variable values at each step
+4. **Fix the bugs** so all tests pass
+
+---
+
+## Exercise 9: Course Enrollment Checker <Badge type="warning" text="Bug Hunt" />
+
+Navigate to `/labs/lab05/exercise9/exercise9.py`.
+
+**Situation:**
+
+A university's academic advising office needs to verify graduation eligibility. Each degree program has a set of **required courses** that ALL students must complete. The system receives enrollment records as a list of tuples: `(student_id, completed_courses_set)` where each student's completed courses are stored as a set.
+
+The advisor needs to identify which students have completed **all required courses** for their program (students may have taken additional elective courses beyond the requirements).
+
+**Example Scenario:**
+```
+Computer Science degree requires: {"Math", "Physics", "CS"}
+
+Enrollment records:
+("S1", {"Math", "Physics", "CS"}) 
+  → Has Math ✓, Physics ✓, CS ✓
+  → Completed all requirements → QUALIFIED
+
+("S2", {"Math", "Physics"})
+  → Has Math ✓, Physics ✓, but missing CS ✗
+  → Incomplete requirements → NOT QUALIFIED
+
+("S3", {"Math", "Physics", "CS", "English"})
+  → Has Math ✓, Physics ✓, CS ✓ (plus extra: English)
+  → Completed all requirements → QUALIFIED
+
+Expected output: ["S1", "S3"] (sorted alphabetically)
+```
+
+**The Problem:**
+
+The `find_qualified_students()` function has **3 bugs** related to set operations. The function returns an empty list when it should find qualified students, and the output isn't sorted.
+
+**Task:**
+
+1. **Run the code** and observe it returns wrong results (likely empty list)
+2. **Use the debugger** to step through the set operations
+3. **Identify all 3 bugs** by examining the set values
+4. **Fix the bugs** so all tests pass
+
+---
+
+## Exercise 10: Event Attendance Tracker <Badge type="tip" text="Refactoring" />
+
+Navigate to `/labs/lab05/exercise10/exercise10.py`.
+
+**Situation:**
+
+A conference organizer tracks attendance using a simple logging system. Each time someone checks into an event, their ID and the event name are recorded as a tuple: `(attendee_id, event_name)`. The organizer wants to identify "power attendees" - people who attended multiple different events - for special recognition.
+
+A previous programmer created a working function to solve this, but the code is messy and hard to maintain. Your task is to **refactor** it into clean, modular helper functions.
+
+**The Messy Code (Reference Only - DO NOT COPY):**
+
+```python
+def find_frequent_attendees(attendance_logs, min_events):
+    """Find attendees who attended at least min_events unique events."""
+    all_attendees = []
+    for attendee_id, event_name in attendance_logs:
+        if attendee_id not in all_attendees:
+            all_attendees.append(attendee_id)
+    
+    qualified = []
+    for attendee_id in all_attendees:
+        events_attended = []
+        for att_id, event_name in attendance_logs:
+            if att_id == attendee_id and event_name not in events_attended:
+                events_attended.append(event_name)
+        
+        if len(events_attended) >= min_events:
+            qualified.append(attendee_id)
+    
+    return sorted(qualified)
+```
+
+**Example:**
+```
+attendance_logs = [
+    ("A1", "Workshop_Python"),
+    ("A1", "Workshop_Data"),
+    ("A2", "Workshop_Python"),
+    ("A1", "Workshop_Python"),  # duplicate
+    ("A3", "Workshop_Data"),
+    ("A2", "Workshop_Data"),
+    ("A2", "Workshop_Web")
+]
+
+find_frequent_attendees(attendance_logs, 2)
+→ ["A1", "A2"]
+
+A1: attended 2 unique events (Python, Data) ✓
+A2: attended 3 unique events (Python, Data, Web) ✓
+A3: attended 1 event (Data) ✗
+```
+
+**Task:**
+
+Refactor the messy code into 4 clean functions:
+1. `get_unique_attendees()` - Extract all unique attendee IDs (use set!)
+2. `count_unique_events()` - Count unique events for one attendee (use set!)
+3. `filter_by_threshold()` - Filter and sort qualified attendees
+4. `find_frequent_attendees()` - Main function orchestrating the above helpers
+
+**Hint:** Replace lists with **sets** where appropriate for better performance and cleaner code.
+
+---
+
+## Exercise 11: Course Completion Tracker <Badge type="tip" text="Refactoring" />
+
+Navigate to `/labs/lab05/exercise11/exercise11.py`.
+
+**Situation:**
+
+A university's academic department needs to track which students are at risk of not graduating due to incomplete course requirements. The system receives enrollment records as tuples: `(student_id, course_name)` each time a student completes a course. The department has a set of required courses that ALL students must complete.
+
+The current function works but is messy and inefficient. Your task is to **refactor** it into clean, modular functions.
+
+**The Messy Code (Reference Only - DO NOT COPY):**
+
+```python
+def find_incomplete_students(enrollments, required_courses):
+    """Find students who haven't completed all required courses."""
+    all_students = []
+    for student_id, course in enrollments:
+        if student_id not in all_students:
+            all_students.append(student_id)
+    
+    incomplete = []
+    for student in all_students:
+        completed = []
+        for sid, course in enrollments:
+            if sid == student and course not in completed:
+                completed.append(course)
+        
+        missing = []
+        for required in required_courses:
+            if required not in completed:
+                missing.append(required)
+        
+        if len(missing) > 0:
+            incomplete.append((len(missing), student))
+    
+    return sorted(incomplete, reverse=True)
+```
+
+**Example:**
+```
+enrollments = [
+    ("S1", "Math"),
+    ("S1", "Physics"),
+    ("S1", "CS"),
+    ("S2", "Math"),
+    ("S3", "Math"),
+    ("S3", "CS")
+]
+required = {"Math", "Physics", "CS"}
+
+find_incomplete_students(enrollments, required)
+→ [(2, "S2"), (1, "S3")]
+
+S1: completed all 3 → 0 missing
+S2: missing {Physics, CS} → 2 missing ✓
+S3: missing {Physics} → 1 missing ✓
+```
+
+**Task:**
+
+Refactor the messy code into 4 clean functions:
+1. `get_student_courses()` - Get set of courses for one student
+2. `find_missing_courses()` - Find missing courses using set difference
+3. `build_student_report()` - Build and sort the report
+4. `find_incomplete_students()` - Main function orchestrating the above helpers
+
+**Hint:** Use **set difference** (`-`) to find missing courses efficiently.
+
+---
 
 ## Commit and Push Your Work
 
-
 After completing all exercises, save all your files and commit them to your repository.
 
-Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 5: Tuples", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
+Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 5: Sets & Hashing", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.

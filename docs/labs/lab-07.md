@@ -1,13 +1,13 @@
 ---
 outline: deep
-title: Lab 7 - Dictionaries
+title: Lab 7 - Files
 ---
 
-# Lab 07: Dictionaries
+# Lab 07: Files
 
 ## Pull and Update in VS Code
 
-Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. [Sync the repo](./lab-01.md#syncing-fork) if the `upstream` repo have been updated.
+Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. Sync the repo if the `upstream` repo have been updated.
 
 Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
 
@@ -15,434 +15,672 @@ Once the online repo is in-sync, bring those changes down to your PC by clicking
     <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
 </p>
 
-## Introduction
+## Why Do We Need Files?
 
-In this lab, we will explore **Dictionaries** in Python — a data structure that stores values under descriptive **Keys** instead of numeric indices.
+Launch **VS Code** and open the `sandbox.py` file in `/labs/lab07/`. We'll discover why storing data only in memory creates a fundamental problem.
 
-### The Problem with Position
+### The Problem: Data Doesn't Persist
 
-You are building a student record. You decide to use a list:
-
-```python
-student = ["Ali", 20, "Computer Science", "A"]
-
-print(student[2])  # What is index 2?
-```
-
-You have to *remember* what each position holds. If someone inserts a new field at position 0, everything shifts. Your code silently breaks.
-
-### The Solution: Named Access
-
-A dictionary maps each value to a **descriptive key**. You look up by *name*, not by position.
-
-Navigate to `/labs/lab07/` and open `sandbox.py`. Type and run this:
+Imagine you're building a student grade tracker. Copy this code into your `sandbox.py`:
 
 ```python
-student = {
-    "name": "Ali",
-    "age": 20,
-    "course": "Computer Science",
-    "grade": "A"
-}
+scores = []
+scores.append(85)
+scores.append(92)
+scores.append(78)
 
-print(student["course"])  # Computer Science — no guessing
+print("Scores:", scores)
 ```
 
-Now try adding a new field. Nothing else breaks.
+Run this code. It works perfectly. But what happens when the program ends?
 
----
-
-## How Dictionaries Work: Hashing
-
-Dictionaries are fast because of **Hashing**. When you add a key, Python calculates a number from it (the hash) and stores the value at that "address". Lookup is instant — Python goes directly to the address without scanning anything.
-
-### Speed Test
-
-Open `speed_test.py` and run it. Compare searching in a list vs. a dictionary:
+**Try this:** Run the program again. What do you see?
 
 ```python
-import time
-
-data_list = list(range(1_000_000))
-data_dict = {i: True for i in range(1_000_000)}
-target = 999_999
-
-start = time.time()
-target in data_list
-print(f"List: {time.time() - start:.5f}s")
-
-start = time.time()
-target in data_dict
-print(f"Dict: {time.time() - start:.5f}s")
+# Second run starts here
+print(scores)  # NameError: scores is not defined
 ```
 
-The dictionary is near-instant. The list has to check every element one by one.
-
-### Why Keys Must Be Immutable
-
-For hashing to work, the key must be **stable** — it cannot change after being added. This is why Python **only allows immutable types** as keys.
-
-Open `crash_test.py` and run it:
-
-```python
-# WRONG — list as key
-config = {
-    [192, 168, 1, 1]: "Router"   # TypeError!
-}
-```
-
-> `TypeError: unhashable type: 'list'`
-
-To use a sequence as a key, use a **tuple**:
-
-```python
-# CORRECT — tuple as key
-config = {
-    (192, 168, 1, 1): "Router"
-}
-```
-
----
-
-## CRUD: Creating and Reading
-
-Dictionaries support three ways to create:
-
-```python
-# Method 1: Literal
-menu = {"coffee": 5.00, "tea": 3.50}
-
-# Method 2: Empty and add
-menu = {}
-menu["coffee"] = 5.00
-
-# Method 3: dict() constructor
-menu = dict(coffee=5.00, tea=3.50)
-```
-
-### The KeyError Trap
-
-Accessing a key that doesn't exist crashes your program:
-
-```python
-menu = {"coffee": 5.00}
-
-print(menu["juice"])   # KeyError: 'juice'
-```
+Every time the program runs, it starts from scratch. All data in memory is erased when the program terminates.
 
 ::: warning PROBLEM
-Unguarded access with `[]` will crash if the key is missing.
+Data stored in variables exists only while the program runs. Once it stops, everything is lost. There's no way to save your work between sessions.
 :::
 
-### Safe Access with .get()
+### The Solution: Files
+
+Files store data on disk. Data persists after the program ends.
+
+Copy this code into your `sandbox.py`:
 
 ```python
-price = menu.get("juice", 0.00)   # Returns 0.00 if not found — no crash
+# Write scores to a file
+f = open("data/scores.txt", "w")
+f.write("85\n")
+f.write("92\n")
+f.write("78\n")
+f.close()
+
+print("Scores saved to file!")
+```
+
+Run this code. Now check the `data/` folder. You'll see `scores.txt` with your data inside.
+
+**The magic:** Close the program. Run it again. The file still exists. Your data survived!
+
+Now read it back:
+
+```python
+# Read scores from the file
+f = open("data/scores.txt", "r")
+data = f.read()
+print(data)
+f.close()
+```
+
+**Output:**
+```
+85
+92
+78
+```
+
+The data persists. Files are permanent storage.
+
+---
+
+## The 4-Step File Workflow
+
+Every file operation follows the same pattern:
+
+```
+1. OPEN   →   2. READ or WRITE   →   3. PROCESS   →   4. CLOSE
+```
+
+Let's break down each step.
+
+### Step 1: Open
+
+Open `demo_read.py` and type:
+
+```python
+f = open("data/demofile.txt", "r")
+```
+
+**Breaking it down:**
+- `open()` - Built-in function to access a file
+- `"data/demofile.txt"` - Path to the file (relative path from current folder)
+- `"r"` - Mode (read-only)
+
+**File Modes:**
+
+| Mode | Name | Action | File Must Exist? |
+|------|------|--------|------------------|
+| `r` | Read | Read only | Yes (error if missing) |
+| `w` | Write | Write only | No (creates or **overwrites**) |
+| `a` | Append | Write to end | No (creates or appends) |
+
+::: danger PRINCIPLE: Choose the Right Mode
+`"w"` mode **destroys** existing content! Use `"a"` when you want to preserve and add to files. Always think about whether you need to replace (`"w"`) or add to (`"a"`) existing data.
+:::
+
+::: warning PRINCIPLE: Validate File Existence
+If you try to open a file in `"r"` mode that doesn't exist, Python will crash with `FileNotFoundError`. Before reading a file, make sure it exists—or create it first using `"w"` mode.
+
+**Example:**
+```python
+# Create the file first
+f = open("data/scores.txt", "w")
+f.write("85\n")
+f.close()
+
+# Now safe to read
+f = open("data/scores.txt", "r")
+data = f.read()
+f.close()
+```
+:::
+
+### Step 2a: Read
+
+There are three ways to read a file:
+
+```python
+f = open("data/demofile.txt", "r")
+
+# Method 1: Read entire file as one string
+content = f.read()
+print(content)
+print(type(content))  # <class 'str'>
+
+f.close()
+```
+
+**Output:**
+```
+Hello! Welcome to demofile.txt
+This file is for testing purposes.
+Good Luck!
+<class 'str'>
+```
+
+**Method 2: Read one line at a time:**
+
+```python
+f = open("data/demofile.txt", "r")
+line1 = f.readline()
+line2 = f.readline()
+print(line1)
+print(line2)
+f.close()
+```
+
+Each call to `readline()` advances to the next line.
+
+**Method 3: Read all lines into a list:**
+
+```python
+f = open("data/demofile.txt", "r")
+lines = f.readlines()
+print(lines)
+f.close()
+```
+
+**Output:**
+```
+['Hello! Welcome to demofile.txt\n', 'This file is for testing purposes.\n', 'Good Luck!\n']
+```
+
+Each element is one line, with `\n` included.
+
+### Step 2b: Write
+
+Open `demo_write.py` and type:
+
+```python
+f = open("data/output.txt", "w")
+f.write("Ali: 85\n")
+f.write("Sara: 92\n")
+f.write("Ahmad: 78\n")
+f.close()
+
+print("Data written to data/output.txt")
+```
+
+Run this code. Check `data/output.txt`. The file now contains your data.
+
+::: warning PRINCIPLE: Include `\n` in Every Write
+**Always** include `\n` at the end of each write! Without it, lines merge together into one continuous string.
+
+**Wrong:**
+```python
+f.write("Ali: 85")
+f.write("Sara: 92")
+# Result: "Ali: 85Sara: 92" (merged!)
+```
+
+**Correct:**
+```python
+f.write("Ali: 85\n")
+f.write("Sara: 92\n")
+# Result: Two separate lines
+```
+:::
+
+### Step 3: Process
+
+Between reading and writing, you process the data using everything you've learned: lists, dictionaries, sets, functions.
+
+```python
+# Read
+f = open("data/scores.txt", "r")
+lines = f.readlines()
+f.close()
+
+# Process
+scores = []
+for line in lines:
+    score = int(line.strip())
+    scores.append(score)
+
+average = sum(scores) / len(scores)
+
+# Write
+f = open("data/report.txt", "w")
+f.write(f"Average: {average}\n")
+f.close()
+```
+
+::: tip PRINCIPLE: Use a Modular Approach
+Wrap file operations in functions to avoid repeating code throughout your program. This makes your code cleaner and easier to debug.
+
+**Instead of repeating this everywhere:**
+```python
+f = open("data/scores.txt", "r")
+lines = f.readlines()
+f.close()
+```
+
+**Write a function once:**
+```python
+def read_scores(filename):
+    f = open(filename, "r")
+    lines = f.readlines()
+    f.close()
+    return lines
+
+scores = read_scores("data/scores.txt")
+```
+:::
+
+### Step 4: Close
+
+**Always** call `f.close()` when you're done.
+
+::: danger PRINCIPLE: Always Close Files
+Every `open()` must have a matching `f.close()`. Unclosed files risk data loss.
+
+**Why closing matters:**
+- Releases the file from the program's control
+- Ensures all written data is saved (flushed) to disk
+- Prevents resource leaks
+- Allows other programs to access the file
+
+**Wrong:**
+```python
+f = open("data.txt", "w")
+f.write("hello\n")
+# File not closed — data may not be saved!
+```
+
+**Correct:**
+```python
+f = open("data.txt", "w")
+f.write("hello\n")
+f.close()  # ✅ Data guaranteed to be saved
+```
+:::
+
+---
+
+## Working with CSV Files
+
+CSV (Comma Separated Values) files store structured tabular data. Python requires the `csv` module to work with them properly.
+
+### CSV Structure
+
+```csv
+Name,Score,Grade
+Ali,85,A
+Sara,92,A+
+Ahmad,78,B
+```
+
+**Components:**
+- **Header** - First row describing columns
+- **Records** - Each row is one entry
+- **Fields** - Values separated by commas
+
+### Reading CSV Files
+
+Open `demo_csv.py` and type:
+
+```python
+import csv
+
+# Read CSV file
+f = open("data/students.csv", "r", newline="")
+reader = csv.reader(f)
+
+for row in reader:
+    print(row)
+
+f.close()
+```
+
+**Output:**
+```
+['Name', 'Score', 'Grade']
+['Ali', '85', 'A']
+['Sara', '92', 'A+']
+['Ahmad', '78', 'B']
+```
+
+Each row is a **list of strings**.
+
+::: tip PRINCIPLE: Use `newline=""` for CSV Files
+Always use `newline=""` when opening CSV files. This prevents extra blank lines from appearing between rows on some operating systems (especially Windows).
+
+**Wrong:**
+```python
+f = open("data.csv", "w")  # Missing newline=""
+writer = csv.writer(f)
+writer.writerow(["A", "B"])
+# May create extra blank lines!
+```
+
+**Correct:**
+```python
+f = open("data.csv", "w", newline="")  # ✅ Prevents blank lines
+writer = csv.writer(f)
+writer.writerow(["A", "B"])
+```
+:::
+
+**Saving CSV data to a list:**
+
+```python
+import csv
+
+f = open("data/students.csv", "r", newline="")
+reader = csv.reader(f)
+
+content = []
+for row in reader:
+    content.append(row)
+
+f.close()
+print(content)
+```
+
+### Writing CSV Files
+
+```python
+import csv
+
+f = open("data/output.csv", "w", newline="")
+writer = csv.writer(f)
+
+# Write header
+writer.writerow(["Name", "Score"])
+
+# Write data rows
+writer.writerow(["Ali", 85])
+writer.writerow(["Sara", 92])
+writer.writerow(["Ahmad", 78])
+
+f.close()
+```
+
+**Writing multiple rows at once:**
+
+```python
+import csv
+
+records = [
+    ["Name", "Score"],
+    ["Ali", 85],
+    ["Sara", 92],
+    ["Ahmad", 78]
+]
+
+f = open("data/output.csv", "w", newline="")
+writer = csv.writer(f)
+writer.writerows(records)
+f.close()
 ```
 
 ---
 
-## CRUD: Updating and Deleting
+## Common Mistakes
 
-Updating uses the same syntax as adding — if the key exists, it is overwritten; if not, it is added:
+Open `crash_test.py` to see common errors:
 
+**1. Reading a file that doesn't exist:**
 ```python
-menu["coffee"] = 6.00         # Update existing
-menu["latte"] = 7.50          # Add new
-
-# Batch update
-menu.update({"tea": 4.00, "juice": 3.00})
+f = open("data/missing.txt", "r")  # FileNotFoundError
 ```
 
-Deleting:
-
+**2. Wrong mode overwrites data:**
 ```python
-del menu["tea"]               # Remove (KeyError if missing)
-removed = menu.pop("latte")   # Remove and capture the value
-menu.clear()                  # Remove everything
+f = open("data/scores.txt", "w")  # Destroys existing content
+```
+
+**3. Missing `\n` when writing:**
+```python
+f.write("Ali")
+f.write("Sara")  # Result: "AliSara" (merged!)
+```
+
+**4. Missing `import csv` for CSV files:**
+```python
+reader = csv.reader(f)  # NameError: csv is not defined
+```
+
+**5. Missing `newline=""` for CSV:**
+```python
+f = open("data.csv", "w")  # Extra blank lines between rows
+```
+
+**6. Not closing the file:**
+```python
+f = open("data.txt", "w")
+f.write("hello\n")
+# File not closed — data may not be saved
 ```
 
 ---
 
-## Iterating Over a Dictionary
-
-```python
-for key in menu:                      # Keys only
-    print(key)
-
-for value in menu.values():           # Values only
-    print(value)
-
-for key, value in menu.items():       # Both at once
-    print(f"{key}: {value}")
-```
-
----
-
-## Exercise 1: Library Borrow System <Badge type="warning" text="Task" />
+## Exercise 1: Simple Score Filter <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab07/exercise1/exercise1.py`.
 
-**Background:**
+**Situation:**
 
-A library tracks available copies of each book using a catalog. Throughout the day, borrowers take books and return them — but not every action is valid.
+A teacher has a text file with student scores. You need to filter out only the students who passed (score >= 80) and write them to a new file.
 
 **Data Format:**
 
-- `catalog`: a dictionary `{isbn: copies_available}`
-- `actions`: a list of tuples `(action, isbn)` where action is `"BORROW"` or `"RETURN"`
-
-**Situation:**
-
-Process every action against the catalog:
-- `"BORROW"`: if the ISBN exists **and** copies > 0, decrement the count.
-- `"RETURN"`: if the ISBN exists, increment the count.
-- If the ISBN is not in the catalog, skip that action entirely.
-
-Return the updated catalog.
-
-**Example:**
+`data/scores.txt`:
 ```
-catalog = {
-    "978-A": 2,
-    "978-B": 0,
-    "978-C": 1,
-}
-actions = [
-    ("BORROW", "978-A"),
-    ("BORROW", "978-A"),
-    ("BORROW", "978-B"),   ← 0 copies, skip
-    ("RETURN", "978-B"),
-    ("BORROW", "978-Z"),   ← not in catalog, skip
-]
-
-→ {"978-A": 0, "978-B": 1, "978-C": 1}
+S001
+85
+S002
+92
+S003
+78
+S004
+88
+S005
+65
+S006
+91
 ```
 
 **Task:**
 
-Write a function `process_actions(catalog, actions)` that applies every valid action to the catalog and returns the updated dictionary.
+Your function `filter_passing_scores(input_file, output_file)` should:
+
+- Read the scores file where student IDs and scores are on alternating lines
+- Parse the data to match each student ID with their score
+- Find all students with score >= 80
+- Write passing students to output file (format: `student_id score` on same line)
+- Return the count of passing students
+
+**Expected Output Format (`lab07/exercise1/data/passing.txt`):**
+```
+S001 85
+S002 92
+S004 88
+S006 91
+```
+Each line contains the student ID, a space, then their score. Only students with score >= 80 are included.
 
 ---
 
-## Exercise 2: ATM Withdrawal System <Badge type="warning" text="Task" />
+## Exercise 2: Text File Merger <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab07/exercise2/exercise2.py`.
 
-**Background:**
+**Situation:**
 
-An ATM maintains a ledger mapping each card number to an account balance. When a customer makes a withdrawal, the system must handle three possible outcomes without crashing regardless of input.
+You have two text files containing names (one name per line). Some names appear in both files. You need to merge them into a single list with no duplicates, sorted alphabetically.
 
 **Data Format:**
 
-`accounts` is a dictionary: `{card_number: balance}`.
+`data/list1.txt` and `data/list2.txt` each contain one name per line.
 
-**Situation:**
-
-Given the accounts ledger, a card number, and the requested withdrawal amount, return the result of the transaction.
-
-**Example:**
+`data/list1.txt`:
 ```
-accounts = {
-    "4111-1111": 500.00,
-    "4222-2222": 80.00
-}
+Alice
+Bob
+Charlie
+Alice
+```
 
-withdraw(accounts, "4111-1111", 200.00)  → 300.0
-withdraw(accounts, "4222-2222", 100.00)  → "Insufficient Funds"
-withdraw(accounts, "9999-0000", 50.00)   → "Card Not Found"
+`data/list2.txt`:
+```
+Bob
+David
+Eve
 ```
 
 **Task:**
 
-Write a function `withdraw(accounts, card_number, amount)` that:
-1. Checks if the card number exists. If not, return `"Card Not Found"`.
-2. Checks if the balance is sufficient. If not, return `"Insufficient Funds"`.
-3. Deducts the amount, updates the balance, and returns the new balance as a float.
+Your function `merge_lists(file1, file2, output_file)` should:
 
-Do not crash on any input.
+- Read both files
+- Combine all names and remove duplicates
+- Sort names alphabetically
+- Write unique sorted names to output file (one per line)
+- Return the count of unique names
+
+**Expected Output Format (`lab07/exercise2/data/merged.txt`):**
+```
+Alice
+Bob
+Charlie
+David
+Eve
+```
+All unique names from both files, sorted alphabetically, one per line.
 
 ---
 
-## Exercise 3: Price Comparison Engine <Badge type="warning" text="Task" />
+## Exercise 3: Product Price Lookup <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab07/exercise3/exercise3.py`.
 
-**Background:**
+**Situation:**
 
-A price comparison website tracks the same products across two different stores. Shoppers want to know where each product is cheaper, and which products they can only buy from one store.
+You have a products catalog CSV and an order CSV. You need to calculate the total cost for each product in the order.
 
 **Data Format:**
 
-Both stores are represented as `{product: price}` dictionaries.
-
-**Situation:**
-
-Compare Store A against Store B and categorise every product in Store A into one of three groups. Products that are only in Store B are not tracked.
-
-**Example:**
+`data/products.csv`:
+```csv
+product_id,product_name,price
+P001,Laptop,1200.00
+P002,Mouse,25.00
+P003,Keyboard,75.00
 ```
-store_a = {"milk": 3.50, "bread": 2.00, "eggs": 5.00, "butter": 4.50}
-store_b = {"milk": 3.00, "bread": 2.50, "eggs": 5.00, "coffee": 8.00}
 
-milk:   A=3.50, B=3.00 → B is cheaper
-bread:  A=2.00, B=2.50 → A is cheaper
-eggs:   equal           → not listed in any group
-butter: only in A       → "only_a"
-coffee: only in B       → not tracked
-
-→ {
-    "only_a":    ["butter"],
-    "a_cheaper": ["bread"],
-    "b_cheaper": ["milk"]
-}
+`data/order.csv`:
+```csv
+product_id,quantity
+P001,2
+P002,5
+P003,3
 ```
 
 **Task:**
 
-Write a function `compare_prices(store_a, store_b)` that returns a dictionary with exactly three keys:
-- `"only_a"` — products stocked only in Store A (sorted)
-- `"a_cheaper"` — products in both stores where Store A is cheaper (sorted)
-- `"b_cheaper"` — products in both stores where Store B is cheaper (sorted)
+Your function `calculate_order_total(products_file, order_file, output_file)` should:
 
-Products with equal prices in both stores are not included in any list.
+- Read products CSV and store prices in a dictionary
+- Read order CSV
+- For each order item, calculate total cost: `price * quantity`
+- Write results to output CSV with header: `product_id,total_cost`
+- Return the grand total (sum of all total costs)
+
+**Expected Output Format (`lab07/exercise3/data/total.csv`):**
+```csv
+product_id,total_cost
+P001,2400.00
+P002,125.00
+P003,225.00
+```
+CSV format showing product_id and its total cost (price × quantity).
 
 ---
 
-## Exercise 4: User Permission Upgrade <Badge type="warning" text="Task" />
+## Exercise 4: Student Grade Calculator <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab07/exercise4/exercise4.py`.
 
-**Background:**
-
-A security system stores each user's permissions as `{permission: access_level}` where higher numbers mean more access. Periodic upgrade batches are distributed to raise access levels — but a batch must **never lower** a permission that is already higher.
-
 **Situation:**
 
-Apply an upgrade batch to a user's current permissions. For each permission in the batch:
-- If the new level is **higher** than the current level, update it.
-- If the new level is **equal to or lower**, keep the current level.
-- If the permission does not exist yet in current, always add it.
+You have a CSV file with student midterm and final exam scores. You need to calculate their final grade using a weighted formula.
 
-Do not modify the original `current` dictionary. Return a new merged result.
+**Data Format:**
 
-**Example:**
-```
-current = {"read": 2, "write": 1, "admin": 0}
-upgrade = {"read": 1, "write": 3, "execute": 2}
-
-"read"    → current=2, upgrade=1  → 1 < 2,  keep 2
-"write"   → current=1, upgrade=3  → 3 > 1,  take 3
-"execute" → not in current        → always add: 2
-"admin"   → not in upgrade        → keep 0
-
-→ {"read": 2, "write": 3, "admin": 0, "execute": 2}
+`data/scores.csv`:
+```csv
+student_id,midterm,final
+S001,85,90
+S002,78,82
+S003,92,88
+S004,65,75
 ```
 
 **Task:**
 
-Write a function `apply_upgrade(current, upgrade)` that produces the final merged permissions dictionary without modifying `current`.
+Your function `calculate_final_grades(input_file, output_file)` should:
+
+- Read the scores CSV
+- Calculate final grade for each student: `(midterm * 0.4) + (final * 0.6)`
+- Write results to output CSV with header: `student_id,final_grade`
+- Return the average of all final grades
+
+**Expected Output Format (`lab07/exercise4/data/grades.csv`):**
+```csv
+student_id,final_grade
+S001,88.00
+S002,80.00
+S003,90.40
+S004,71.00
+```
+CSV format showing each student's calculated final grade based on the weighted formula.
 
 ---
 
-## Exercise 5: Department Risk Report <Badge type="warning" text="Task" />
+## Exercise 5: Sales Summary <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab07/exercise5/exercise5.py`.
 
-**Background:**
+**Situation:**
 
-A university groups students by department. Each department holds its students' scores. The academic board flags any department where **more than half** the students are scoring below a threshold — these departments need intervention.
+You have a CSV file with daily sales data. You need to calculate the total revenue and write a summary report.
 
 **Data Format:**
 
-`departments` is a two-level nested dictionary: `{department: {student_name: score}}`.
-
-**Situation:**
-
-For each department, count how many students are below the threshold. If that count exceeds half the department's total students, the department is at risk. Do **not** use a nested `for` loop — use `.values()` on the inner dictionary.
-
-**Example:**
-```
-departments = {
-    "CS":      {"Ali": 85, "Sara": 55, "Zaki": 62},
-    "Math":    {"Hana": 90, "Reza": 88},
-    "English": {"Tom": 45, "Jay": 50, "Lin": 48},
-}
-threshold = 65
-
-CS:       3 students, 2 below 65 → 2/3 > 0.5 → at risk ✓
-Math:     2 students, 0 below 65 → 0/2 = 0   → fine
-English:  3 students, 3 below 65 → 3/3 = 1   → at risk ✓
-
-→ ["CS", "English"]
+`data/sales.csv`:
+```csv
+product,quantity,price
+Laptop,5,1200.00
+Mouse,20,25.00
+Keyboard,10,75.00
+Monitor,3,300.00
 ```
 
 **Task:**
 
-Write a function `find_at_risk_departments(departments, threshold)` that returns a **sorted list** of department names where more than half the students score below `threshold`. Do not use a nested `for` loop.
+Your function `summarize_sales(input_file, output_file)` should:
 
----
+- Read the sales CSV
+- Calculate revenue for each row: `quantity * price`
+- Calculate total revenue, average revenue, highest revenue, and lowest revenue
+- Write summary to output text file with all four statistics
+- Return a tuple: `(total, average, highest, lowest)`
 
-## Exercise 6: Exam Score Registry <Badge type="warning" text="Bug Hunt" />
-
-Navigate to `/labs/lab07/exercise6/exercise6.py`.
-
-**Background:**
-
-A university's examination office consolidates scores from multiple marking sessions. Lecturers submit their results in batches — a student may appear in more than one batch if their paper was re-marked. The system always keeps the **highest score** on record. At the end, the office prints a list of students who have passed.
-
-A developer wrote the registry, but the code is broken. It does not produce the correct output.
-
-**Data Format:**
-
-- `existing` — a dictionary of already-recorded scores: `{student_name: score}`
-- `new_results` — a dictionary of newly submitted scores: `{student_name: score}`
-
-**Situation:**
-
-The office receives a new batch of results. After merging, they need to know which students passed.
-
-**Example:**
+**Expected Output Format (`lab07/exercise5/data/summary.txt`):**
 ```
-existing    = {"Ali": 85, "Sara": 70}
-new_results = {"Ali": 90, "Ahmad": 60}
-
-After merging:
-- Ali:   already has 85, new score 90 is higher → keep 90
-- Sara:  not in new batch → keep 70
-- Ahmad: new student → add 60
-
-Merged: {"Ali": 90, "Sara": 70, "Ahmad": 60}
-
-Passing students (>= 75): ["Ali", "Sara"]
+Total Revenue: $8150.00
+Average Revenue: $2037.50
+Highest Revenue: $6000.00
+Lowest Revenue: $500.00
 ```
-
-**The Broken Code:**
-
-```python
-def merge_results(existing, new_results):
-    for student, score in new_results:
-        if student in existing:
-            if score > existing[student]:
-                existing[student] = score
-        else:
-            existing[student] = score
-    return existing
-
-
-def get_passing_students(scores, pass_mark):
-    passing = []
-    for student in scores:
-        if scores[student] >= pass_mark:
-            passing.append(scores[student])
-    return sorted(passing)
-```
-
-**Task:**
-
-1. Run the code and read all error messages and outputs carefully.
-2. Identify what is wrong and why.
-3. Fix the code so the output matches the expected results exactly.
+A text file showing total, average, highest, and lowest revenue across all sales.
 
 ---
 
@@ -450,4 +688,4 @@ def get_passing_students(scores, pass_mark):
 
 After completing all exercises, save all your files and commit them to your repository.
 
-Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like `"Complete Lab 7: Dictionaries"`, and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
+Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 7: Files", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.

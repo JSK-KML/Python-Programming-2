@@ -1,13 +1,13 @@
 ---
 outline: deep
-title: Lab 3 - Lists and Data Structures
+title: Lab 3 - List 2
 ---
 
-# Lab 03: Lists and Data 
+# Lab 03: Lists 2
 
 ## Pull and Update in VS Code
 
-Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. [Sync the repo](./lab-01.md#syncing-fork) if the `upstream` repo have been updated.
+Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. Sync the repo if the `upstream` repo have been updated.
 
 Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
 
@@ -15,382 +15,383 @@ Once the online repo is in-sync, bring those changes down to your PC by clicking
     <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
 </p>
 
-## Why Do We Need Data Structures?
+## Introduction to the Debugger
 
-Launch **VS Code** and open the `exercise.py` file in `/labs/lab03/`. We'll discover why storing multiple values in individual variables becomes a nightmare.
-
-### The Problem with Individual Variables
-
-Imagine you're building a student grade system for your class. You need to store scores for just 5 students. Copy this code into your `exercise.py` file:
+Consider the following code. It contains a bug, but finding it by reading alone is difficult.
 
 ```python
-# Storing 5 student scores
-score1 = 85
-score2 = 92
-score3 = 78
-score4 = 88
-score5 = 95
+def find_score_range(scores):
+    """Find the highest and lowest scores."""
+    highest = scores[0]
+    lowest = scores[0]
+    
+    for i in range(1, len(scores)):
+        score = scores[i]
+        if score > highest:
+            highest = score
+        if score < highest:
+            lowest = score
+    
+    return (highest, lowest)
 
-# To find the average... we need to manually add each one
-total = score1 + score2 + score3 + score4 + score5
-average = total / 5
-print(f"Average score: {average}")
+test_scores = [72, 85, 90, 68, 95, 78, 88]
+result = find_score_range(test_scores)
+print(f"Highest: {result[0]}, Lowest: {result[1]}")
+# Expected: Highest: 95, Lowest: 68
+# Actual:   Highest: 95, Lowest: 88
 ```
 
-Run this code. It works, but notice the problems:
+The output is incorrect. The function reports the lowest score as `88` when it should be `68`. 
 
-1. You had to create 5 separate variables
-2. You had to manually type each variable name in the calculation
-3. The calculation formula changes if you add or remove students
+The bug exists in a single character. Tracing through this logic manually is error-prone and time-consuming - this is precisely where a **debugger** becomes invaluable.
 
-Now imagine you have 50 students. Or 500 students. You'd need to create 500 variables and type all 500 names in your calculation
+A debugger allows you to:
+- **Step through code line-by-line** and observe execution flow
+- **Inspect variable values** at each step
+- **Set breakpoints** to pause execution at specific lines
+- **Identify exactly where** the logic deviates from expectations
 
-::: warning PROBLEM
-Individual variables don't scale. The more data you have, the more unmanageable your code becomes. You can't loop through variables, and every change requires editing multiple lines.
-:::
 
-### The Solution: Lists
+### Using A Debugger
 
-Replace all the code in your `exercise.py` with this:
+Navigate to `/labs/lab03/exercise1/exercise1.py`
 
-```python
-# Store all scores in ONE list
-scores = [85, 92, 78, 88, 95]
+To use a debugger, first you need to set a breakpoint. A breakpoint is a line of code where the debugger will pause execution. To set a breakpoint, click on the left side of the line number. If you try to hover you mouse over the area, you will see some red dot highlight appear.
 
-# Now we can access individual scores by index
-print(f"First score: {scores[0]}")
-print(f"Third score: {scores[2]}")
-print(f"Last score: {scores[4]}")
-```
 
-Run this code. Look at the difference:
+Set a breakpoint on the line number as below.
 
-- **One variable** instead of five
-- **Organized by position** - you can access any score using its index
-- **Adding more students?** Just add numbers to the list
+<p align="center">
+    <img src="/labs/lab-04/lab-4-1.png" alt="drawing" width="400"/>
+</p>
 
-Try adding more scores to the list:
-```python
-scores = [85, 92, 78, 88, 95, 73, 91, 87]
-print(f"We now have {scores} scores")
-```
+Where should you set a breakpoint? Recall that Python read the program top to bottom. Putting the breakpoint at the first line inside a function allow you to "hang" the program at the start of the function. This allow you to see the how the whole function works.
 
-Run it again. The list grows easily
+However, if later on, when you know how to use the debugger properly, if you have determine that you only care on how the bottom part of the function works, then you can put the breakpoint a little lower.
 
-::: tip INFO
-A **data structure** is a way to organize and store multiple values so they can be used efficiently. Instead of many variables, you use ONE structure that holds everything.
-:::
+For now we put it at the top of the function.
 
-## What is a List?
+Next, on your VS Code sidebar, click on the rub and bug icon. Then proceed to click `Show automatic Python configurations`
 
-A list is **Python**'s most commonly used data structure. Think of it as a numbered container where you can store multiple items in a specific order.
+<p align="center">
+    <img src="/labs/lab-04/lab-4-2.png" alt="drawing" width="300"/>
+</p>
 
-### Creating Your First List
+This will promt you for configurations, choose the top one, the one named after your repo, which in this example is `cp125-class-repo`
 
-Copy this code into your `exercise.py`:
+<p align="center">
+    <img src="/labs/lab-04/lab-4-3.png" alt="drawing" width="400"/>
+</p>
 
-```python
-# Creating different types of lists
-fruits = ["apple", "banana", "cherry"]
-numbers = [10, 20, 30, 40, 50]
-prices = [19.99, 24.50, 15.00]
+Now that we have set up our debugger, we can use it . Finishing the configurations will automatically trigger the debugger. But in the case that it doenst, click the run debugger button as below. Next time you want to run the debugger, you can also the button to run the debugger.
 
-print(fruits)
-print(numbers)
-print(prices)
-```
+<p align="center">
+    <img src="/labs/lab-04/lab-4-4.png" alt="drawing" width="300"/>
+</p>
 
-Run this code. What do you see?
+Once the debugger is running, you can see a floating bar at the top of the code to control the debugger. You can also see that the line of which you set a breakpoint now is colour yellow. You have "hang" or stop the program at the breakpoint. 
 
-Each list is printed with square brackets `[ ]` and commas separating the items. This is how **Python** represents lists.
+The yellow line indicate the current code that is now being executed.
 
-### List Structure
+<p align="center">
+    <img src="/labs/lab-04/lab-4-5.png" alt="drawing" width="400"/>
+</p>
 
-Every list has these components:
+Try clicking the blue downward arrow to move the program.
 
-```python
-fruits = ["apple", "banana", "kiwi"]
-```
+<p align="center">
+    <img src="/labs/lab-04/lab-4-6.png" alt="drawing" width="200"/>
+</p>
 
-| Component | Value |
-|-----------|-------|
-| **List name** | `fruits` |
-| **Elements** | `"apple"`, `"banana"`, `"kiwi"` |
-| **Number of elements** | 3 |
-| **List size** | 3 |
+You will notice that the yellow highlight has moved to the next line. This indicates that the debugger has successfully executed the previous line and is now paused, waiting to run the currently highlighted instruction. 
 
-The **size** and **number of elements** mean the same thing - how many items are in the list.
+<p align="center">
+    <img src="/labs/lab-04/lab-4-7.png" alt="drawing" width="400"/>
+</p>
 
-### What Can Lists Hold?
+However, moving the code line by line is useless if you dont know the state of the program. 
 
-Lists can store any type of data. Try this:
+What is the state of a program? State of the program is the value of the variable at any time during program execution. 
 
-```python
-# Different data types
-integers = [10, 20, 30, 40, 50]
-floats = [1.5, 2.3, 3.7, 4.1]
-strings = ["apple", "banana", "cherry"]
-booleans = [True, False, True, False]
+To see the state of the program, look that the left side of VS Code, you will see a section called `Variables`. Currently because we only go the second line of the program, only two variable have been declared, `scores` which is the passed argument and `highest` the line of code insdie the function. 
 
-print("Integers:", integers)
-print("Floats:", floats)
-print("Strings:", strings)
-print("Booleans:", booleans)
-```
+Remember, the highlighted line is the line that is about to be executed, not executed yet. Thats why the variable `lowest`, at this moment in the program, hasnt been declared yet.
 
+<p align="center">
+    <img src="/labs/lab-04/lab-4-8.png" alt="drawing" width="400"/>
+</p>
 
-## Accessing List Elements: Indexing
 
-Now that you can create lists, you need to know how to access individual items. This is where **indexing** comes in.
 
-### Positive Indexing
+To stop the debugger, click the red square icon in the floating bar. 
 
-**Python** numbers list elements starting from `0`. This is called **zero-based indexing**.
 
-```python
-fruits = ["apple", "banana", "kiwi", "durian", "guava", "orange"]
-#          0        1         2       3         4        5
-```
 
-Copy this code:
-
-```python
-fruits = ["apple", "banana", "kiwi", "durian", "guava", "orange"]
-
-print(fruits[0])  # First element
-print(fruits[2])  # Third element
-print(fruits[5])  # Sixth element
-```
-
-Run this code. What do you see?
-
-
-::: warning COMMON MISTAKE
-The first element is at index `0`, not `1`
-:::
-
-### Negative Indexing
-
-**Python** also lets you count from the **end** of the list using negative numbers:
-
-```python
-fruits = ["apple", "banana", "kiwi", "durian", "guava", "orange"]
-#          -6       -5        -4      -3        -2       -1
-```
-
-Try this:
-
-```python
-fruits = ["apple", "banana", "kiwi", "durian", "guava", "orange"]
-
-print(fruits[-1])  # Last element
-print(fruits[-2])  # Second-to-last element
-print(fruits[-6])  # First element (counting from end)
-```
-
-Run this code. Notice that:
-- `fruits[-1]` gives you the **last** element (`"orange"`)
-- `fruits[-2]` gives you the **second-to-last** element (`"guava"`)
-
-::: tip WHEN TO USE NEGATIVE INDEXING
-Use `[-1]` when you need the last item but don't know the list size. This is much more common than other negative indices. In practice, you'll rarely use anything beyond `[-1]` or `[-2]`.
-:::
-
-### Nested List Indexing
-
-Lists can contain other lists This is called **nesting**. Try this:
-
-```python
-students = [
-    ["Ali", 85, 92],
-    ["Sara", 90, 88],
-    ["Ahmad", 78, 82]
-]
-
-# Access the first student's data
-print(students[0])  # ['Ali', 85, 92]
-
-# Access Ali's name
-print(students[0][0])  # Ali
-
-# Access Sara's second score
-print(students[1][2])  # 88
-```
-
-Run this code. The pattern is `list[outer_index][inner_index]`.
-
-### The IndexError
-
-What happens if you try to access an index that doesn't exist? Try this:
-
-```python
-fruits = ["apple", "banana", "cherry"]
-print(fruits[5])  # Only 3 elements, but asking for index 5
-```
-
-Run this code. You'll see:
-
-```
-IndexError: list index out of range
-```
-
-This error means you tried to access a position that doesn't exist in the list.
-
-::: danger PREVENTING IndexError
-Always make sure the index you're using is within the valid range. The valid indices for a list with 3 elements are 0, 1, 2 (or -1, -2, -3).
-:::
-
-## Modifying Lists
-
-Lists are **mutable**, which means you can change them after creation.
-
-### Changing Elements
-
-You can modify individual elements by assigning a new value to an index:
-
-```python
-numbers = [10, 20, 30]
-print(numbers)  # [10, 20, 30]
-
-numbers[1] = 25  # Change the second element
-print(numbers)  # [10, 25, 30]
-```
-
-Try this yourself. Change different indices and see what happens
-
-
-
-## Exercise 1: Pixel Brightness Checker <Badge type="warning" text="Task" />
+## Exercise 1: Find the Bug <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise1/exercise1.py`.
 
-**Situation:**
+Using the debugger, find and fix the bug in the `find_score_range` function shown earlier.
 
-An image processing app analyzes a row of pixels stored as grayscale values (0-255, where 0 is black and 255 is white). The app needs to count "bright spots" - pixels that are brighter than BOTH their left and right neighbors.
+**Your Task:**
 
-**Example:**
-```
-Pixels: [100, 120, 200, 150, 180, 160, 140]
-         0    1    2    3    4    5    6
+1. Use the debugger to step through the code line-by-line
+2. Observe the values of `highest` and `lowest` as the loop iterates
+3. Identify where the logic goes wrong
+4. Fix the bug so the function correctly returns for the test case
 
-Index 2: brighter than neighbors → Bright spot
-Index 4: brighter than neighbors → Bright spot
-Count = 2
-```
+::: tip
 
-**Task:**
+Eventhough some of you might be able to find the bug just by reading it. It is still highly recommended to use the debugger to train you skill as this is the first time you are using it.
 
-Write a function that takes a list of pixel values, returns the count of bright spots.
+:::
 
-## Exercise 2: Subway Station Hop Counter <Badge type="warning" text="Task" />
+---
+
+## Exercise 2: Grade Calculator <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise2/exercise2.py`.
 
 **Situation:**
 
-A subway line has stations stored in order in a list. A passenger wants to know how many stops between two stations by name.
+A teacher records exam scores for a class. At the end of the semester, they need a summary report showing the class average, how many students passed (scored 60 or above), and how many failed.
 
-If a station name does not exist in the list, return `-1`.
-
-**Example:**
-```
-Stations: ["Central", "Marina", "Bukit", "Orchard", "Sentosa"]
-
-From "Marina" to "Sentosa"
-Marina at index 1, Sentosa at index 4
-Stops = 3
-
-From "Marina" to "Unknown"
-→ -1 (station name does not exist)
-```
+**Given:**
+- Scores: `[85, 92, 58, 74, 66, 91]`
+- Passing mark: `60`
 
 **Task:**
 
-Write functions that:
-1. Find a station's position in the list
-2. Calculate the stops between two stations
+Write a program that calculates and returns the average score, the count of passing students, and the count of failing students.
 
-## Exercise 3: Cinema Seat Finder <Badge type="warning" text="Task" />
+**Expected:** Average `77.7`, Passing `5`, Failed `1`
+
+**Your Task:**
+
+1. Run the code and observe the incorrect output
+2. Use the debugger to step through each function
+3. Find and fix the bugs
+
+
+
+## Exercise 3: Inventory Tracker <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise3/exercise3.py`.
 
 **Situation:**
 
-A cinema booking system stores seat availability for a row as a list. Each element represents a seat: `0` means empty, `1` means taken. A couple wants to sit together, so the system needs to check if there are two adjacent empty seats anywhere in the row.
+A warehouse manager needs to monitor stock levels. Each product has a quantity in stock and a unit price. The manager needs to know the total value of all inventory, identify which items are running low (below 10 units), and calculate how much it would cost to restock those low items with 20 additional units each.
 
-**Example:**
-```
-Row: [1, 0, 0, 1, 0, 1, 0, 0]
-      0  1  2  3  4  5  6  7
-
-Adjacent empty pairs found at positions (1,2) and (6,7)
-→ True
-```
+**Given:**
+- Quantities: `[50, 5, 100, 3, 25]`
+- Prices per unit: `[10.00, 25.00, 5.00, 50.00, 15.00]`
+- Low stock threshold: `10`
+- Restock amount: `20` units per low item
 
 **Task:**
 
-Write a function that takes a list of seats, returns `True` if adjacent empty seats exist, `False` otherwise.
+Write a program that calculates the total inventory value, finds the positions (indices) of low-stock items, and calculates the total cost to restock all low-stock items.
 
-## Exercise 4: Weather Trend Analyzer <Badge type="warning" text="Task" />
+**Expected:** Total value `$1650.00`, Low stock at indices `[1, 3]`, Restock cost `$1500.00`
+
+**Your Task:**
+
+1. Run the code and observe the incorrect output
+2. Use the debugger to step through each function
+3. Find and fix the bugs
+
+---
+
+## List Functions
+
+Python provides built-in functions that work directly on lists. These save you from writing loops for common operations.
+
+### Getting List Size with len()
+
+The `len()` function returns how many elements are in a list.
+
+```python
+scores = [85, 92, 78, 88, 95]
+count = len(scores)
+print(f"Number of scores: {count}")  # Output: 5
+```
+
+### Finding Extremes with min() and max()
+
+The `min()` function returns the smallest value, `max()` returns the largest.
+
+```python
+temperatures = [28, 32, 25, 35, 30]
+
+lowest = min(temperatures)
+highest = max(temperatures)
+
+print(f"Lowest: {lowest}")   # Output: 25
+print(f"Highest: {highest}") # Output: 35
+```
+
+### Adding Values with sum()
+
+The `sum()` function adds all numeric values in a list.
+
+```python
+prices = [19.99, 24.50, 15.00, 32.00]
+total = sum(prices)
+print(f"Total: ${total:.2f}")  # Output: $91.49
+```
+
+### Combining Functions
+
+These functions work together for common calculations:
+
+```python
+scores = [85, 92, 78, 88, 95]
+
+total = sum(scores)
+count = len(scores)
+average = total / count
+
+print(f"Average: {average}")  # Output: 87.6
+```
+
+
+## Exercise 4: Split Performance Analyzer <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab03/exercise4/exercise4.py`.
 
 **Situation:**
 
-A weather app tracks daily temperatures. A "warming trend" is detected when the temperature increases for 2 consecutive days (day 2 > day 1 AND day 3 > day 2).
+A running coach tracks lap times for athletes. To evaluate pacing strategy, the coach compares the athlete's **first half** performance to their **second half**. An athlete "faded" if their second half average time is worse (higher) than their first half average.
+
+If the number of laps is odd, the **first half includes the middle lap** (first half is larger).
 
 **Example:**
 ```
-Temps: [25, 27, 29, 28, 30, 32, 31]
-        0   1   2   3   4   5   6
+Lap times: [60, 62, 61, 63, 65, 68, 70, 72]
 
-Days 0-1-2: 25 → 27 → 29 (increasing twice) → Warming trend found
-Days 3-4-5: 28 → 30 → 32 (increasing twice) → Warming trend found
+First half: [60, 62, 61, 63] → Average: 61.5
+Second half: [65, 68, 70, 72] → Average: 68.75
+
+Second half average (68.75) > First half average (61.5)
+→ Athlete faded → Return True
 ```
 
-**Task:**
-
-Write a function that takes a list of temperatures, returns `True` if a warming trend exists, `False` otherwise.
-
-## Exercise 5: Race Overtake Detector <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab03/exercise5/exercise5.py`.
-
-**Situation:**
-
-A motorsport race tracker records car positions at two checkpoints. Each list contains car numbers in finishing order - index 0 is 1st place, index 1 is 2nd place, and so on.
-
-All cars exist in both checkpoint lists.
-
-**Example 1:**
+**Example (odd length):**
 ```
-Checkpoint 1: [5, 3, 7, 2, 9]
-Checkpoint 2: [5, 7, 3, 2, 9]
+Lap times: [50, 55, 60, 65, 70]
 
-Did Car 7 overtake Car 3?
-- Before: Car 7 at index 2, Car 3 at index 1 → Car 7 behind
-- After:  Car 7 at index 1, Car 3 at index 2 → Car 7 ahead
-→ True
-```
+First half: [50, 55, 60] → Average: 55.0
+Second half: [65, 70] → Average: 67.5
 
-**Example 2:**
-```
-Checkpoint 1: [5, 3, 7, 2, 9]
-Checkpoint 2: [5, 7, 3, 2, 9]
-
-Did Car 5 overtake Car 3?
-→ False (Car 5 was already ahead)
+→ Athlete faded → Return True
 ```
 
 **Task:**
 
 Write functions that:
-1. Find a car's position in a checkpoint list
-2. Determine if one car overtook another
+1. Split the lap times into first and second halves (first half is larger if odd)
+2. Calculate the average for each half
+3. Return `True` if the athlete faded, `False` if they finished strong
+
+---
+
+## Building Lists with append()
+
+So far you've created lists with values already inside. But what if you need to build a list piece by piece?
+
+### The append() Method
+
+The `append()` method adds an element to the end of a list.
+
+```python
+fruits = ["apple", "banana"]
+print(fruits)  # ['apple', 'banana']
+
+fruits.append("cherry")
+print(fruits)  # ['apple', 'banana', 'cherry']
+
+fruits.append("durian")
+print(fruits)  # ['apple', 'banana', 'cherry', 'durian']
+```
+
+Notice the dot notation: `fruits.append()`. This is a **method** - a function that belongs to the list.
+
+### Building Lists with Loops
+
+The real power of `append()` comes when combined with loops. Start with an empty list and add items based on conditions.
+
+```python
+numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+evens = []
+
+for num in numbers:
+    if num % 2 == 0:
+        evens.append(num)
+
+print(evens)  # [2, 4, 6, 8, 10]
+```
+
+This pattern is extremely common:
+1. Start with an empty list
+2. Loop through data
+3. If condition is met, append to the list
+
+### Another Example: Filtering Scores
+
+```python
+all_scores = [45, 82, 67, 91, 55, 78, 88]
+passing_scores = []
+
+for score in all_scores:
+    if score >= 60:
+        passing_scores.append(score)
+
+print(f"Passing scores: {passing_scores}")  # [82, 67, 91, 78, 88]
+print(f"Count: {len(passing_scores)}")      # 5
+```
+
+Copy this code and run it. Try changing the passing threshold to 70 and see what happens.
+
+## Exercise 5: Momentum Tracker <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab03/exercise5/exercise5.py`.
+
+**Situation:**
+
+A stock analysis tool identifies "momentum days" - days where BOTH conditions are met:
+1. The price increased from the previous day
+2. The increase was LARGER than the previous day's increase
+
+The system builds a list of indices for all momentum days.
+
+**Example:**
+```
+Prices: [100, 102, 105, 107, 106, 108, 112, 114]
+Changes:     [+2,  +3,  +2,  -1,  +2,  +4,  +2]
+
+Day 2 (index 2): Change +3, Previous change +2
+  → Positive AND bigger than previous → Momentum day
+
+Day 5 (index 5): Change +2, Previous change -1
+  → Positive AND bigger than previous → Momentum day
+
+Day 6 (index 6): Change +4, Previous change +2
+  → Positive AND bigger than previous → Momentum day
+
+Momentum days: [2, 5, 6]
+```
+
+**Task:**
+
+Write functions that:
+1. Calculate the price change for a given day
+2. Determine if a specific day is a momentum day
+3. Build and return a list of all momentum day indices
+
+
 
 ## Commit and Push Your Work
 
 After completing all exercises, save all your files and commit them to your repository.
 
-Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 3: Lists and Data Structures", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
-
+Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 3: Lists 2", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.

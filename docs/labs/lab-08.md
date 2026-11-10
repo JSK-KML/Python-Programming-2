@@ -1,13 +1,13 @@
 ---
 outline: deep
-title: Lab 8 - Files
+title: Lab 8 - DataFrames & Data Analysis
 ---
 
-# Lab 08: Files
+# Lab 08: DataFrames & Data Analysis
 
 ## Pull and Update in VS Code
 
-Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. [Sync the repo](./lab-01.md#syncing-fork) if the `upstream` repo have been updated.
+Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. Sync the repo if the `upstream` repo have been updated.
 
 Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
 
@@ -15,672 +15,644 @@ Once the online repo is in-sync, bring those changes down to your PC by clicking
     <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
 </p>
 
-## Why Do We Need Files?
+## Introduction
 
-Launch **VS Code** and open the `sandbox.py` file in `/labs/lab08/`. We'll discover why storing data only in memory creates a fundamental problem.
+DataFrames organize tabular data (rows and columns) with built-in methods for analysis. Instead of managing multiple lists and writing loops, DataFrames provide a single structure with automatic calculations.
 
-### The Problem: Data Doesn't Persist
+**Installation (one-time setup):**
 
-Imagine you're building a student grade tracker. Copy this code into your `sandbox.py`:
-
-```python
-scores = []
-scores.append(85)
-scores.append(92)
-scores.append(78)
-
-print("Scores:", scores)
+Open your terminal and run:
+```bash
+pip install pandas
 ```
 
-Run this code. It works perfectly. But what happens when the program ends?
-
-**Try this:** Run the program again. What do you see?
-
-```python
-# Second run starts here
-print(scores)  # NameError: scores is not defined
-```
-
-Every time the program runs, it starts from scratch. All data in memory is erased when the program terminates.
-
-::: warning PROBLEM
-Data stored in variables exists only while the program runs. Once it stops, everything is lost. There's no way to save your work between sessions.
-:::
-
-### The Solution: Files
-
-Files store data on disk. Data persists after the program ends.
-
-Copy this code into your `sandbox.py`:
-
-```python
-# Write scores to a file
-f = open("data/scores.txt", "w")
-f.write("85\n")
-f.write("92\n")
-f.write("78\n")
-f.close()
-
-print("Scores saved to file!")
-```
-
-Run this code. Now check the `data/` folder. You'll see `scores.txt` with your data inside.
-
-**The magic:** Close the program. Run it again. The file still exists. Your data survived!
-
-Now read it back:
-
-```python
-# Read scores from the file
-f = open("data/scores.txt", "r")
-data = f.read()
-print(data)
-f.close()
-```
-
-**Output:**
-```
-85
-92
-78
-```
-
-The data persists. Files are permanent storage.
+Navigate to `/labs/lab08/` and open `sandbox.py` to experiment as you learn
 
 ---
 
-## The 4-Step File Workflow
+## DataFrame Structure
 
-Every file operation follows the same pattern:
-
-```
-1. OPEN   →   2. READ or WRITE   →   3. PROCESS   →   4. CLOSE
-```
-
-Let's break down each step.
-
-### Step 1: Open
-
-Open `demo_read.py` and type:
+A DataFrame has:
+- **Columns**: vertical (e.g., Name, Score)
+- **Rows**: horizontal records
+- **Index**: row labels (default: 0, 1, 2...)
 
 ```python
-f = open("data/demofile.txt", "r")
+import pandas as pd
+
+df = pd.DataFrame({
+    'Name': ["Ali", "Sara"],
+    'Score': [85, 92]
+})
+print(df)
 ```
 
-**Breaking it down:**
-- `open()` - Built-in function to access a file
-- `"data/demofile.txt"` - Path to the file (relative path from current folder)
-- `"r"` - Mode (read-only)
-
-**File Modes:**
-
-| Mode | Name | Action | File Must Exist? |
-|------|------|--------|------------------|
-| `r` | Read | Read only | Yes (error if missing) |
-| `w` | Write | Write only | No (creates or **overwrites**) |
-| `a` | Append | Write to end | No (creates or appends) |
-
-::: danger PRINCIPLE: Choose the Right Mode
-`"w"` mode **destroys** existing content! Use `"a"` when you want to preserve and add to files. Always think about whether you need to replace (`"w"`) or add to (`"a"`) existing data.
-:::
-
-::: warning PRINCIPLE: Validate File Existence
-If you try to open a file in `"r"` mode that doesn't exist, Python will crash with `FileNotFoundError`. Before reading a file, make sure it exists—or create it first using `"w"` mode.
-
-**Example:**
-```python
-# Create the file first
-f = open("data/scores.txt", "w")
-f.write("85\n")
-f.close()
-
-# Now safe to read
-f = open("data/scores.txt", "r")
-data = f.read()
-f.close()
+Output:
 ```
-:::
-
-### Step 2a: Read
-
-There are three ways to read a file:
-
-```python
-f = open("data/demofile.txt", "r")
-
-# Method 1: Read entire file as one string
-content = f.read()
-print(content)
-print(type(content))  # <class 'str'>
-
-f.close()
+    Name  Score
+0    Ali     85
+1   Sara     92
 ```
-
-**Output:**
-```
-Hello! Welcome to demofile.txt
-This file is for testing purposes.
-Good Luck!
-<class 'str'>
-```
-
-**Method 2: Read one line at a time:**
-
-```python
-f = open("data/demofile.txt", "r")
-line1 = f.readline()
-line2 = f.readline()
-print(line1)
-print(line2)
-f.close()
-```
-
-Each call to `readline()` advances to the next line.
-
-**Method 3: Read all lines into a list:**
-
-```python
-f = open("data/demofile.txt", "r")
-lines = f.readlines()
-print(lines)
-f.close()
-```
-
-**Output:**
-```
-['Hello! Welcome to demofile.txt\n', 'This file is for testing purposes.\n', 'Good Luck!\n']
-```
-
-Each element is one line, with `\n` included.
-
-### Step 2b: Write
-
-Open `demo_write.py` and type:
-
-```python
-f = open("data/output.txt", "w")
-f.write("Ali: 85\n")
-f.write("Sara: 92\n")
-f.write("Ahmad: 78\n")
-f.close()
-
-print("Data written to data/output.txt")
-```
-
-Run this code. Check `data/output.txt`. The file now contains your data.
-
-::: warning PRINCIPLE: Include `\n` in Every Write
-**Always** include `\n` at the end of each write! Without it, lines merge together into one continuous string.
-
-**Wrong:**
-```python
-f.write("Ali: 85")
-f.write("Sara: 92")
-# Result: "Ali: 85Sara: 92" (merged!)
-```
-
-**Correct:**
-```python
-f.write("Ali: 85\n")
-f.write("Sara: 92\n")
-# Result: Two separate lines
-```
-:::
-
-### Step 3: Process
-
-Between reading and writing, you process the data using everything you've learned: lists, dictionaries, sets, functions.
-
-```python
-# Read
-f = open("data/scores.txt", "r")
-lines = f.readlines()
-f.close()
-
-# Process
-scores = []
-for line in lines:
-    score = int(line.strip())
-    scores.append(score)
-
-average = sum(scores) / len(scores)
-
-# Write
-f = open("data/report.txt", "w")
-f.write(f"Average: {average}\n")
-f.close()
-```
-
-::: tip PRINCIPLE: Use a Modular Approach
-Wrap file operations in functions to avoid repeating code throughout your program. This makes your code cleaner and easier to debug.
-
-**Instead of repeating this everywhere:**
-```python
-f = open("data/scores.txt", "r")
-lines = f.readlines()
-f.close()
-```
-
-**Write a function once:**
-```python
-def read_scores(filename):
-    f = open(filename, "r")
-    lines = f.readlines()
-    f.close()
-    return lines
-
-scores = read_scores("data/scores.txt")
-```
-:::
-
-### Step 4: Close
-
-**Always** call `f.close()` when you're done.
-
-::: danger PRINCIPLE: Always Close Files
-Every `open()` must have a matching `f.close()`. Unclosed files risk data loss.
-
-**Why closing matters:**
-- Releases the file from the program's control
-- Ensures all written data is saved (flushed) to disk
-- Prevents resource leaks
-- Allows other programs to access the file
-
-**Wrong:**
-```python
-f = open("data.txt", "w")
-f.write("hello\n")
-# File not closed — data may not be saved!
-```
-
-**Correct:**
-```python
-f = open("data.txt", "w")
-f.write("hello\n")
-f.close()  # ✅ Data guaranteed to be saved
-```
-:::
 
 ---
 
-## Working with CSV Files
+## Creating DataFrames
 
-CSV (Comma Separated Values) files store structured tabular data. Python requires the `csv` module to work with them properly.
-
-### CSV Structure
-
-```csv
-Name,Score,Grade
-Ali,85,A
-Sara,92,A+
-Ahmad,78,B
-```
-
-**Components:**
-- **Header** - First row describing columns
-- **Records** - Each row is one entry
-- **Fields** - Values separated by commas
-
-### Reading CSV Files
-
-Open `demo_csv.py` and type:
-
+**Method 1: Dictionary of Lists (Recommended)**
 ```python
-import csv
-
-# Read CSV file
-f = open("data/students.csv", "r", newline="")
-reader = csv.reader(f)
-
-for row in reader:
-    print(row)
-
-f.close()
+df = pd.DataFrame({
+    'Name': ["Ali", "Sara"],
+    'Math': [85, 92],
+    'Science': [78, 88]
+})
 ```
 
-**Output:**
-```
-['Name', 'Score', 'Grade']
-['Ali', '85', 'A']
-['Sara', '92', 'A+']
-['Ahmad', '78', 'B']
-```
-
-Each row is a **list of strings**.
-
-::: tip PRINCIPLE: Use `newline=""` for CSV Files
-Always use `newline=""` when opening CSV files. This prevents extra blank lines from appearing between rows on some operating systems (especially Windows).
-
-**Wrong:**
+**Method 2: List of Lists**
 ```python
-f = open("data.csv", "w")  # Missing newline=""
-writer = csv.writer(f)
-writer.writerow(["A", "B"])
-# May create extra blank lines!
-```
-
-**Correct:**
-```python
-f = open("data.csv", "w", newline="")  # ✅ Prevents blank lines
-writer = csv.writer(f)
-writer.writerow(["A", "B"])
-```
-:::
-
-**Saving CSV data to a list:**
-
-```python
-import csv
-
-f = open("data/students.csv", "r", newline="")
-reader = csv.reader(f)
-
-content = []
-for row in reader:
-    content.append(row)
-
-f.close()
-print(content)
-```
-
-### Writing CSV Files
-
-```python
-import csv
-
-f = open("data/output.csv", "w", newline="")
-writer = csv.writer(f)
-
-# Write header
-writer.writerow(["Name", "Score"])
-
-# Write data rows
-writer.writerow(["Ali", 85])
-writer.writerow(["Sara", 92])
-writer.writerow(["Ahmad", 78])
-
-f.close()
-```
-
-**Writing multiple rows at once:**
-
-```python
-import csv
-
-records = [
-    ["Name", "Score"],
-    ["Ali", 85],
-    ["Sara", 92],
-    ["Ahmad", 78]
+data = [
+    ["Ali", 85, 78],
+    ["Sara", 92, 88]
 ]
-
-f = open("data/output.csv", "w", newline="")
-writer = csv.writer(f)
-writer.writerows(records)
-f.close()
+df = pd.DataFrame(data, columns=['Name', 'Math', 'Science'])
 ```
+- **Argument 1**: `data` (list of lists)
+- **Argument 2**: `columns` (list of column names)
+- Each inner list is one row
+
+**Method 3: From CSV**
+```python
+df = pd.read_csv("data/students.csv")
+```
+- **Argument**: `filename` (string)
+- **Returns**: DataFrame
+- Use forward slashes `/` in paths
+
+---
+
+## DataFrame Metadata
+
+### Attributes (No Parentheses)
+
+| Attribute | Returns | Example |
+|-----------|---------|---------|
+| `df.shape` | (rows, columns) tuple | `(25, 6)` |
+| `df.columns` | Column names | `['Name', 'Math']` |
+| `df.index` | Row labels | `RangeIndex(0 to 24)` |
+
+```python
+print(df.shape)      # (25, 6)
+print(df.columns)    # Index(['StudentID', 'Name', ...])
+print(list(df.columns))  # ['StudentID', 'Name', ...]
+```
+
+---
+
+### Methods (With Parentheses)
+
+| Method | Arguments | Returns | Purpose |
+|--------|-----------|---------|---------|
+| `df.info()` | None | Prints structure | Shows dtypes, non-null counts |
+| `df.head(n)` | n (default 5) | DataFrame | First n rows |
+| `df.tail(n)` | n (default 5) | DataFrame | Last n rows |
+
+```python
+df.info()        # Prints DataFrame structure
+df.head(3)       # Returns first 3 rows
+df.tail()        # Returns last 5 rows (default)
+```
+
+---
+
+## Column Selection
+
+| Syntax | Returns | Example |
+|--------|---------|---------|
+| `df.ColumnName` | Series | `df.Math` |
+| `df['ColumnName']` | Series | `df['Math']` |
+| `df[['Col1', 'Col2']]` | DataFrame | `df[['Math', 'Science']]` |
+
+```python
+# Single column
+math = df['Math']        # Returns Series
+
+# Multiple columns (note double brackets)
+subset = df[['Math', 'Science']]  # Returns DataFrame
+```
+
+---
+
+## Row Selection with loc[]
+
+**`loc[]`** uses **label-based** indexing (INCLUSIVE ranges).
+
+| Syntax | Returns | Example |
+|--------|---------|---------|
+| `df.loc[row]` | Series | `df.loc[2]` |
+| `df.loc[start:end]` | DataFrame | `df.loc[1:3]` (includes 3) |
+| `df.loc[rows, cols]` | DataFrame | `df.loc[1:3, ['Name', 'Math']]` |
+| `df.loc[condition]` | DataFrame | `df.loc[df['Math'] > 80]` |
+
+```python
+df.loc[2]                          # Single row
+df.loc[1:3]                        # Rows 1, 2, 3 (INCLUSIVE)
+df.loc[:, ['Math', 'Science']]     # All rows, specific columns
+df.loc[df['Math'] > 80]            # Conditional selection
+df.loc[df['Math'] > 80, ['Name']]  # Condition + specific columns
+```
+
+---
+
+## Row Selection with iloc[]
+
+**`iloc[]`** uses **position-based** indexing (EXCLUSIVE ranges).
+
+| Syntax | Returns | Example |
+|--------|---------|---------|
+| `df.iloc[pos]` | Series | `df.iloc[2]` |
+| `df.iloc[start:end]` | DataFrame | `df.iloc[1:3]` (excludes 3) |
+| `df.iloc[rows, cols]` | DataFrame | `df.iloc[1:3, 0:2]` |
+
+```python
+df.iloc[2]          # Row at position 2
+df.iloc[1:3]        # Rows 1, 2 (EXCLUSIVE of 3)
+df.iloc[1:3, 0:2]   # Rows 1-2, columns 0-1
+```
+
+---
+
+### loc vs iloc
+
+| Feature | `loc[]` | `iloc[]` |
+|---------|---------|----------|
+| Uses | Labels | Positions |
+| Range | INCLUSIVE | EXCLUSIVE |
+| Example | `df.loc[1:3]` → rows 1,2,3 | `df.iloc[1:3]` → rows 1,2 |
+
+---
+
+## Statistical Methods
+
+**Note:** Statistical methods only work on numeric columns.
+
+| Method | Arguments | Returns | Example |
+|--------|-----------|---------|---------|
+| `df.describe()` | None | DataFrame | Summary statistics |
+| `df.mean()` | None | Series | Average of each column |
+| `df.max()` | None | Series | Maximum of each column |
+| `df.min()` | None | Series | Minimum of each column |
+
+```python
+df.describe()              # Statistics for all numeric columns
+df['Math'].mean()          # Average of Math column
+df['Math'].max()           # Highest Math score
+df['Math'].min()           # Lowest Math score
+
+# With filtering
+df.loc[df['Science'] > 80, 'Math'].mean()  # Avg Math where Science > 80
+```
+
+---
+
+## Data Visualization with Matplotlib
+
+Visualizations turn data into pictures to see patterns instantly. Matplotlib is Python's charting library.
+
+**Installation (one-time setup):**
+
+Open your terminal and run:
+```bash
+pip install matplotlib
+```
+
+**Import:**
+```python
+import matplotlib.pyplot as plt
+```
+
+::: info WHERE DOES THE CHART APPEAR?
+When you run `plt.show()`, a **separate window** will pop up displaying your chart.
+It won't appear in VS Code or the terminal - it's a standalone GUI window.
+Close the window to continue running your code.
+:::
+
+**Two chart types:**
+- **Line Chart**: Shows trends (values across sequence)
+- **Histogram**: Shows distribution (how data spreads)
+
+---
+
+## Line Charts
+
+Line charts connect points to show trends. Use for: scores across students, temperature over time.
+
+**Basic example** (see `demo_line.py`):
+
+```python
+import matplotlib.pyplot as plt
+
+x = [1, 2, 3, 4, 5]
+y = [85, 92, 78, 88, 95]
+
+plt.plot(x, y)              # Create line (x=horizontal, y=vertical)
+plt.xlabel("Student Number") # Label x-axis
+plt.ylabel("Math Score")     # Label y-axis
+plt.title("Math Scores")     # Add title
+plt.show()                   # Display (required!)
+```
+
+**With DataFrame** (see `demo_line_df.py`):
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("data/students.csv")
+plt.plot(df.index, df['Math'])  # df.index = row numbers (0,1,2...)
+plt.xlabel("Student Index")
+plt.ylabel("Math Score")
+plt.title("Math Scores")
+plt.show()
+```
+
+---
+
+## Histograms
+
+Histograms group data into ranges (bins) and count how many fall in each. Use to see: how scores are distributed.
+
+**What are bins?**
+If scores are 60-100 and `bins=10`, creates 10 ranges: 60-64, 64-68, 68-72, etc.
+Taller bars = more values in that range.
+
+**Basic example** (see `demo_histogram.py`):
+
+```python
+import matplotlib.pyplot as plt
+
+scores = [85, 92, 78, 88, 95, 72, 68, 81, 87, 90]
+plt.hist(scores, bins=10)  # bins=10 is standard
+plt.xlabel("Score Range")
+plt.ylabel("Frequency")
+plt.title("Score Distribution")
+plt.show()
+```
+
+**With DataFrame** (see `demo_histogram_df.py`):
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("data/students.csv")
+plt.hist(df['Math'], bins=10)
+plt.xlabel("Math Score")
+plt.ylabel("Frequency")
+plt.title("Math Score Distribution")
+plt.show()
+```
+
+---
+
+## Overlapping Histograms (Alpha & Legend)
+
+**Problem**: Comparing two distributions on same chart - one hides the other.
+**Solution**: Use `alpha` (transparency) so both visible.
+
+**Alpha values**:
+- `1.0` = solid (default)
+- `0.5` = 50% transparent
+- `0.0` = invisible
+
+**Legend**: Shows which color = which data. Need both `label` in plot + `plt.legend()`.
+
+**Example** (see `demo_alpha.py`):
+
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv("data/students.csv")
+
+plt.hist(df['Math'], bins=10, alpha=0.5, label="Math")
+plt.hist(df['Science'], bins=10, alpha=0.5, label="Science")
+plt.xlabel("Score")
+plt.ylabel("Frequency")
+plt.title("Math vs Science Distribution")
+plt.legend()  # Shows color labels
+plt.show()
+```
+
+---
+
+## Quick Reference
+
+| Function | Arguments | Purpose |
+|----------|-----------|---------|
+| `plt.plot(x, y)` | x-values, y-values | Line chart |
+| `plt.hist(data, bins)` | data, bins (int) | Histogram |
+| `plt.hist(data, bins, alpha, label)` | data, bins, alpha (0-1), label (str) | Transparent histogram with label |
+| `plt.xlabel(text)` | string | Label x-axis |
+| `plt.ylabel(text)` | string | Label y-axis |
+| `plt.title(text)` | string | Add title |
+| `plt.legend()` | None | Show legend |
+| `plt.show()` | None | Display chart |
 
 ---
 
 ## Common Mistakes
 
-Open `crash_test.py` to see common errors:
-
-**1. Reading a file that doesn't exist:**
-```python
-f = open("data/missing.txt", "r")  # FileNotFoundError
-```
-
-**2. Wrong mode overwrites data:**
-```python
-f = open("data/scores.txt", "w")  # Destroys existing content
-```
-
-**3. Missing `\n` when writing:**
-```python
-f.write("Ali")
-f.write("Sara")  # Result: "AliSara" (merged!)
-```
-
-**4. Missing `import csv` for CSV files:**
-```python
-reader = csv.reader(f)  # NameError: csv is not defined
-```
-
-**5. Missing `newline=""` for CSV:**
-```python
-f = open("data.csv", "w")  # Extra blank lines between rows
-```
-
-**6. Not closing the file:**
-```python
-f = open("data.txt", "w")
-f.write("hello\n")
-# File not closed — data may not be saved
-```
+See `crash_test.py` for examples. Common errors:
+- Forgetting `import matplotlib.pyplot as plt`
+- Missing `plt.show()` at the end
+- Wrong data format (string instead of list)
+- Using `label` without `plt.legend()`
+- Alpha value outside 0.0-1.0 range
 
 ---
 
-## Exercise 1: Simple Score Filter <Badge type="warning" text="Task" />
+## Exercises
+
+## Exercise 1: DataFrame Exploration <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab08/exercise1/exercise1.py`.
 
-**Situation:**
+**Background:**
 
-A teacher has a text file with student scores. You need to filter out only the students who passed (score >= 80) and write them to a new file.
-
-**Data Format:**
-
-`data/scores.txt`:
-```
-S001
-85
-S002
-92
-S003
-78
-S004
-88
-S005
-65
-S006
-91
-```
+A teacher needs to explore student exam scores and get basic statistics.
 
 **Task:**
 
-Your function `filter_passing_scores(input_file, output_file)` should:
+Write a function `explore_data(filename)` that:
+1. Loads CSV into DataFrame
+2. Calculates required statistics
+3. Returns dictionary with:
+   - `"total_students"`: number of rows
+   - `"subjects"`: list of subject columns (Math, Science, English only)
+   - `"math_average"`: average Math score (rounded to 1 decimal)
+   - `"highest_math_student"`: name of student with highest Math score
 
-- Read the scores file where student IDs and scores are on alternating lines
-- Parse the data to match each student ID with their score
-- Find all students with score >= 80
-- Write passing students to output file (format: `student_id score` on same line)
-- Return the count of passing students
-
-**Expected Output Format (`lab08/exercise1/data/passing.txt`):**
+**Example:**
+```python
+result = explore_data("data/students.csv")
+print(result)
+# {
+#     "total_students": 25,
+#     "subjects": ["Math", "Science", "English"],
+#     "math_average": 84.0,
+#     "highest_math_student": "Hassan"
+# }
 ```
-S001 85
-S002 92
-S004 88
-S006 91
-```
-Each line contains the student ID, a space, then their score. Only students with score >= 80 are included.
 
 ---
 
-## Exercise 2: Text File Merger <Badge type="warning" text="Task" />
+## Exercise 2: Subject Performance Comparison <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab08/exercise2/exercise2.py`.
 
-**Situation:**
+**Background:**
 
-You have two text files containing names (one name per line). Some names appear in both files. You need to merge them into a single list with no duplicates, sorted alphabetically.
-
-**Data Format:**
-
-`data/list1.txt` and `data/list2.txt` each contain one name per line.
-
-`data/list1.txt`:
-```
-Alice
-Bob
-Charlie
-Alice
-```
-
-`data/list2.txt`:
-```
-Bob
-David
-Eve
-```
+Compare which subject has the best and worst average performance.
 
 **Task:**
 
-Your function `merge_lists(file1, file2, output_file)` should:
+Write a function `compare_averages(filename)` that:
+1. Loads CSV
+2. Calculates mean for Math, Science, English (rounded to 1 decimal)
+3. Identifies best and worst subjects
+4. Returns dictionary
 
-- Read both files
-- Combine all names and remove duplicates
-- Sort names alphabetically
-- Write unique sorted names to output file (one per line)
-- Return the count of unique names
-
-**Expected Output Format (`lab08/exercise2/data/merged.txt`):**
+**Example:**
+```python
+result = compare_averages("data/students.csv")
+print(result)
+# {
+#     "Math": 84.0,
+#     "Science": 82.9,
+#     "English": 84.4,
+#     "best_subject": "English",
+#     "worst_subject": "Science"
+# }
 ```
-Alice
-Bob
-Charlie
-David
-Eve
-```
-All unique names from both files, sorted alphabetically, one per line.
 
 ---
 
-## Exercise 3: Product Price Lookup <Badge type="warning" text="Task" />
+## Exercise 3: Visualize Math Scores <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab08/exercise3/exercise3.py`.
 
-**Situation:**
+**Background:**
 
-You have a products catalog CSV and an order CSV. You need to calculate the total cost for each product in the order.
-
-**Data Format:**
-
-`data/products.csv`:
-```csv
-product_id,product_name,price
-P001,Laptop,1200.00
-P002,Mouse,25.00
-P003,Keyboard,75.00
-```
-
-`data/order.csv`:
-```csv
-product_id,quantity
-P001,2
-P002,5
-P003,3
-```
+Show how Math scores vary across all students using a line chart.
 
 **Task:**
 
-Your function `calculate_order_total(products_file, order_file, output_file)` should:
+Write a function `show_math_trend(filename)` that:
+1. Loads CSV
+2. Extracts Math column
+3. Creates line chart:
+   - x-axis = student index (`df.index`)
+   - y-axis = Math scores
+   - xlabel = "Student Index"
+   - ylabel = "Math Score"
+   - title = "Math Score Trends"
+4. Calls `plt.show()`
+5. Returns number of students (for testing)
 
-- Read products CSV and store prices in a dictionary
-- Read order CSV
-- For each order item, calculate total cost: `price * quantity`
-- Write results to output CSV with header: `product_id,total_cost`
-- Return the grand total (sum of all total costs)
-
-**Expected Output Format (`lab08/exercise3/data/total.csv`):**
-```csv
-product_id,total_cost
-P001,2400.00
-P002,125.00
-P003,225.00
+**Example:**
+```python
+count = show_math_trend("data/students.csv")
+# Chart window appears showing Math scores
+print(count)  # 25
 ```
-CSV format showing product_id and its total cost (price × quantity).
 
 ---
 
-## Exercise 4: Student Grade Calculator <Badge type="warning" text="Task" />
+## Exercise 4: Visualize Science Distribution <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab08/exercise4/exercise4.py`.
 
-**Situation:**
+**Background:**
 
-You have a CSV file with student midterm and final exam scores. You need to calculate their final grade using a weighted formula.
-
-**Data Format:**
-
-`data/scores.csv`:
-```csv
-student_id,midterm,final
-S001,85,90
-S002,78,82
-S003,92,88
-S004,65,75
-```
+Show how Science scores are distributed using a histogram.
 
 **Task:**
 
-Your function `calculate_final_grades(input_file, output_file)` should:
+Write a function `show_science_distribution(filename)` that:
+1. Loads CSV
+2. Extracts Science column
+3. Creates histogram:
+   - data = Science scores
+   - bins = 10
+   - xlabel = "Science Score"
+   - ylabel = "Frequency"
+   - title = "Science Score Distribution"
+4. Calls `plt.show()`
+5. Returns number of students (for testing)
 
-- Read the scores CSV
-- Calculate final grade for each student: `(midterm * 0.4) + (final * 0.6)`
-- Write results to output CSV with header: `student_id,final_grade`
-- Return the average of all final grades
-
-**Expected Output Format (`lab08/exercise4/data/grades.csv`):**
-```csv
-student_id,final_grade
-S001,88.00
-S002,80.00
-S003,90.40
-S004,71.00
+**Example:**
+```python
+count = show_science_distribution("data/students.csv")
+# Chart window appears showing Science score distribution
+print(count)  # 25
 ```
-CSV format showing each student's calculated final grade based on the weighted formula.
 
 ---
 
-## Exercise 5: Sales Summary <Badge type="warning" text="Task" />
+## Exercise 5: High Performers Filter <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab08/exercise5/exercise5.py`.
 
-**Situation:**
+**Background:**
 
-You have a CSV file with daily sales data. You need to calculate the total revenue and write a summary report.
-
-**Data Format:**
-
-`data/sales.csv`:
-```csv
-product,quantity,price
-Laptop,5,1200.00
-Mouse,20,25.00
-Keyboard,10,75.00
-Monitor,3,300.00
-```
+A teacher wants to identify students who excelled in all subjects (scoring above 85 in each) to feature them in the school newsletter.
 
 **Task:**
 
-Your function `summarize_sales(input_file, output_file)` should:
+Write a function `high_performers(filename)` that identifies these exceptional students and returns how many there are along with their names
 
-- Read the sales CSV
-- Calculate revenue for each row: `quantity * price`
-- Calculate total revenue, average revenue, highest revenue, and lowest revenue
-- Write summary to output text file with all four statistics
-- Return a tuple: `(total, average, highest, lowest)`
+**Parameters:**
+- `filename` (str): Path to CSV file
 
-**Expected Output Format (`lab08/exercise5/data/summary.txt`):**
+**Returns:**
+- Dictionary with keys:
+  - `"count"` (int): Number of high performers
+  - `"names"` (set): Set of student names
+
+**Example:**
+```python
+result = high_performers("data/students.csv")
+print(result)
+# {
+#     "count": 8,
+#     "names": {"Ali", "Sara", "Hassan", "Fatima", "Omar", "Layla", "Yusuf", "Amira"}
+# }
 ```
-Total Revenue: $8150.00
-Average Revenue: $2037.50
-Highest Revenue: $6000.00
-Lowest Revenue: $500.00
+
+---
+
+## Exercise 6: Warehouse Inventory Alert <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab08/exercise6/exercise6.py`.
+
+**Background:**
+
+A warehouse manager needs to identify critical inventory issues. Products are critical when their current stock has fallen below the reorder threshold and they haven't been restocked in over 30 days. These items need immediate attention.
+
+**Task:**
+
+Write a function `critical_inventory(filename)` that identifies which products are in critical status and returns the total number of products tracked, how many are critical, and which specific products need immediate restocking
+
+**Parameters:**
+- `filename` (str): Path to inventory CSV file
+
+**Returns:**
+- Dictionary with keys:
+  - `"total_products"` (int): Total number of products
+  - `"critical_count"` (int): Number of critical items
+  - `"critical_products"` (set): Set of critical product names
+
+**Example:**
+```python
+result = critical_inventory("data/inventory.csv")
+print(result)
+# {
+#     "total_products": 50,
+#     "critical_count": 7,
+#     "critical_products": {"Laptop_X1", "Monitor_Pro", "Keyboard_Mech", ...}
+# }
 ```
-A text file showing total, average, highest, and lowest revenue across all sales.
+
+---
+
+## Exercise 7: Employee Promotion Candidates <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab08/exercise7/exercise7.py`.
+
+**Background:**
+
+The HR department is preparing for the annual promotion cycle. To be considered for promotion, employees must have both strong performance (above company average) and sufficient experience (at least 2 years with the company). HR needs to know who qualifies.
+
+**Task:**
+
+Write a function `promotion_candidates(filename)` that determines which employees meet the promotion criteria and returns the company's average performance score, the experience requirement, how many employees qualify, and their names
+
+**Parameters:**
+- `filename` (str): Path to employee CSV file
+
+**Returns:**
+- Dictionary with keys:
+  - `"average_performance"` (float): Company average performance (rounded to 1 decimal)
+  - `"min_years_required"` (int): Minimum years required (always 2)
+  - `"candidate_count"` (int): Number of qualified candidates
+  - `"candidate_names"` (set): Set of candidate names
+
+**Example:**
+```python
+result = promotion_candidates("data/employees.csv")
+print(result)
+# {
+#     "average_performance": 78.5,
+#     "min_years_required": 2,
+#     "candidate_count": 12,
+#     "candidate_names": {"John Smith", "Sarah Lee", "Michael Chen", ...}
+# }
+```
+
+---
+
+## Exercise 8: Maximum Scores by Subject <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab08/exercise8/exercise8.py`.
+
+**Background:**
+
+A school administrator wants to visualize the highest achievement in each subject (Math, Science, English, Physics, Chemistry) to understand which subjects have the strongest top performers. This will help identify where advanced programs are most successful.
+
+**Task:**
+
+Write a function `plot_subject_maximums(filename)` that creates a line chart showing the peak performance in each subject. The chart should display subjects on the horizontal axis and their maximum scores on the vertical axis, with points marked on the line. Return the total number of students analyzed
+
+**Example:**
+```python
+count = plot_subject_maximums("data/students.csv")
+# Chart window appears showing line plot of maximum scores
+print(count)  # 25
+```
+
+**Chart Requirements:**
+- x-axis label: "Subject"
+- y-axis label: "Maximum Score"
+- Title: "Maximum Scores by Subject"
+- Use `marker='o'` to show points on line
+
+---
+
+## Exercise 9: Subject Distribution Comparison <Badge type="warning" text="Task" />
+
+Navigate to `/labs/lab08/exercise9/exercise9.py`.
+
+**Background:**
+
+The curriculum committee wants to compare how scores are spread across Math, Science, and English. By visualizing all three distributions on the same chart, they can identify which subjects show consistent performance versus which have wide variation in student achievement.
+
+**Task:**
+
+Write a function `compare_subject_distributions(filename)` that creates a histogram showing the score distribution for all three subjects on one chart. Make the distributions transparent so they can be compared visually, and include a legend to identify each subject. Return the total number of students analyzed
+
+**Example:**
+```python
+count = compare_subject_distributions("data/students.csv")
+# Chart window appears showing overlapping histograms
+print(count)  # 25
+```
+
+**Chart Requirements:**
+- All histograms: bins=10, alpha=0.5
+- Labels: "Math", "Science", "English"
+- x-axis label: "Score"
+- y-axis label: "Frequency"
+- Title: "Score Distribution Comparison"
+- Must include `plt.legend()`
 
 ---
 
@@ -688,4 +660,4 @@ A text file showing total, average, highest, and lowest revenue across all sales
 
 After completing all exercises, save all your files and commit them to your repository.
 
-Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 8: Files", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
+Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like `"Complete Lab 8: DataFrames & Data Analysis"`, and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.

@@ -1,13 +1,13 @@
 ---
 outline: deep
-title: Lab 2 - Functions
+title: Lab 2 - Lists and Data Structures
 ---
 
-# Lab 02: Functions
+# Lab 02: Lists and Data 
 
 ## Pull and Update in VS Code
 
-Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. [Sync the repo](./lab-01.md#syncing-fork) if the `upstream` repo have been updated.
+Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. Sync the repo if the `upstream` repo have been updated.
 
 Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
 
@@ -15,765 +15,382 @@ Once the online repo is in-sync, bring those changes down to your PC by clicking
     <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
 </p>
 
-## Functions
+## Why Do We Need Data Structures?
 
-Launch **VS Code** and open the `exercise.py` file in `/labs/lab02/`. We'll build a billing system and discover why functions are essential.
+Launch **VS Code** and open the `exercise.py` file in `/labs/lab02/`. We'll discover why storing multiple values in individual variables becomes a nightmare.
 
-### The Problem with Repetition
+### The Problem with Individual Variables
 
-Imagine you're running a small restaurant and need to calculate the final bill for customers. Each bill requires:
-1. Taking the meal price
-2. Adding 6% _(SST) tax
-3. Adding RM2.00 service charge
-4. Showing the total
-
-Without functions, you'd have to write the same calculation for every single customer. Copy this code into your `exercise.py` file:
+Imagine you're building a student grade system for your class. You need to store scores for just 5 students. Copy this code into your `exercise.py` file:
 
 ```python
-# Customer 1 - Nasi Lemak
-price1 = 8.50
-tax1 = price1 * 0.06  # 6% SST tax
-service1 = 2.00
-total1 = price1 + tax1 + service1
-print(f"Customer 1 total: RM{total1:.2f}")
+# Storing 5 student scores
+score1 = 85
+score2 = 92
+score3 = 78
+score4 = 88
+score5 = 95
 
-# Customer 2 - Roti Canai
-price2 = 3.50
-tax2 = price2 * 0.06  # 6% SST tax
-service2 = 2.00
-total2 = price2 + tax2 + service2
-print(f"Customer 2 total: RM{total2:.2f}")
-
-# Customer 3 - Mee Goreng
-price3 = 7.00
-tax3 = price3 * 0.06  # 6% SST tax
-service3 = 2.00
-total3 = price3 + tax3 + service3
-print(f"Customer 3 total: RM{total3:.2f}")
+# To find the average... we need to manually add each one
+total = score1 + score2 + score3 + score4 + score5
+average = total / 5
+print(f"Average score: {average}")
 ```
 
-Run this code. It works, but notice how you're repeating the exact same formula 3 times?
+Run this code. It works, but notice the problems:
 
-Now imagine the government changes SST from 6% to 8%. You'd need to find and change `0.06` in 3 different places. With 100 customers, you'd need to change it 100 times. If you miss even one, your calculations would be wrong.
+1. You had to create 5 separate variables
+2. You had to manually type each variable name in the calculation
+3. The calculation formula changes if you add or remove students
+
+Now imagine you have 50 students. Or 500 students. You'd need to create 500 variables and type all 500 names in your calculation
 
 ::: warning PROBLEM
-Repetitive code creates maintenance problems. Every change must be made multiple times, and missing even one creates bugs.
+Individual variables don't scale. The more data you have, the more unmanageable your code becomes. You can't loop through variables, and every change requires editing multiple lines.
 :::
 
-### Creating a Function
+### The Solution: Lists
 
-The solution is to write the calculation **once** and reuse it. Replace all the code in your `exercise.py` with this:
-
-```python
-# Define the function once
-def calculate_bill(meal_price):
-    tax = meal_price * 0.06  # 6% SST tax
-    service_charge = 2.00
-    total = meal_price + tax + service_charge
-    return total
-
-# Now reuse it for each customer
-total1 = calculate_bill(8.50)  # Nasi Lemak
-print(f"Customer 1 total: RM{total1:.2f}")
-
-total2 = calculate_bill(3.50)  # Roti Canai
-print(f"Customer 2 total: RM{total2:.2f}")
-
-total3 = calculate_bill(7.00)  # Mee Goreng
-print(f"Customer 3 total: RM{total3:.2f}")
-```
-
-Run this code. The output is identical, but now the calculation exists in only one place. If SST changes to 8%, you only change one line: `tax = meal_price * 0.08`
-
-### Identifying What Should Be Parameters
-
-When converting repetitive code into a function, you need to identify what should become parameters. The key is to look for **what changes** between repetitions while **what stays the same** becomes the function body.
-
-Let's analyze our restaurant example step by step.
-
-Look at the repetitive code again:
+Replace all the code in your `exercise.py` with this:
 
 ```python
-# Customer 1
-price1 = 8.50          # This changes
-tax1 = price1 * 0.06   # Formula stays the same
-service1 = 2.00        # This stays the same
-total1 = price1 + tax1 + service1  # Formula stays the same
+# Store all scores in ONE list
+scores = [85, 92, 78, 88, 95]
 
-# Customer 2
-price2 = 3.50          # This changes (different value)
-tax2 = price2 * 0.06   # Formula stays the same
-service2 = 2.00        # This stays the same
-total2 = price2 + tax2 + service2  # Formula stays the same
+# Now we can access individual scores by index
+print(f"First score: {scores[0]}")
+print(f"Third score: {scores[2]}")
+print(f"Last score: {scores[4]}")
 ```
 
-**What changes?** Only the meal price: `8.50`, `3.50`, `7.00`
+Run this code. Look at the difference:
 
-**What stays the same?** The tax rate (0.06), service charge (2.00), and the formulas
+- **One variable** instead of five
+- **Organized by position** - you can access any score using its index
+- **Adding more students?** Just add numbers to the list
 
-**Rule:** Whatever changes between repetitions should become a parameter.
-
-So we create a function with `meal_price` as the parameter:
-
+Try adding more scores to the list:
 ```python
-def calculate_bill(meal_price):  # meal_price is what changes
-    tax = meal_price * 0.06      # The formula stays the same
-    service_charge = 2.00
-    total = meal_price + tax + service_charge
-    return total
+scores = [85, 92, 78, 88, 95, 73, 91, 87]
+print(f"We now have {scores} scores")
 ```
 
-#### Example: Multiple Parameters
+Run it again. The list grows easily
 
-Sometimes more than one thing changes. Look at this rectangle calculation:
-
-```python
-# Rectangle 1
-length1 = 5
-width1 = 3
-area1 = length1 * width1
-print(f"Rectangle 1: {area1}")
-
-# Rectangle 2
-length2 = 10
-width2 = 4
-area2 = length2 * width2
-print(f"Rectangle 2: {area2}")
-
-# Rectangle 3
-length3 = 7
-width3 = 2
-area3 = length3 * width3
-print(f"Rectangle 3: {area3}")
-```
-
-**What changes?** Both `length` AND `width` change
-
-**What stays the same?** The formula `length * width`
-
-So we need **two parameters**:
-
-```python
-def calculate_rectangle_area(length, width):  # Both change, so both are parameters
-    area = length * width  # Formula stays the same
-    return area
-
-# Now call with different values
-print(f"Rectangle 1: {calculate_rectangle_area(5, 3)}")
-print(f"Rectangle 2: {calculate_rectangle_area(10, 4)}")
-print(f"Rectangle 3: {calculate_rectangle_area(7, 2)}")
-```
-
-::: tip PARAMETER IDENTIFICATION PROCESS
-1. Look at the repetitive code
-2. Make each changing value a parameter
-3. Put the logic/formula in the function body
+::: tip INFO
+A **data structure** is a way to organize and store multiple values so they can be used efficiently. Instead of many variables, you use ONE structure that holds everything.
 :::
 
-Try this practice: Look at this code and identify what should be parameters:
+## What is a List?
+
+A list is **Python**'s most commonly used data structure. Think of it as a numbered container where you can store multiple items in a specific order.
+
+### Creating Your First List
+
+Copy this code into your `exercise.py`:
 
 ```python
-# Student 1
-name1 = "Ahmad"
-marks1 = 85
-print(f"{name1} scored {marks1} marks")
+# Creating different types of lists
+fruits = ["apple", "banana", "cherry"]
+numbers = [10, 20, 30, 40, 50]
+prices = [19.99, 24.50, 15.00]
 
-# Student 2
-name2 = "Fatimah"
-marks2 = 92
-print(f"{name2} scored {marks2} marks")
-```
-
-What changes? `name` and `marks`
-
-What stays the same? The print statement structure
-
-So you'd create:
-```python
-def display_score(name, marks):  # Two parameters for two changing values
-    print(f"{name} scored {marks} marks")
-
-display_score("Ahmad", 85)
-display_score("Fatimah", 92)
-```
-
-### Understanding Function Components
-
-Every function has three essential parts that work together. Understanding these parts is crucial for writing your own functions.
-
-#### Part 1: Function Header
-
-The function header is the first line that defines the function. It has four elements:
-
-```python
-def calculate_bill(meal_price):
-│   │              │          │
-│   │              │          └─ Colon (:)
-│   │              └─────────── Parameter
-│   └─────────────────────────── Function name
-└─────────────────────────────── def keyword
-```
-
-**The def keyword** tells **Python** "I'm about to define a function."
-
-**The function name** follows **Python** naming rules:
-- Must use `snake_case` (lowercase with underscores)
-- Should describe what the function does
-- Cannot start with a number
-- Cannot use **Python** keywords
-
-**The parameter** (inside parentheses) is a placeholder for data the function needs.
-
-**The colon** marks the end of the header and tells **Python** the function body is coming next.
-
-#### Part 2: Function Body
-
-The function body contains the actual code that runs when you call the function. It must be indented (4 spaces or 1 tab):
-
-```python
-def calculate_bill(meal_price):
-    tax = meal_price * 0.06      # These lines are the body
-    service_charge = 2.00         # They must be indented
-    total = meal_price + tax + service_charge
-    return total                  # return gives back the result
-```
-
-The `return` statement is how a function gives back a value. When you write `total1 = calculate_bill(8.50)`, the returned value gets stored in `total1`.
-
-#### Part 3: Function Call
-
-To use a function, you must call it by writing its name followed by parentheses containing any required values:
-
-```python
-# Define the function
-def calculate_bill(meal_price):
-    tax = meal_price * 0.06
-    service_charge = 2.00
-    total = meal_price + tax + service_charge
-    return total
-
-# Call the function - this runs the code inside
-result = calculate_bill(8.50)
-print(result)
-```
-
-::: tip EXECUTION ORDER
-**Python** reads your code from top to bottom. You must **define** a function before you **call** it. If you try to call a function before defining it, you'll get a `NameError`.
-:::
-
-### Parameters and Arguments
-
-These two terms are often confused, but they mean different things:
-
-**Parameters** are placeholders in the function definition:
-```python
-def greet(name, age):  # name and age are PARAMETERS
-    print(f"Hello {name}, you are {age} years old")
-```
-
-**Arguments** are the actual values you pass when calling the function:
-```python
-greet("Ahmad", 20)  # "Ahmad" and 20 are ARGUMENTS
-```
-
-Think of parameters as empty boxes that get filled with arguments when you call the function.
-
-You can have multiple parameters separated by commas:
-
-```python
-def calculate_bmi(weight, height):  # Two parameters
-    bmi = weight / (height * height)
-    return bmi
-
-# Two arguments must be provided
-result = calculate_bmi(70, 1.75)
-print(f"BMI: {result:.2f}")
-```
-
-The arguments must match the parameters in both **number** and **order**:
-
-```python
-def calculate_total(price, quantity, discount):  # 3 parameters
-    subtotal = price * quantity
-    total = subtotal - discount
-    return total
-
-# Must provide exactly 3 arguments in the same order
-result = calculate_total(50, 3, 10)  # price=50, quantity=3, discount=10
-```
-
-### Return vs Print
-
-One of the most common mistakes beginners make is confusing `return` with `print`. They seem similar but serve completely different purposes.
-
-Try this experiment. Copy this code into your `exercise.py`:
-
-```python
-def add_with_print(a, b):
-    result = a + b
-    print(result)  # Displays the number on screen
-
-def add_with_return(a, b):
-    result = a + b
-    return result  # Gives back the number
-
-# Test 1: Using print
-x = add_with_print(5, 3)
-print(f"x contains: {x}")
-
-# Test 2: Using return
-y = add_with_return(5, 3)
-print(f"y contains: {y}")
+print(fruits)
+print(numbers)
+print(prices)
 ```
 
 Run this code. What do you see?
 
-The output shows:
+Each list is printed with square brackets `[ ]` and commas separating the items. This is how **Python** represents lists.
+
+### List Structure
+
+Every list has these components:
+
+```python
+fruits = ["apple", "banana", "kiwi"]
 ```
-8
-x contains: None
-y contains: 8
+
+| Component | Value |
+|-----------|-------|
+| **List name** | `fruits` |
+| **Elements** | `"apple"`, `"banana"`, `"kiwi"` |
+| **Number of elements** | 3 |
+| **List size** | 3 |
+
+The **size** and **number of elements** mean the same thing - how many items are in the list.
+
+### What Can Lists Hold?
+
+Lists can store any type of data. Try this:
+
+```python
+# Different data types
+integers = [10, 20, 30, 40, 50]
+floats = [1.5, 2.3, 3.7, 4.1]
+strings = ["apple", "banana", "cherry"]
+booleans = [True, False, True, False]
+
+print("Integers:", integers)
+print("Floats:", floats)
+print("Strings:", strings)
+print("Booleans:", booleans)
 ```
 
-Why did `x` get `None`? Because `print()` only displays information on the screen - it doesn't give anything back to the caller. When a function has no `return` statement, **Python** automatically returns `None`.
 
-The `return` version gives back the actual value, which you can store in a variable and use in further calculations.
+## Accessing List Elements: Indexing
 
-::: tip WHEN TO USE EACH
-Use `print()` when you want to show information to the user directly. Use `return` when you need to use the result in further calculations or store it in a variable.
+Now that you can create lists, you need to know how to access individual items. This is where **indexing** comes in.
+
+### Positive Indexing
+
+**Python** numbers list elements starting from `0`. This is called **zero-based indexing**.
+
+```python
+fruits = ["apple", "banana", "kiwi", "durian", "guava", "orange"]
+#          0        1         2       3         4        5
+```
+
+Copy this code:
+
+```python
+fruits = ["apple", "banana", "kiwi", "durian", "guava", "orange"]
+
+print(fruits[0])  # First element
+print(fruits[2])  # Third element
+print(fruits[5])  # Sixth element
+```
+
+Run this code. What do you see?
+
+
+::: warning COMMON MISTAKE
+The first element is at index `0`, not `1`
 :::
 
-Try this to see why `return` is necessary for calculations:
+### Negative Indexing
+
+**Python** also lets you count from the **end** of the list using negative numbers:
 
 ```python
-def calculate_discount(price):
-    return price * 0.10  # Returns 10% of price
-
-original_price = 100.00
-discount_amount = calculate_discount(original_price)
-final_price = original_price - discount_amount
-print(f"Final price: RM{final_price:.2f}")
+fruits = ["apple", "banana", "kiwi", "durian", "guava", "orange"]
+#          -6       -5        -4      -3        -2       -1
 ```
 
-Now try changing `return` to `print` in the function. What happens? You'll get an error because you can't subtract `None` from a number!
-
-## Factorization: Don't Repeat Yourself
-
-Factorization is the process of taking repeated code and extracting it into a reusable function. This is one of the most important principles in programming.
-
-### Identifying Repetition
-
-Look for these signs that indicate you need factorization:
-1. You're copy-pasting code blocks
-2. The same calculation appears multiple times
-3. Only the values change, but the logic stays the same
-
-Copy this example into your `exercise.py`:
+Try this:
 
 ```python
-# Calculating areas without factorization
-pi = 3.14159
+fruits = ["apple", "banana", "kiwi", "durian", "guava", "orange"]
 
-# Circle 1
-radius1 = 5
-area1 = pi * radius1 * radius1
-print(f"Circle 1 (radius {radius1}): Area = {area1:.2f}")
-
-# Circle 2
-radius2 = 10
-area2 = pi * radius2 * radius2
-print(f"Circle 2 (radius {radius2}): Area = {area2:.2f}")
-
-# Circle 3
-radius3 = 7
-area3 = pi * radius3 * radius3
-print(f"Circle 3 (radius {radius3}): Area = {area3:.2f}")
+print(fruits[-1])  # Last element
+print(fruits[-2])  # Second-to-last element
+print(fruits[-6])  # First element (counting from end)
 ```
 
-Run this code. Notice how `pi * radius * radius` appears three times? This is a perfect candidate for factorization.
+Run this code. Notice that:
+- `fruits[-1]` gives you the **last** element (`"orange"`)
+- `fruits[-2]` gives you the **second-to-last** element (`"guava"`)
 
-### Refactoring with Functions
-
-Refactoring means improving code structure without changing what it does. Replace the code above with this factorized version:
-
-```python
-def calculate_circle_area(radius):
-    pi = 3.14159
-    area = pi * radius * radius
-    return area
-
-# Now the calculation is defined once and reused
-area1 = calculate_circle_area(5)
-print(f"Circle 1 (radius 5): Area = {area1:.2f}")
-
-area2 = calculate_circle_area(10)
-print(f"Circle 2 (radius 10): Area = {area2:.2f}")
-
-area3 = calculate_circle_area(7)
-print(f"Circle 3 (radius 7): Area = {area3:.2f}")
-```
-
-The benefits are immediate:
-- If you need to calculate 100 circles, you just call the function 100 times
-- If you need a more precise value of pi (3.14159265), you change only one line
-- The code is shorter and easier to read
-
-## Single Responsibility Principle
-
-Each function should have **one** clear job. When a function tries to do too many things, it becomes difficult to understand, test, and modify.
-
-### Recognizing Multiple Responsibilities
-
-A function has multiple responsibilities if it:
-- Gets input AND processes it AND displays output
-- Performs multiple unrelated calculations
-- Makes decisions AND displays results
-
-Try this example:
-
-```python
-def process_student():
-    # Responsibility 1: Getting input
-    name = input("Enter student name: ")
-    score = int(input("Enter score: "))
-    
-    # Responsibility 2: Making decision
-    if score >= 50:
-        status = "Pass"
-    else:
-        status = "Fail"
-    
-    # Responsibility 3: Displaying output
-    print(f"Student: {name}")
-    print(f"Score: {score}")
-    print(f"Status: {status}")
-
-# Run the function
-process_student()
-```
-
-This function does three completely different jobs. What if you want to change how pass/fail is determined but keep the same input method? You'd have to dig through all the code.
-
-### Splitting Responsibilities
-
-A better approach is to split this into three focused functions:
-
-```python
-def get_student_data():
-    name = input("Enter student name: ")
-    score = int(input("Enter score: "))
-    return name, score
-
-def determine_status(score):
-    if score >= 50:
-        return "Pass"
-    else:
-        return "Fail"
-
-def display_results(name, score, status):
-    print(f"Student: {name}")
-    print(f"Score: {score}")
-    print(f"Status: {status}")
-
-# Use them together
-student_name, student_score = get_student_data()
-student_status = determine_status(student_score)
-display_results(student_name, student_score, student_status)
-```
-
-Now each function has one clear purpose:
-- `get_student_data()` only handles input
-- `determine_status()` only makes the pass/fail decision
-- `display_results()` only shows information
-
-If the passing grade changes to 60, you only modify `determine_status()`. The other functions remain untouched.
-
-::: tip THE 5-WORD TEST
-If you can't describe what a function does in 5 words or less, it probably does too much and should be split.
+::: tip WHEN TO USE NEGATIVE INDEXING
+Use `[-1]` when you need the last item but don't know the list size. This is much more common than other negative indices. In practice, you'll rarely use anything beyond `[-1]` or `[-2]`.
 :::
 
-## Decomposition: Breaking Down Complex Problems
+### Nested List Indexing
 
-Decomposition is the art of breaking a large, complex task into smaller, manageable functions. Instead of writing one massive function that does everything, you create several small functions that each handle one piece of the puzzle.
-
-### Why Decompose?
-
-Consider calculating an employee's monthly salary:
-1. Base salary
-2. Add allowances (transport, meal)
-3. Add overtime pay
-4. Subtract EPF (11%)
-5. Subtract SOCSO (2%)
-6. Calculate net salary
-
-Writing this as one long calculation is error-prone and hard to understand. Instead, decompose it into steps.
-
-### Step-by-Step Decomposition
-
-Create separate functions for each calculation step:
+Lists can contain other lists This is called **nesting**. Try this:
 
 ```python
-def calculate_allowances():
-    transport = 200.00
-    meal = 150.00
-    return transport + meal
+students = [
+    ["Ali", 85, 92],
+    ["Sara", 90, 88],
+    ["Ahmad", 78, 82]
+]
 
-def calculate_overtime(base_salary, overtime_hours):
-    hourly_rate = base_salary / 160  # Assuming 160 working hours per month
-    overtime_rate = hourly_rate * 1.5  # 1.5x for overtime
-    return overtime_hours * overtime_rate
+# Access the first student's data
+print(students[0])  # ['Ali', 85, 92]
 
-def calculate_epf(gross_salary):
-    return gross_salary * 0.11
+# Access Ali's name
+print(students[0][0])  # Ali
 
-def calculate_socso(gross_salary):
-    return gross_salary * 0.02
-
-def calculate_net_salary(base_salary, overtime_hours):
-    # Step 1: Calculate gross salary
-    allowances = calculate_allowances()
-    overtime = calculate_overtime(base_salary, overtime_hours)
-    gross = base_salary + allowances + overtime
-    
-    # Step 2: Calculate deductions
-    epf = calculate_epf(gross)
-    socso = calculate_socso(gross)
-    
-    # Step 3: Calculate net
-    net = gross - epf - socso
-    return net
-
-# Use it
-salary = calculate_net_salary(5000, 10)
-print(f"Net salary: RM{salary:.2f}")
+# Access Sara's second score
+print(students[1][2])  # 88
 ```
 
+Run this code. The pattern is `list[outer_index][inner_index]`.
 
-Each function is simple and focused. If EPF rate changes, you only modify `calculate_epf()`. If overtime rules change, you only modify `calculate_overtime()`.
+### The IndexError
 
-This approach makes debugging easier too. If the final number seems wrong, you can test each function individually to find which step has the bug.
+What happens if you try to access an index that doesn't exist? Try this:
 
-## Exercise 1: Road Trip Budgeter <Badge type="warning" text="Task" />
+```python
+fruits = ["apple", "banana", "cherry"]
+print(fruits[5])  # Only 3 elements, but asking for index 5
+```
+
+Run this code. You'll see:
+
+```
+IndexError: list index out of range
+```
+
+This error means you tried to access a position that doesn't exist in the list.
+
+::: danger PREVENTING IndexError
+Always make sure the index you're using is within the valid range. The valid indices for a list with 3 elements are 0, 1, 2 (or -1, -2, -3).
+:::
+
+## Modifying Lists
+
+Lists are **mutable**, which means you can change them after creation.
+
+### Changing Elements
+
+You can modify individual elements by assigning a new value to an index:
+
+```python
+numbers = [10, 20, 30]
+print(numbers)  # [10, 20, 30]
+
+numbers[1] = 25  # Change the second element
+print(numbers)  # [10, 25, 30]
+```
+
+Try this yourself. Change different indices and see what happens
+
+
+
+## Exercise 1: Pixel Brightness Checker <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab02/exercise1/exercise1.py`.
 
 **Situation:**
 
-A driver wants to know if his money is enough for a **round trip**. The condition depends on the length of the trip, the cost of fuel and fuel per litre used by the car.
+An image processing app analyzes a row of pixels stored as grayscale values (0-255, where 0 is black and 255 is white). The app needs to count "bright spots" - pixels that are brighter than BOTH their left and right neighbors.
+
+**Example:**
+```
+Pixels: [100, 120, 200, 150, 180, 160, 140]
+         0    1    2    3    4    5    6
+
+Index 2: brighter than neighbors → Bright spot
+Index 4: brighter than neighbors → Bright spot
+Count = 2
+```
 
 **Task:**
-Write a program using boolean logic.
 
-## Exercise 2: Camping Logistics <Badge type="warning" text="Task" />
+Write a function that takes a list of pixel values, returns the count of bright spots.
+
+## Exercise 2: Subway Station Hop Counter <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab02/exercise2/exercise2.py`.
 
 **Situation:**
 
-A camp organizer needs to calculate the **total budget** for an event. The total cost is determined by the cost of tents (based on number of participants and tent capacity) plus the cost of food (per participant).
+A subway line has stations stored in order in a list. A passenger wants to know how many stops between two stations by name.
+
+If a station name does not exist in the list, return `-1`.
+
+**Example:**
+```
+Stations: ["Central", "Marina", "Bukit", "Orchard", "Sentosa"]
+
+From "Marina" to "Sentosa"
+Marina at index 1, Sentosa at index 4
+Stops = 3
+
+From "Marina" to "Unknown"
+→ -1 (station name does not exist)
+```
 
 **Task:**
-Write a program that calculates and returns the single **total cost** required for the event.
 
-## Exercise 3: Secure Vault System <Badge type="warning" text="Task" />
+Write functions that:
+1. Find a station's position in the list
+2. Calculate the stops between two stations
+
+## Exercise 3: Cinema Seat Finder <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab02/exercise3/exercise3.py`.
 
 **Situation:**
 
-A high-security vault system requires authentication. Access is granted ONLY to:
-1. "Director" with PIN `1122`
-2. "Security" with PIN `9900`
+A cinema booking system stores seat availability for a row as a list. Each element represents a seat: `0` means empty, `1` means taken. A couple wants to sit together, so the system needs to check if there are two adjacent empty seats anywhere in the row.
 
-Any other name or PIN combination must result in denied access.
+**Example:**
+```
+Row: [1, 0, 0, 1, 0, 1, 0, 0]
+      0  1  2  3  4  5  6  7
+
+Adjacent empty pairs found at positions (1,2) and (6,7)
+→ True
+```
 
 **Task:**
-Write a program that validates entry attempts and returns `True` (Access Granted) or `False` (Access Denied).
 
-## Exercise 4: Dynamic Parking Rate <Badge type="warning" text="Task" />
+Write a function that takes a list of seats, returns `True` if adjacent empty seats exist, `False` otherwise.
+
+## Exercise 4: Weather Trend Analyzer <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab02/exercise4/exercise4.py`.
 
 **Situation:**
 
-A parking system determines hourly rates dynamically:
-- **Electric** vehicles pay **RM2.00/hour** at all times.
-- **Hybrid** vehicles pay **RM2.00/hour** ONLY between **10pm (22)** and **6am (6)**. Otherwise, they pay **RM5.00/hour**.
-- All **Other** vehicles pay **RM5.00/hour** at all times.
+A weather app tracks daily temperatures. A "warming trend" is detected when the temperature increases for 2 consecutive days (day 2 > day 1 AND day 3 > day 2).
+
+**Example:**
+```
+Temps: [25, 27, 29, 28, 30, 32, 31]
+        0   1   2   3   4   5   6
+
+Days 0-1-2: 25 → 27 → 29 (increasing twice) → Warming trend found
+Days 3-4-5: 28 → 30 → 32 (increasing twice) → Warming trend found
+```
 
 **Task:**
-Write a program that calculates and returns the correct hourly rate (float) based on vehicle type and hour.
 
-## Exercise 5: Triangle Checker <Badge type="warning" text="Task" />
+Write a function that takes a list of temperatures, returns `True` if a warming trend exists, `False` otherwise.
+
+## Exercise 5: Race Overtake Detector <Badge type="warning" text="Task" />
 
 Navigate to `/labs/lab02/exercise5/exercise5.py`.
 
 **Situation:**
-A geometry app needs a function to verify if three given line segments can physically form a triangle.
 
-**Rule:**
-A triangle is valid only if the sum of any two sides is greater than the third side:
-1. `side1 + side2 > side3`
-2. `side1 + side3 > side2`
-3. `side2 + side3 > side1`
+A motorsport race tracker records car positions at two checkpoints. Each list contains car numbers in finishing order - index 0 is 1st place, index 1 is 2nd place, and so on.
 
-**Task:**
-Write a function `is_valid_triangle(a, b, c)` that returns `True` if valid, `False` otherwise.
+All cars exist in both checkpoint lists.
 
-## Exercise 6: Leap Year Detector <Badge type="warning" text="Task" />
+**Example 1:**
+```
+Checkpoint 1: [5, 3, 7, 2, 9]
+Checkpoint 2: [5, 7, 3, 2, 9]
 
-Navigate to `/labs/lab02/exercise6/exercise6.py`.
+Did Car 7 overtake Car 3?
+- Before: Car 7 at index 2, Car 3 at index 1 → Car 7 behind
+- After:  Car 7 at index 1, Car 3 at index 2 → Car 7 ahead
+→ True
+```
 
-**Situation:**
-A calendar app needs to identify leap years correctly to handle February 29th.
+**Example 2:**
+```
+Checkpoint 1: [5, 3, 7, 2, 9]
+Checkpoint 2: [5, 7, 3, 2, 9]
 
-**Rules:**
-A year is a leap year if:
-1. It is exactly divisible by 4...
-2. BUT NOT if it is divisible by 100...
-3. UNLESS it is ALSO divisible by 400.
-
-**Examples:**
-- 2024: Yes (divisible by 4)
-- 1900: No (divisible by 100)
-- 2000: Yes (divisible by 400)
+Did Car 5 overtake Car 3?
+→ False (Car 5 was already ahead)
+```
 
 **Task:**
-Write a function `is_leap_year(year)` that returns `True` or `False`.
 
-## Exercise 7: Rectangle Collision <Badge type="warning" text="Task" />
+Write functions that:
+1. Find a car's position in a checkpoint list
+2. Determine if one car overtook another
 
-Navigate to `/labs/lab02/exercise7/exercise7.py`.
-
-**Situation:**
-A game engine needs to detect if two objects (rectangles) have crashed into each other.
-
-**Task:**
-Write a function `check_collision(x1, y1, w1, h1, x2, y2, w2, h2)` that returns `True` if the rectangles overlap, `False` if they don't.
-
-**Parameters:**
-- `x1, y1`: Top-left coordinate of Rectangle 1
-- `w1, h1`: Width and Height of Rectangle 1
-- `x2, y2`: Top-left coordinate of Rectangle 2
-- `w2, h2`: Width and Height of Rectangle 2
-
-**Hint:**
-It is easier to check when they **DON'T** overlap:
-- Rect 1 is too far to the Left of Rect 2
-- Rect 1 is too far to the Right of Rect 2
-- Rect 1 is too high above Rect 2
-- Rect 1 is too low below Rect 2
-
-If NONE of these are true, they must be touching!
-
-## Exercise 8: Bouncing Ball Simulation <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab02/exercise8/exercise8.py`.
-
-**Situation:**
- 
-A ball is dropped from a certain height. When it hits the ground, it bounces back up but only reaches 80% of its previous height due to energy loss. The ball continues bouncing, getting lower each time, until the bounce height becomes less than 1 unit. At that point, the ball is considered stopped.
-
-Your task is to simulate this bouncing behavior.
-
-**You need to calculate:**
-1. How many times the ball bounces before stopping
-2. The total distance traveled by the ball (including the initial drop and all bounces up and down)
-
-**Rules:**
-- Each bounce reaches 80% of the previous height
-- Ball stops when bounce height is less than 1
-- Total distance includes: initial drop + (each bounce up + down)
-
-**Task:**
-Write functions that work together to simulate the bouncing ball and return the bounce count and total distance.
-
-## Exercise 9: Level Up Calculator <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab02/exercise9/exercise9.py`.
-
-**Situation:**
- 
-In a game, leveling up requires XP. Each level requires more XP than the previous:
-
-- Level 1 → 2: 100 XP
-- Level 2 → 3: 200 XP
-- Level 3 → 4: 300 XP
-- ...and so on (+100 more each level)
-
-A player has a total amount of XP. Calculate what level they reach and how much XP is left over.
-
-**You need to find:**
-1. The player's final level
-2. The remaining XP after leveling
-
-**Rules:**
-- Start at level 1
-- Each level costs 100 more XP than the previous
-- Keep leveling up until not enough XP for next level
-
-**Task:**
-Write functions that work together to calculate the player's final level and remaining XP.
-
-## Exercise 10: Drone Battery Manager <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab02/exercise10/exercise10.py`.
-
-**Situation:**
-A drone is performing a forest survey. It consumes **1.5% battery per 10 meters** traveled. If the drone is in **"Sport Mode"**, this battery consumption **increases by 50%**. The drone needs to know if it has enough power to complete its mission and safely fly back to its starting point.
-
-**Task:**
-Write functions that work together to estimate battery usage for a **round trip** and return if it is safe to fly.
-
-## Exercise 11: ATM Request Processor <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab02/exercise11/exercise11.py`.
-
-**Situation:**
-A bank ATM processes withdrawal requests. For security and mechanical reasons:
-1. All withdrawals must be in **multiples of RM10**.
-2. The customer must have a **sufficient account balance**.
-
-**Task:**
-Write functions that work together to validate these rules and return the new balance if successful, or an error message.
-
-## Exercise 12: RPG Strike Calculator <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab02/exercise12/exercise12.py`.
-
-**Situation:**
-A role-playing game calculates combat damage based on a hero's **Luck** and **Base Attack**. If the hero's Luck is **above 70**, they land a "Critical Hit" that **doubles** their attack power. The final damage dealt is the attack power minus the **Enemy's Defense**.
-
-**Task:**
-Write functions that work together to calculate the enemy's final health (Health - Damage) and return it.
-
-## Exercise 13: Global Shipping Quoter <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab02/exercise13/exercise13.py`.
-
-**Situation:**
-A shipping firm calculates delivery costs based on weight and destination:
-- **Domestic:** RM5.00 per kg
-- **International:** RM15.00 per kg
-- **Express Surcharge:** Add a flat RM10.00 if the user selects "Express Delivery."
-
-**Task:**
-Write functions that work together to calculate and return the final shipping quote.
-
-## Exercise 14: Smart Garden Controller <Badge type="warning" text="Task" />
-
-Navigate to `/labs/lab02/exercise14/exercise14.py`.
-
-**Situation:**
-A smart home system manages garden watering. It should turn on the pump ONLY if:
-1. Soil moisture is **below 30%**.
-2. It is a **safe time** to water. (It is dangerous to water between **10 AM and 4 PM** because the sun might scorch the leaves, UNLESS the temperature is **above 40°C**, in which case the plants need cooling anyway).
-
-**Task:**
-Write functions that work together to decide if the water pump should be triggered.
- 
- ## Commit and Push Your Work
+## Commit and Push Your Work
 
 After completing all exercises, save all your files and commit them to your repository.
 
-Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 2: Functions", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
+Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 2: Lists and Data Structures", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
+
