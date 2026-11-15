@@ -73,24 +73,9 @@
 }
 
 /* ---- Lab instructions: no boxes, just typography ----
-   Mark an instruction paragraph with {.do} at the end of the line:
-     Run these in Git Bash: {.do}
-   It gets a small arrow hanging in the left margin and slightly heavier text. */
-.vp-doc p.do {
-    position: relative;
-    margin-top: 22px;
-    font-weight: 600;
-    color: var(--vp-c-text-1);
-}
-.vp-doc p.do::before {
-    content: '→';
-    position: absolute;
-    left: -1.35em;
-    top: 0;
-    font-weight: 600;
-    color: var(--vp-c-brand-1);
-}
-.vp-doc p.do + div[class*='language-'] { margin-top: 10px; }
+   An instruction line is <Do>…</Do> (brand colour, semi-bold; see Do.vue).
+   The code box sits close under it. */
+.vp-doc .ui-do + div[class*='language-'] { margin-top: 10px; }
 
 /* Terminal blocks (```console): prompt and output are quieter than the command */
 .vp-doc div.language-console .term-prompt { color: var(--vp-c-text-3) !important; user-select: none; }

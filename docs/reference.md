@@ -13,11 +13,11 @@ The coloured pill badge is called `<UiBadge>` here, so VitePress's own `<Badge t
 
 ## Lab Layout (sample)
 
-How lab instructions are written: no boxes around them. A section is a verb heading, then instruction lines (arrow in the margin, slightly heavier text), then the code box. Terminal code boxes show the command and what comes back; the copy button copies only the commands.
+How lab instructions are written: no boxes around them. A section is a verb heading, then the instruction line (brand colour, semi-bold), then the code box. Terminal code boxes show the command and what comes back; the copy button copies only the commands.
 
 ### Create Your Course Folder
 
-Run these in Git Bash: {.do}
+<Do>Run these in Git Bash:</Do>
 
 ```console
 $ cd ~
@@ -36,13 +36,17 @@ $ pwd
 
 ### Fork the Class Repository
 
-Open the [`CP125-Class-Repo`](https://github.com/JSK-KML/CP125-Class-Repo) on GitHub, click `Fork`, then `Create fork`. {.do}
+<Do>
+
+Open the [`CP125-Class-Repo`](https://github.com/JSK-KML/CP125-Class-Repo) on GitHub, click `Fork`, then `Create fork`.
+
+</Do>
 
 *The page now shows GITHUB-USERNAME/CP125-Class-Repo.*
 
 ### Make Your First Commit
 
-Create a small file and run it: {.do}
+<Do>Create a small file and run it:</Do>
 
 ```console
 $ echo 'print("Hello, CP125")' > labs/lab01/hello.py
@@ -50,7 +54,7 @@ $ python labs/lab01/hello.py
 Hello, CP125
 ```
 
-Commit it and send it to GitHub: {.do}
+<Do>Commit it and send it to GitHub:</Do>
 
 ```console
 $ git add labs/lab01/hello.py
@@ -67,7 +71,7 @@ Tips, warnings and danger notes keep their usual style.
 ### How to write it
 
 ````md
-Run these in Git Bash: {.do}
+<Do>Run these in Git Bash:</Do>
 
 ```console
 $ cd ~
@@ -76,12 +80,16 @@ $ pwd
 /c/Users/you/YOURNAME-CP125
 ```
 
-Open the CP125-Class-Repo on GitHub and click `Fork`. {.do}
+<Do>
+
+Open the [CP125-Class-Repo](https://github.com/JSK-KML/CP125-Class-Repo) on GitHub and click `Fork`.
+
+</Do>
 
 *The page now shows GITHUB-USERNAME/CP125-Class-Repo.*
 ````
 
-- End an instruction line with `{.do}` to give it the margin arrow.
+- Put each instruction inside `<Do>…</Do>`. Plain text can sit on one line; if it has links or `code`, put blank lines inside the tags (as in the Fork example).
 - Use ` ```console ` for terminal blocks: commands start with `$ `, output lines don't.
 - A result that isn't terminal output goes in one italic line under the instruction.
 

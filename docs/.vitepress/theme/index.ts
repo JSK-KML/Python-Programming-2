@@ -34,6 +34,7 @@ import InfoCard from './components/ui/InfoCard.vue'
 import Action from './components/ui/Action.vue'
 import Check from './components/ui/Check.vue'
 import YourDetails from './components/ui/YourDetails.vue'
+import Do from './components/ui/Do.vue'
 import { loadDetails, fillPage } from './components/ui/your-details.js'
 import { markTerminalBlocks } from './terminal.js'
 
@@ -51,7 +52,9 @@ export default {
       ScrollTimeline, ScrollStep, Icon, StatGrid, StatCard, InfoCard,
       // Lab layout: <Action> = an instruction, <Check> = expected result,
       // <YourDetails> = fills YOURNAME / GITHUB-USERNAME / GITHUB-EMAIL in the page.
-      Action, Check, YourDetails
+      Action, Check, YourDetails,
+      // <Do>…</Do> = an instruction line (brand colour, semi-bold, no box).
+      Do
     }
     for (const [name, comp] of Object.entries(ui)) app.component(name, comp)
   },
