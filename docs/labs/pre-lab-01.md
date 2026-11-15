@@ -41,7 +41,7 @@ Click `Terminal` → `New Terminal`.
     <img src="/labs/lab-01/lab-1-8.png" alt="drawing" width="400"/>
 </p>
 
-*A terminal opens at the bottom of **VS Code**, with a prompt ending in `$`.*
+A terminal opens at the bottom of **VS Code**, with a prompt ending in `$`.
 
 <p align="center">
     <img src="/labs/lab-01/lab-1-9.png" alt="drawing" width="400"/>
@@ -59,7 +59,7 @@ Open the [`CP125-Class-Repo`](https://github.com/JSK-KML/CP125-Class-Repo) on **
     <img src="/labs/lab-01/lab-1-2.png" alt="drawing" width="400"/>
 </p>
 
-*The page now shows GITHUB-USERNAME/CP125-Class-Repo, forked from JSK-KML/CP125-Class-Repo.*
+The page now shows GITHUB-USERNAME/CP125-Class-Repo, forked from JSK-KML/CP125-Class-Repo.
 
 ## Log In to GitHub
 
@@ -84,7 +84,7 @@ Copy the one-time code, press `Enter`, paste the code in the browser and click `
 
 </Do>
 
-*The terminal shows `✓ Logged in as GITHUB-USERNAME`.*
+The terminal shows `✓ Logged in as GITHUB-USERNAME`.
 
 <Do>Set the name and email for your commits:</Do>
 
@@ -134,7 +134,7 @@ README.md  labs/
 $ code .
 ```
 
-*VS Code opens with `CP125-CLASS-REPO` in the `Explorer`. Open a new terminal there (`Terminal` → `New Terminal`); it starts inside `CP125-Class-Repo`.*
+VS Code opens with `CP125-CLASS-REPO` in the `Explorer`. Open a new terminal there (`Terminal` → `New Terminal`); it starts inside `CP125-Class-Repo`.
 
 ## Make Your First Commit and Push
 
@@ -177,7 +177,7 @@ Refresh `github.com/GITHUB-USERNAME/CP125-Class-Repo` in the browser.
 
 </Do>
 
-*You see the commit message **Add hello.py**, and `hello.py` inside `labs/lab01`.*
+You see the commit message **Add hello.py**, and `hello.py` inside `labs/lab01`.
 
 ## Sync Your Fork {#syncing-your-fork}
 
@@ -205,7 +205,7 @@ $ python --version
 Python 3.13.1
 ```
 
-*Your prompt now starts with `(cp125_env)`, and a `cp125_env` folder appears in the `Explorer`.*
+Your prompt now starts with `(cp125_env)`, and a `cp125_env` folder appears in the `Explorer`.
 
 ::: tip Every new terminal
 Run `source cp125_env/Scripts/activate` each time you open a new terminal.
