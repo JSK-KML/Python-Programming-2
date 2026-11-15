@@ -1,36 +1,8 @@
 <template>
-  <div ref="root" class="ui-steps"><slot /></div>
+  <!-- Wraps a markdown ordered list and turns it into a numbered procedure.
+       Static: steps are always visible, no scroll-in animation. -->
+  <div class="ui-steps"><slot /></div>
 </template>
-
-<script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-
-// Wraps a markdown ordered list and turns it into a numbered procedure.
-// Steps fade in one by one as they scroll into view.
-const root = ref(null)
-let io = null
-
-onMounted(() => {
-  const items = root.value?.querySelectorAll(':scope > ol > li') || []
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) return
-  io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-in')
-          io.unobserve(e.target)
-        }
-      }
-    },
-    { rootMargin: '0px 0px -10% 0px' }
-  )
-  items.forEach((li) => {
-    li.classList.add('will-animate')
-    io.observe(li)
-  })
-})
-onBeforeUnmount(() => io?.disconnect())
-</script>
 
 <style scoped>
 .ui-steps { margin: 24px 0; }
@@ -76,11 +48,4 @@ onBeforeUnmount(() => io?.disconnect())
 }
 .ui-steps :deep(> ol > li > p:first-child) { margin-top: 3px; }
 .ui-steps :deep(> ol > li > :first-child) { font-weight: 600; }
-
-.ui-steps :deep(> ol > li.will-animate) {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.2, 0, 0, 1);
-}
-.ui-steps :deep(> ol > li.will-animate.is-in) { opacity: 1; transform: none; }
 </style>

@@ -331,19 +331,3 @@ Some of you might not see the **Configure Python Tests** option. This happens wh
    </p>
 
 </Steps>
-
-## Quick Check
-
-<Quiz
-  question="You are using Git Bash. Which command activates your virtual environment?"
-  :options="['cp125_env\\Scripts\\activate', 'source cp125_env/Scripts/activate', 'python -m venv cp125_env', 'activate cp125_env']"
-  :answer="1"
-  explain="Git Bash uses Linux-style commands: source plus forward slashes. python -m venv only creates the environment; it doesn't activate it."
-/>
-
-<Quiz
-  question="What does Push do?"
-  :options="['Saves a snapshot of your changes on your computer', 'Downloads the repository to your computer', 'Sends your commits from your computer to your repository on GitHub', 'Makes a copy of someone else\'s repository under your account']"
-  :answer="2"
-  explain="Commit saves the snapshot locally, Clone downloads, and Fork copies a repository to your account. Push uploads your commits to GitHub."
-/>
