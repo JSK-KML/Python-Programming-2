@@ -11,38 +11,6 @@ You need a **GitHub** account, and **Python**, **Git** and **VS Code** installed
 
 <YourDetails />
 
-## Install the Python Extension
-
-<Do>
-
-In **VS Code**, open `Extensions`, search for `Python` and install the one by **Microsoft**.
-
-</Do>
-
-<p align="center">
-    <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
-</p>
-
-## Open Git Bash in VS Code
-
-<Steps>
-
-1. Press `Ctrl` + `Shift` + `P`, type `Terminal: Select Default Profile` and choose `Git Bash`.
-
-2. Click `Terminal` → `New Terminal`.
-
-   <p align="center">
-       <img src="/labs/lab-01/lab-1-8.png" alt="drawing" width="400"/>
-   </p>
-
-   A terminal opens at the bottom of **VS Code**, with a prompt ending in `$`.
-
-   <p align="center">
-       <img src="/labs/lab-01/lab-1-9.png" alt="drawing" width="400"/>
-   </p>
-
-</Steps>
-
 ## Fork the Class Repository
 
 <Do>
@@ -56,6 +24,16 @@ Open the [`CP125-Class-Repo`](https://github.com/JSK-KML/CP125-Class-Repo) on **
 </p>
 
 The page now shows GITHUB-USERNAME/CP125-Class-Repo, forked from JSK-KML/CP125-Class-Repo.
+
+## Open Git Bash
+
+<Do>
+
+Press the `Windows` key, type `Git Bash` and open it.
+
+</Do>
+
+A terminal window opens with a prompt ending in `$`.
 
 ## Log In to GitHub
 
@@ -132,7 +110,33 @@ $ pwd
    $ code .
    ```
 
-   **VS Code** opens with `CP125-CLASS-REPO` in the `Explorer`. Open a new terminal there (`Terminal` → `New Terminal`); it starts inside `CP125-Class-Repo`.
+   **VS Code** opens with `CP125-CLASS-REPO` in the `Explorer`. You can close the Git Bash window now.
+
+</Steps>
+
+## Set Up VS Code
+
+<Steps>
+
+1. Open `Extensions`, search for `Python` and install the one by **Microsoft**.
+
+   <p align="center">
+       <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
+   </p>
+
+2. Press `Ctrl` + `Shift` + `P`, type `Terminal: Select Default Profile` and choose `Git Bash`.
+
+3. Click `Terminal` → `New Terminal`.
+
+   <p align="center">
+       <img src="/labs/lab-01/lab-1-8.png" alt="drawing" width="400"/>
+   </p>
+
+   A Git Bash terminal opens at the bottom of **VS Code**, already inside `CP125-Class-Repo`. Use this terminal for the rest of the pre-lab.
+
+   <p align="center">
+       <img src="/labs/lab-01/lab-1-9.png" alt="drawing" width="400"/>
+   </p>
 
 </Steps>
 
