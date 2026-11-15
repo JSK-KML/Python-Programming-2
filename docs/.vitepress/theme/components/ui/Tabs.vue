@@ -7,7 +7,7 @@
       </TabsTrigger>
     </TabsList>
     <div ref="panels" class="ui-tabs-panels">
-      <div ref="inner">
+      <div ref="inner" class="ui-tabs-inner">
         <TabsContent v-for="t in tabs" :key="t.label" :value="t.label" class="ui-tabs-content">
           <component :is="t.vnode" />
         </TabsContent>
@@ -63,6 +63,10 @@ function glide() {
   if (performance.now() > switchUntil || reduced()) return
   const box = panels.value
   const from = fromHeight
+  // Wait until the new panel is in place (the old one fades out on top,
+  // taken out of the flow, so `inner` measures only the new panel).
+  const activePanel = inner.value.querySelector(':scope > .ui-tabs-content[data-state="active"]')
+  if (!activePanel || !activePanel.firstElementChild) return
   const to = inner.value.getBoundingClientRect().height
   if (Math.abs(from - to) < 1) return
   fromHeight = to
@@ -130,8 +134,22 @@ onBeforeUnmount(() => mo?.disconnect())
 }
 
 .ui-tabs-panels { overflow: hidden; }
+.ui-tabs-inner { position: relative; }
 .ui-tabs-content { padding: 16px 20px; }
-.ui-tabs-content[data-state='active'] { animation: ui-tab-in 0.36s cubic-bezier(0.25, 0.8, 0.25, 1) both; }
+
+/* Crossfade: the old panel fades out on top of the new one (Reka keeps it
+   mounted until this exit animation ends), while the new panel fades in. */
+.ui-tabs-content[data-state='active'] {
+  animation: ui-tab-in 0.38s cubic-bezier(0.25, 0.8, 0.25, 1) 0.06s both;
+}
+.ui-tabs-content[data-state='inactive'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  animation: ui-tab-out 0.22s ease-out both;
+}
 .ui-tabs-content :deep(> div > :first-child) { margin-top: 0; }
 .ui-tabs-content :deep(> div > :last-child) { margin-bottom: 0; }
 /* On phones VitePress makes code blocks full-bleed; keep them inside the box. */
@@ -141,9 +159,14 @@ onBeforeUnmount(() => mo?.disconnect())
   from { opacity: 0; transform: translateY(3px); }
   to { opacity: 1; transform: none; }
 }
+@keyframes ui-tab-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-tabs-content[data-state='active'] { animation: none; }
+  .ui-tabs-content[data-state='active'],
+  .ui-tabs-content[data-state='inactive'] { animation: none; }
   .ui-tabs-indicator { transition: none; }
 }
 </style>
