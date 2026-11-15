@@ -8,7 +8,7 @@ import {
   BookOpen, GraduationCap, FlaskConical, FileCheck, Calendar, ClipboardList,
   Microscope, Dna, Leaf, Atom, Brain, HeartPulse, Sprout, Bug, Clock, Target,
   Trophy, Users, Layers, Lightbulb, FileText, ListChecks, Sparkle, Droplets, Sun, Zap,
-  SquareTerminal, MousePointerClick, CircleCheck, UserPen
+  SquareTerminal, MousePointerClick, CircleCheck, UserPen, CircleChevronRight
 } from 'lucide-static'
 
 // Curated icon set (Lucide). Use by name: <Icon name="dna" />
@@ -20,7 +20,8 @@ const icons = {
   trophy: Trophy, users: Users, layers: Layers, lightbulb: Lightbulb,
   'file-text': FileText, 'list-checks': ListChecks, sparkle: Sparkle,
   droplets: Droplets, sun: Sun, zap: Zap,
-  terminal: SquareTerminal, 'mouse-pointer-click': MousePointerClick, 'circle-check': CircleCheck, 'user-pen': UserPen
+  terminal: SquareTerminal, 'mouse-pointer-click': MousePointerClick, 'circle-check': CircleCheck, 'user-pen': UserPen,
+  'circle-chevron-right': CircleChevronRight
 }
 
 const props = defineProps({
