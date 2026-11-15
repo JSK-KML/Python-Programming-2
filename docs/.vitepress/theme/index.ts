@@ -1,4 +1,5 @@
 // docs/.vitepress/theme/index.ts
+/// <reference path="../shims-vue.d.ts" />
 import DefaultTheme from 'vitepress/theme'
 import { onMounted, watch, nextTick } from 'vue'
 import { useRoute } from 'vitepress'
