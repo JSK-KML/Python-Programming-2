@@ -1,13 +1,13 @@
 <template>
   <div class="ui-do">
-    <span class="ui-do__icon" aria-hidden="true"><Icon name="circle-chevron-right" :size="17" /></span>
+    <span class="ui-do__icon" aria-hidden="true"><Icon name="square-chevron-right" :size="17" /></span>
     <div class="ui-do__text"><slot /></div>
   </div>
 </template>
 
 <script setup>
 // An instruction line in a lab: what the student has to do (run, read, click...).
-// One small grey circle-chevron icon in front marks it as an instruction.
+// One small grey square-chevron icon in front marks it as an instruction.
 // Plain text can go on one line:
 //   <Do>Run these in Git Bash:</Do>
 // With markdown inside (links, `code`), leave blank lines around it:
