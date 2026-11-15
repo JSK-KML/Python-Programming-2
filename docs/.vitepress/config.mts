@@ -9,6 +9,11 @@ export default defineConfig({
     ['link', { rel: 'icon', type: 'image/png', href: '/Python-Programming-2/favicon.png' }]
   ],
 
+  // Equations: $inline$ and $$block$$ (rendered with MathJax at build time).
+  markdown: {
+    math: true
+  },
+
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [

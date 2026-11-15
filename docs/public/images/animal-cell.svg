@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="Simplified animal cell">
+  <!-- plasma membrane + cytoplasm -->
+  <ellipse cx="300" cy="200" rx="270" ry="170" fill="#e3f1e8" stroke="#1f7a4d" stroke-width="5"/>
+  <!-- rough ER -->
+  <g fill="none" stroke="#7c9fc9" stroke-width="5" stroke-linecap="round">
+    <path d="M190 120c20-14 40 14 60 0s40 14 60 0"/>
+    <path d="M180 145c20-14 40 14 60 0s40 14 60 0"/>
+    <path d="M175 270c20 14 40-14 60 0s40-14 60 0"/>
+  </g>
+  <g fill="#3b5f8f">
+    <circle cx="205" cy="112" r="3.5"/><circle cx="235" cy="128" r="3.5"/><circle cx="265" cy="112" r="3.5"/><circle cx="295" cy="128" r="3.5"/>
+    <circle cx="195" cy="137" r="3.5"/><circle cx="225" cy="153" r="3.5"/><circle cx="255" cy="137" r="3.5"/>
+    <circle cx="190" cy="278" r="3.5"/><circle cx="220" cy="262" r="3.5"/><circle cx="250" cy="278" r="3.5"/>
+  </g>
+  <!-- free ribosomes -->
+  <g fill="#3b5f8f">
+    <circle cx="120" cy="200" r="3.5"/><circle cx="135" cy="230" r="3.5"/><circle cx="150" cy="180" r="3.5"/>
+    <circle cx="470" cy="290" r="3.5"/><circle cx="440" cy="310" r="3.5"/><circle cx="500" cy="250" r="3.5"/>
+  </g>
+  <!-- nucleus -->
+  <circle cx="300" cy="205" r="62" fill="#cfe6d8" stroke="#1f7a4d" stroke-width="4"/>
+  <circle cx="300" cy="205" r="68" fill="none" stroke="#1f7a4d" stroke-width="1.5" stroke-dasharray="6 7"/>
+  <circle cx="312" cy="198" r="20" fill="#2f8f5b"/>
+  <!-- mitochondria -->
+  <g transform="rotate(-20 455 140)">
+    <ellipse cx="455" cy="140" rx="46" ry="22" fill="#f6d7c3" stroke="#c2410c" stroke-width="3.5"/>
+    <path d="M422 140c6-14 12 14 18 0s12 14 18 0 12 14 18 0 12 14 12 0" fill="none" stroke="#c2410c" stroke-width="2.5"/>
+  </g>
+  <g transform="rotate(25 140 290)">
+    <ellipse cx="140" cy="290" rx="40" ry="19" fill="#f6d7c3" stroke="#c2410c" stroke-width="3.5"/>
+    <path d="M112 290c6-12 12 12 18 0s12 12 18 0 12 12 18 0" fill="none" stroke="#c2410c" stroke-width="2.5"/>
+  </g>
+  <!-- Golgi apparatus -->
+  <g fill="none" stroke="#b7870a" stroke-width="6" stroke-linecap="round">
+    <path d="M400 230c25 10 45 10 70 0"/>
+    <path d="M405 248c22 9 40 9 60 0"/>
+    <path d="M410 266c18 7 32 7 50 0"/>
+  </g>
+  <g fill="#e0b84a"><circle cx="482" cy="226" r="6"/><circle cx="475" cy="258" r="5"/></g>
+  <!-- lysosome -->
+  <circle cx="400" cy="320" r="16" fill="#e9d3f0" stroke="#7e4a9e" stroke-width="3"/>
+  <!-- centrioles -->
+  <g fill="#9aa5b1" stroke="#5b6672" stroke-width="2">
+    <rect x="370" y="90" width="28" height="11" rx="3"/>
+    <rect x="384" y="100" width="11" height="28" rx="3"/>
+  </g>
+</svg>

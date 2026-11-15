@@ -33,3 +33,32 @@
     transform: translateY(0);
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
+
+/* ---- Accent colours for the reference components (cards, badges, timelines) ---- */
+:root {
+    --c-green: #1f7a4d;
+    --c-blue: #2f6fb0;
+    --c-yellow: #b7870a;
+    --c-red: #c2410c;
+    --c-purple: #7e4a9e;
+    --c-teal: #0f7f7f;
+}
+
+.dark {
+    --c-green: #4aa876;
+    --c-blue: #5b9bd8;
+    --c-yellow: #d4a32a;
+    --c-red: #e0693a;
+    --c-purple: #a87cc6;
+    --c-teal: #3fb0ac;
+}
+
+/* medium-zoom overlay (used by <Figure>) */
+.medium-zoom-overlay { background: var(--vp-c-bg) !important; }
+.medium-zoom-image--opened { box-shadow: none !important; }
+
+/* Equations (MathJax): scroll instead of overflowing on small screens */
+.vp-doc mjx-container[display="true"] {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
