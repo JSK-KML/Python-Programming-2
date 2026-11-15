@@ -20,8 +20,7 @@ defineProps({
 <style scoped>
 .ui-accordion {
   margin: 20px 0;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 12px;
+  border-radius: 8px;
   background: var(--vp-c-bg-soft);
   overflow: hidden;
 }

@@ -104,10 +104,9 @@ const boxTarget = computed(() =>
 /* The whole tab group sits in one box, so it's clear what changes per tab. */
 .ui-tabs {
   margin: 20px 0;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
+  border-radius: 8px;
   overflow: hidden;
-  background: var(--vp-c-bg);
+  background: var(--vp-c-bg-soft);
 }
 
 .ui-tabs-list {
@@ -115,8 +114,7 @@ const boxTarget = computed(() =>
   display: flex;
   gap: 4px;
   padding: 0 8px;
-  background: var(--vp-c-bg-soft);
-  border-bottom: 1px solid var(--vp-c-divider);
+  border-bottom: 2px solid var(--vp-c-bg);
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -140,7 +138,7 @@ const boxTarget = computed(() =>
 .ui-tabs-indicator {
   position: absolute;
   left: 0;
-  bottom: -1px;
+  bottom: -2px;
   height: 2px;
   width: var(--reka-tabs-indicator-size);
   transform: translateX(var(--reka-tabs-indicator-position));
@@ -169,7 +167,7 @@ const boxTarget = computed(() =>
 .ui-tabs-content :deep(> div > :first-child) { margin-top: 0; }
 .ui-tabs-content :deep(> div > :last-child) { margin-bottom: 0; }
 /* On phones VitePress makes code blocks full-bleed; keep them inside the box. */
-.ui-tabs-content :deep(div[class*='language-']) { margin-left: 0; margin-right: 0; border-radius: 8px; }
+.ui-tabs-content :deep(div[class*='language-']) { margin-left: 0; margin-right: 0; border-radius: 8px; background: var(--vp-c-bg); }
 
 @media (prefers-reduced-motion: reduce) {
   .ui-tabs-indicator { transition: none; }

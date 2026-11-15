@@ -1,43 +1,43 @@
 <template>
   <div class="ui-check">
-    <div class="ui-check__head">
-      <Icon name="circle-check" :size="16" />
-      <span>{{ title }}</span>
-    </div>
+    <div class="ui-check__label">{{ title }}</div>
     <div class="ui-check__body"><slot /></div>
   </div>
 </template>
 
 <script setup>
-// Goes right after an Action card: what the student should see if it worked.
-import Icon from './Icon.vue'
-
+// Goes right after an Action: what the student should see if it worked.
+// No box: a small label, then the expected result. Output shown in a code
+// block is drawn as plain text so it doesn't look like a command to run.
 defineProps({
   title: { type: String, default: 'You should see' }
 })
 </script>
 
 <style scoped>
-.ui-check {
-  --k: var(--c-green);
-  margin: -8px 0 20px;
-  padding: 10px 16px 12px;
-  border: 1px solid color-mix(in srgb, var(--k) 30%, transparent);
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--k) 7%, transparent);
-  font-size: 14px;
+.ui-check { margin: -6px 0 22px; }
+.ui-check__label {
+  margin-bottom: 2px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
 }
-.ui-check__head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--k);
-}
+.ui-check__body { color: var(--vp-c-text-2); }
 .ui-check__body :deep(> :first-child) { margin-top: 0; }
 .ui-check__body :deep(> :last-child) { margin-bottom: 0; }
-.ui-check__body :deep(div[class*='language-']) { margin: 8px 0 0; border-radius: 8px; }
-.ui-check__body :deep(p) { margin: 4px 0; line-height: 1.6; }
+.ui-check__body :deep(p) { margin: 4px 0; }
+
+/* Expected output: plain text, not a command box. */
+.ui-check__body :deep(div[class*='language-']) {
+  margin: 4px 0 0;
+  background: transparent;
+  border-radius: 0;
+}
+.ui-check__body :deep(div[class*='language-'] pre) { padding: 0; }
+.ui-check__body :deep(div[class*='language-'] code) { padding: 0; color: var(--vp-c-text-2); }
+.ui-check__body :deep(div[class*='language-'] code span:not(.ud-fill)) { color: var(--vp-c-text-2) !important; }
+.ui-check__body :deep(div[class*='language-'] .copy),
+.ui-check__body :deep(div[class*='language-'] .lang) { display: none; }
 </style>

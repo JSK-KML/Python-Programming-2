@@ -25,7 +25,7 @@ defineProps({
 </script>
 
 <style scoped>
-.ui-acc-item + .ui-acc-item { border-top: 1px solid var(--vp-c-divider); }
+.ui-acc-item + .ui-acc-item { border-top: 2px solid var(--vp-c-bg); }
 
 .ui-acc-trigger {
   display: flex;
@@ -67,6 +67,7 @@ defineProps({
 .ui-acc-body { padding: 0 20px 14px; color: var(--vp-c-text-2); }
 .ui-acc-body :deep(> :first-child) { margin-top: 0; }
 .ui-acc-body :deep(> :last-child) { margin-bottom: 0; }
+.ui-acc-body :deep(div[class*='language-']) { background: var(--vp-c-bg); }
 
 @keyframes ui-acc-down {
   from { height: 0; opacity: 0; }

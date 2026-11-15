@@ -1,9 +1,6 @@
 <template>
   <div class="ui-details">
-    <div class="ui-details__head">
-      <Icon name="user-pen" :size="16" />
-      <span>Fill in your details</span>
-    </div>
+    <div class="ui-details__head">Fill in your details</div>
     <p class="ui-details__note">
       Every command on this page fills itself in, so you can copy it as it is.
       These stay in your browser only.
@@ -28,7 +25,6 @@
 
 <script setup>
 import { computed } from 'vue'
-import Icon from './Icon.vue'
 import { details, slugName } from './your-details.js'
 
 const folder = computed(() => (slugName(details.name) ? `${slugName(details.name)}-CP125` : ''))
@@ -38,17 +34,15 @@ const folder = computed(() => (slugName(details.name) ? `${slugName(details.name
 .ui-details {
   margin: 24px 0;
   padding: 14px 16px 16px;
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
+  border-radius: 8px;
   background: var(--vp-c-bg-soft);
 }
 .ui-details__head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--vp-c-brand-1);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--vp-c-text-2);
 }
 .ui-details__note { margin: 6px 0 12px; font-size: 14px; color: var(--vp-c-text-2); line-height: 1.5; }
 .ui-details__grid {
@@ -64,8 +58,8 @@ const folder = computed(() => (slugName(details.name) ? `${slugName(details.name
   font-weight: 500;
   color: var(--vp-c-text-1);
   background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 8px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   transition: border-color 0.15s ease;
 }
 .ui-details input:focus { outline: none; border-color: var(--vp-c-brand-1); }

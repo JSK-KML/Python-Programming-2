@@ -7,26 +7,9 @@ title: Pre-Lab - Set Up Your Development Environment and Revision
 
 In this pre-lab you set up **Git**, **VS Code** and **Python**, and get your own copy of the `CP125-Class-Repo` from **GitHub** onto your computer. Everything is done from the terminal with **Git Bash**, using Linux commands, the same way professional developers work.
 
-Read the explanations, then do what each box says:
+Instructions are always labelled **Run in Git Bash** (a command to type) or **Do this** (something to click). Under each one, **You should see** tells you what happens if it worked; check it before moving on.
 
-<Action type="do" title="Action">
-
-A box like this is something you **do**: a command to run or a button to click.
-
-</Action>
-
-<Check>
-
-A green box like this shows what you **should see** if it worked. Check it before moving on.
-
-</Check>
-
-<Checklist title="Before you start" color="blue">
-
-- A **GitHub** account that you can log in to
-- **Python**, **Git** (which includes **Git Bash**) and **VS Code** installed
-
-</Checklist>
+Before you start, you need a **GitHub** account that you can log in to, and **Python**, **Git** (which includes **Git Bash**) and **VS Code** installed.
 
 <YourDetails />
 
