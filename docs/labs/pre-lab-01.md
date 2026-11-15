@@ -262,11 +262,11 @@ Successfully installed iniconfig-2.0.0 packaging-25.0 pluggy-1.6.0 pytest-8.4.1
 
 2. Click the flask icon → `Configure Python Tests` → `pytest` → `Root Directory`.
 
-   <p align="center">
-       <img src="/labs/lab-07/lab-7-3.png" alt="drawing" width="300"/>
-       <img src="/labs/lab-07/lab-7-4.png" alt="drawing" width="300"/>
-       <img src="/labs/lab-07/lab-7-5.png" alt="drawing" width="300"/>
-   </p>
+   <div class="img-row">
+       <img src="/labs/lab-07/lab-7-3.png" alt="Flask icon"/>
+       <img src="/labs/lab-07/lab-7-4.png" alt="Configure Python Tests"/>
+       <img src="/labs/lab-07/lab-7-5.png" alt="Choose pytest and Root Directory"/>
+   </div>
 
 </Steps>
 

@@ -81,3 +81,18 @@
 .vp-doc div.language-console .term-prompt { color: var(--vp-c-text-3) !important; user-select: none; }
 .vp-doc div.language-console .term-output,
 .vp-doc div.language-console .term-output span:not(.ud-fill) { color: var(--vp-c-text-2) !important; }
+
+/* Several screenshots in a row, with a gap: <div class="img-row"><img …/><img …/></div> */
+.vp-doc .img-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 16px 0;
+}
+.vp-doc .img-row img {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 300px;
+  height: auto;
+}
