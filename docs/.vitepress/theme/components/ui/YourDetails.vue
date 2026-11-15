@@ -1,67 +1,48 @@
 <template>
   <div class="ui-details">
-    <div class="ui-details__head">Fill in your details</div>
-    <p class="ui-details__note">
-      Every command on this page fills itself in, so you can copy it as it is.
-      These stay in your browser only.
-    </p>
-    <div class="ui-details__grid">
-      <label>
-        <span>First name</span>
-        <input v-model="details.name" type="text" autocomplete="given-name" placeholder="e.g. Aiman" />
-      </label>
-      <label>
-        <span>GitHub username</span>
-        <input v-model="details.username" type="text" autocomplete="username" spellcheck="false" placeholder="e.g. aiman-haris" />
-      </label>
-      <label>
-        <span>GitHub email</span>
-        <input v-model="details.email" type="email" autocomplete="email" spellcheck="false" placeholder="the email you log in with" />
-      </label>
+    <Do>Fill in your details. The commands on this page use them.</Do>
+    <div class="ui-details__form">
+      <label for="ud-name">First name</label>
+      <input id="ud-name" v-model="details.name" type="text" autocomplete="given-name" placeholder="Aiman" />
+      <label for="ud-username">GitHub username</label>
+      <input id="ud-username" v-model="details.username" type="text" autocomplete="username" spellcheck="false" placeholder="aiman-haris" />
+      <label for="ud-email">GitHub email</label>
+      <input id="ud-email" v-model="details.email" type="email" autocomplete="email" spellcheck="false" placeholder="aiman@example.com" />
     </div>
-    <p v-if="folder" class="ui-details__preview">Your course folder will be <code>{{ folder }}</code></p>
+    <p class="ui-details__note">Saved in this browser only.</p>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { details, slugName } from './your-details.js'
-
-const folder = computed(() => (slugName(details.name) ? `${slugName(details.name)}-CP125` : ''))
+import Do from './Do.vue'
+import { details } from './your-details.js'
 </script>
 
 <style scoped>
-.ui-details {
-  margin: 24px 0;
-  padding: 14px 16px 16px;
-  border-radius: 8px;
-  background: var(--vp-c-bg-soft);
-}
-.ui-details__head {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--vp-c-text-2);
-}
-.ui-details__note { margin: 6px 0 12px; font-size: 14px; color: var(--vp-c-text-2); line-height: 1.5; }
-.ui-details__grid {
+.ui-details { margin: 24px 0; }
+.ui-details__form {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
+  grid-template-columns: max-content minmax(0, 320px);
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: 12px;
 }
-.ui-details label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: var(--vp-c-text-2); }
+.ui-details label { font-size: 14px; color: var(--vp-c-text-2); }
 .ui-details input {
-  padding: 8px 10px;
+  width: 100%;
+  padding: 6px 10px;
   font: inherit;
   font-size: 14px;
-  font-weight: 500;
   color: var(--vp-c-text-1);
   background: var(--vp-c-bg);
-  border: 1px solid transparent;
+  border: 1px solid var(--vp-c-divider);
   border-radius: 6px;
-  transition: border-color 0.15s ease;
 }
+.ui-details input::placeholder { color: var(--vp-c-text-3); }
 .ui-details input:focus { outline: none; border-color: var(--vp-c-brand-1); }
-.ui-details__preview { margin: 12px 0 0; font-size: 14px; }
+.ui-details__note { margin: 10px 0 0; font-size: 13px; color: var(--vp-c-text-3); }
+@media (max-width: 480px) {
+  .ui-details__form { grid-template-columns: 1fr; gap: 4px; }
+  .ui-details input { margin-bottom: 8px; }
+}
 </style>
