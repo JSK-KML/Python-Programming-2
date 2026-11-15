@@ -180,7 +180,7 @@ $ pwd
    ...
    ```
 
-   A `.venv` folder appears in the `Explorer`, with **Python** and every package the course needs, including **pytest**.
+   A `.venv` folder appears in the `Explorer`, with **Python** and every package the course needs, including **pytest**. **VS Code** uses it by itself: the Python version at the bottom-right shows `.venv`. If it doesn't, press `Ctrl` + `Shift` + `P` and run `Developer: Reload Window`.
 
 4. Run a file through it:
 
@@ -263,15 +263,13 @@ Use `uv run python FILE` and `uv run pytest`, so your code always uses the packa
 
 <Steps>
 
-1. Press `Ctrl` + `Shift` + `P`, type `Python: Select Interpreter` and choose the one in `.venv`.
-
-2. In `Extensions`, install **Python Test Explorer** by **Little Fox Team**.
+1. In `Extensions`, install **Python Test Explorer** by **Little Fox Team**.
 
    <p align="center">
        <img src="/labs/lab-07/lab-7-2.png" alt="drawing" width="500"/>
    </p>
 
-3. Click the flask icon → `Configure Python Tests` → `pytest` → `Root Directory`.
+2. Click the flask icon → `Configure Python Tests` → `pytest` → `Root Directory`.
 
    <div class="img-row">
        <img src="/labs/lab-07/lab-7-3.png" alt="Flask icon"/>
