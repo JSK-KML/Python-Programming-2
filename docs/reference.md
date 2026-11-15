@@ -8,8 +8,82 @@ title: Components & Formatting Reference
 Reference page only. It is not linked from the navbar or sidebar. Everything here is copied from the bio-matrikulasi guide (Components, Equations & formatting, Timeline styles). Each example shows the result, followed by the markdown that produces it.
 
 ::: info Badges on this site
-The coloured pill badge is called `<UiBadge>` here, so VitePress's own `<UiBadge type="warning" text="Task" />` used in the labs keeps working.
+The coloured pill badge is called `<UiBadge>` here, so VitePress's own `<Badge type="warning" text="Task" />` used in the labs keeps working.
 :::
+
+## Lab Layout (sample)
+
+How lab instructions are written: no boxes around them. A section is a verb heading, then instruction lines (arrow in the margin, slightly heavier text), then the code box. Terminal code boxes show the command and what comes back; the copy button copies only the commands.
+
+### Create Your Course Folder
+
+Run these in Git Bash: {.do}
+
+```console
+$ cd ~
+$ mkdir YOURNAME-CP125
+$ cd YOURNAME-CP125
+$ pwd
+/c/Users/you/YOURNAME-CP125
+```
+
+| Command | What it does |
+|---|---|
+| `cd ~` | Go to your home folder |
+| `mkdir NAME` | Make a new folder called `NAME` |
+| `cd NAME` | Go into the folder `NAME` |
+| `pwd` | Print the folder you are in now |
+
+### Fork the Class Repository
+
+Open the [`CP125-Class-Repo`](https://github.com/JSK-KML/CP125-Class-Repo) on GitHub, click `Fork`, then `Create fork`. {.do}
+
+*The page now shows GITHUB-USERNAME/CP125-Class-Repo.*
+
+### Make Your First Commit
+
+Create a small file and run it: {.do}
+
+```console
+$ echo 'print("Hello, CP125")' > labs/lab01/hello.py
+$ python labs/lab01/hello.py
+Hello, CP125
+```
+
+Commit it and send it to GitHub: {.do}
+
+```console
+$ git add labs/lab01/hello.py
+$ git commit -m "Add hello.py"
+$ git push
+...
+   a1b2c3d..e4f5a6b  main -> main
+```
+
+::: tip
+Tips, warnings and danger notes keep their usual style.
+:::
+
+### How to write it
+
+````md
+Run these in Git Bash: {.do}
+
+```console
+$ cd ~
+$ mkdir YOURNAME-CP125
+$ pwd
+/c/Users/you/YOURNAME-CP125
+```
+
+Open the CP125-Class-Repo on GitHub and click `Fork`. {.do}
+
+*The page now shows GITHUB-USERNAME/CP125-Class-Repo.*
+````
+
+- End an instruction line with `{.do}` to give it the margin arrow.
+- Use ` ```console ` for terminal blocks: commands start with `$ `, output lines don't.
+- A result that isn't terminal output goes in one italic line under the instruction.
 
 ## Components
 

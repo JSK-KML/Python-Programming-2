@@ -35,6 +35,7 @@ import Action from './components/ui/Action.vue'
 import Check from './components/ui/Check.vue'
 import YourDetails from './components/ui/YourDetails.vue'
 import { loadDetails, fillPage } from './components/ui/your-details.js'
+import { markTerminalBlocks } from './terminal.js'
 
 export default {
   extends: DefaultTheme,
@@ -60,11 +61,13 @@ export default {
     const initZoom = () => mediumZoom('.vp-doc .ui-figure img', { background: 'var(--vp-c-bg)' })
     onMounted(() => {
       initZoom()
+      markTerminalBlocks()
       loadDetails()
       fillPage()
     })
     watch(() => route.path, () => nextTick(() => {
       initZoom()
+      markTerminalBlocks()
       fillPage()
     }))
   }
