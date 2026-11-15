@@ -140,30 +140,30 @@ $ pwd
 
 </Steps>
 
-## Make Your First Commit and Push
+## Commit, Push and Pull
 
 <Steps>
 
-1. Create a small file and run it:
+1. In the `Explorer`, open `labs/pre-lab`, create a file called `hello.py` and write:
 
-   ```console
-   $ echo 'print("Hello, CP125")' > labs/lab01/hello.py
-   $ python labs/lab01/hello.py
-   Hello, CP125
+   ```python
+   print("Hello, CP125")
    ```
+
+   Save it with `Ctrl` + `S`.
 
 2. Check what **Git** sees:
 
    ```console
    $ git status
    Untracked files:
-           labs/lab01/hello.py
+           labs/pre-lab/hello.py
    ```
 
 3. Commit it and push it to **GitHub**:
 
    ```console
-   $ git add labs/lab01/hello.py
+   $ git add labs/pre-lab/hello.py
    $ git commit -m "Add hello.py"
    $ git push
    ...
@@ -172,7 +172,14 @@ $ pwd
 
 4. Refresh `github.com/GITHUB-USERNAME/CP125-Class-Repo` in the browser.
 
-   You see the commit message **Add hello.py**, and `hello.py` inside `labs/lab01`.
+   You see the commit message **Add hello.py**, and `hello.py` inside `labs/pre-lab`.
+
+5. Pull from **GitHub**:
+
+   ```console
+   $ git pull
+   Already up to date.
+   ```
 
 </Steps>
 
@@ -182,6 +189,7 @@ $ pwd
 | `git add FILE` | Choose a change for the next commit (`git add .` = everything) |
 | `git commit -m "..."` | Save a snapshot with a message |
 | `git push` | Send your commits to **GitHub** |
+| `git pull` | Get new commits from **GitHub** |
 
 ## Sync Your Fork {#syncing-your-fork}
 
@@ -214,33 +222,6 @@ Your prompt now starts with `(cp125_env)`, and a `cp125_env` folder appears in t
 ::: tip Every new terminal
 Run `source cp125_env/Scripts/activate` each time you open a new terminal.
 :::
-
-## Run a Small Program
-
-<Steps>
-
-1. Create `labs/lab01/test_virtual_env.py` with this code, using your own name and ID:
-
-   ```python
-   student_name = "Your Name"
-   student_id = "Your ID"
-   course_code = "CP125"
-
-   print(student_name)
-   print(student_id)
-   print(course_code)
-   ```
-
-2. Run it:
-
-   ```console
-   $ python labs/lab01/test_virtual_env.py
-   Your Name
-   Your ID
-   CP125
-   ```
-
-</Steps>
 
 ## Install pytest
 
