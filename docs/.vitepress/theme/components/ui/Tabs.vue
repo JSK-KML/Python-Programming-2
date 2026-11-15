@@ -6,19 +6,32 @@
         {{ t.label }}
       </TabsTrigger>
     </TabsList>
-    <div ref="panels" class="ui-tabs-panels">
+
+    <!-- Motion animates the box to the height of whichever tab is showing. -->
+    <motion.div class="ui-tabs-panels" :initial="false" :animate="boxTarget">
       <div ref="inner" class="ui-tabs-inner">
-        <TabsContent v-for="t in tabs" :key="t.label" :value="t.label" class="ui-tabs-content">
-          <component :is="t.vnode" />
+        <!-- force-mount: every tab's content stays on the page; switching only
+             shows one and hides the others, so nothing is rebuilt. -->
+        <TabsContent v-for="t in tabs" :key="t.label" :value="t.label" force-mount as-child>
+          <motion.div
+            class="ui-tabs-content"
+            :initial="false"
+            :animate="t.label === active ? shown : hidden"
+            :inert="t.label === active ? undefined : true"
+          >
+            <component :is="t.vnode" />
+          </motion.div>
         </TabsContent>
       </div>
-    </div>
+    </motion.div>
   </TabsRoot>
 </template>
 
 <script setup>
-import { ref, computed, useSlots, Fragment, watch, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, useSlots, Fragment } from 'vue'
 import { TabsRoot, TabsList, TabsTrigger, TabsContent, TabsIndicator } from 'reka-ui'
+import { motion } from 'motion-v'
+import { useElementSize, usePreferredReducedMotion } from '@vueuse/core'
 
 defineProps({
   // Accessible name for the tab list.
@@ -38,50 +51,33 @@ function collect(nodes, out = []) {
 const tabs = computed(() => collect(slots.default?.()))
 const active = ref(tabs.value[0]?.label)
 
-// Glide the box to the new tab's height instead of snapping.
-// The outer `panels` box animates to the new tab's natural height,
-// measured on `inner` (which is never animated). Reka swaps the panel
-// content slightly after the value changes, so we react to the actual
-// DOM change with a MutationObserver rather than guessing the timing.
-const panels = ref(null)
+const reduced = usePreferredReducedMotion()
+const instant = { duration: 0 }
+const ease = [0.25, 0.8, 0.25, 1]
+
+// Crossfade targets for each panel. The panel being left fades out on top
+// (see .ui-tabs-content[data-state='inactive'] below) while the new one fades in.
+const shown = computed(() => ({
+  opacity: 1,
+  y: 0,
+  visibility: 'visible',
+  transition: reduced.value === 'reduce' ? instant : { duration: 0.3, delay: 0.05, ease }
+}))
+const hidden = computed(() => ({
+  opacity: 0,
+  y: 0,
+  transitionEnd: { visibility: 'hidden' },
+  transition: reduced.value === 'reduce' ? instant : { duration: 0.18, ease: 'easeOut' }
+}))
+
+// Height of the showing tab (VueUse watches its size); Motion glides the box to it.
 const inner = ref(null)
-let heightAnim = null
-let switchUntil = 0
-let fromHeight = 0
-let mo = null
-
-const reduced = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
-
-// Runs the instant the tab changes, before the content swaps: remember the
-// box's current height (mid-animation if the user clicks quickly).
-watch(active, () => {
-  fromHeight = panels.value?.getBoundingClientRect().height ?? 0
-  switchUntil = performance.now() + 600
-}, { flush: 'sync' })
-
-function glide() {
-  if (performance.now() > switchUntil || reduced()) return
-  const box = panels.value
-  const from = fromHeight
-  // Wait until the new panel is in place (the old one fades out on top,
-  // taken out of the flow, so `inner` measures only the new panel).
-  const activePanel = inner.value.querySelector(':scope > .ui-tabs-content[data-state="active"]')
-  if (!activePanel || !activePanel.firstElementChild) return
-  const to = inner.value.getBoundingClientRect().height
-  if (Math.abs(from - to) < 1) return
-  fromHeight = to
-  heightAnim?.cancel()
-  heightAnim = box.animate(
-    [{ height: `${from}px` }, { height: `${to}px` }],
-    { duration: 320, easing: 'cubic-bezier(0.25, 0.8, 0.25, 1)' }
-  )
-}
-
-onMounted(() => {
-  mo = new MutationObserver(glide)
-  mo.observe(inner.value, { childList: true, subtree: true, attributes: true, attributeFilter: ['hidden', 'data-state', 'style'] })
-})
-onBeforeUnmount(() => mo?.disconnect())
+const { height } = useElementSize(inner)
+const boxTarget = computed(() =>
+  height.value
+    ? { height: height.value, transition: reduced.value === 'reduce' ? instant : { duration: 0.32, ease } }
+    : {}
+)
 </script>
 
 <style scoped>
@@ -137,36 +133,25 @@ onBeforeUnmount(() => mo?.disconnect())
 .ui-tabs-inner { position: relative; }
 .ui-tabs-content { padding: 16px 20px; }
 
-/* Crossfade: the old panel fades out on top of the new one (Reka keeps it
-   mounted until this exit animation ends), while the new panel fades in. */
-.ui-tabs-content[data-state='active'] {
-  animation: ui-tab-in 0.38s cubic-bezier(0.25, 0.8, 0.25, 1) 0.06s both;
-}
+/* Tabs that aren't showing sit on top of the showing one, out of the flow,
+   so the box only takes the showing tab's height. Before Motion takes over
+   (first paint), they're simply invisible. */
 .ui-tabs-content[data-state='inactive'] {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
-  animation: ui-tab-out 0.22s ease-out both;
 }
+
 .ui-tabs-content :deep(> div > :first-child) { margin-top: 0; }
 .ui-tabs-content :deep(> div > :last-child) { margin-bottom: 0; }
 /* On phones VitePress makes code blocks full-bleed; keep them inside the box. */
 .ui-tabs-content :deep(div[class*='language-']) { margin-left: 0; margin-right: 0; border-radius: 8px; }
 
-@keyframes ui-tab-in {
-  from { opacity: 0; transform: translateY(3px); }
-  to { opacity: 1; transform: none; }
-}
-@keyframes ui-tab-out {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  .ui-tabs-content[data-state='active'],
-  .ui-tabs-content[data-state='inactive'] { animation: none; }
   .ui-tabs-indicator { transition: none; }
 }
 </style>
