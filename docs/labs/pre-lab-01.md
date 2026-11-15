@@ -5,23 +5,19 @@ title: Pre-Lab - Set Up Your Development Environment and Revision
 
 # Pre-Lab: Set Up Your Development Environment and Revision
 
-In this pre-lab you set up **Git**, **VS Code** and **Python**, and get your own copy of the `CP125-Class-Repo` from **GitHub** onto your computer. Everything is done from the terminal with **Git Bash**, using Linux commands, the same way professional developers work.
+In this pre-lab you set up **Git Bash**, **GitHub** and **Python**, and get your own copy of `CP125-Class-Repo` onto your computer. Everything is done in **Git Bash**.
 
-Instructions are always labelled **Run in Git Bash** (a command to type) or **Do this** (something to click). Under each one, **You should see** tells you what happens if it worked; check it before moving on.
-
-Before you start, you need a **GitHub** account that you can log in to, and **Python**, **Git** (which includes **Git Bash**) and **VS Code** installed.
+You need a **GitHub** account, and **Python**, **Git** and **VS Code** installed. If they aren't, follow the [**Git**](/labs/installation#git) and [**VS Code**](/labs/installation#vs-code) installation guides first.
 
 <YourDetails />
 
 ## Install the Python Extension
 
-If **Git** or **VS Code** isn't installed yet, follow the [**Git** installation guide](/labs/installation#git) and the [**VS Code** installation guide](/labs/installation#vs-code) first.
+<Do>
 
-<Action type="do">
+In **VS Code**, open `Extensions`, search for `Python` and install the one by **Microsoft**.
 
-In **VS Code**, open the `Extensions` panel, search for **Python** and install the extension from **Microsoft**.
-
-</Action>
+</Do>
 
 <p align="center">
     <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
@@ -29,119 +25,89 @@ In **VS Code**, open the `Extensions` panel, search for **Python** and install t
 
 ## Open Git Bash in VS Code
 
-In this course everyone uses **Git Bash** as the terminal. It runs Linux commands such as `cd`, `ls`, `mkdir` and `pwd`, which are the same commands you will find in almost every online guide. On Windows, **VS Code** opens **PowerShell** by default, so switch it once.
-
-<Action type="do">
+<Do>
 
 Press `Ctrl` + `Shift` + `P`, type `Terminal: Select Default Profile` and choose `Git Bash`.
 
-</Action>
+</Do>
 
-<Action type="do">
+<Do>
 
-Open a terminal: click `Terminal` → `New Terminal`.
+Click `Terminal` → `New Terminal`.
+
+</Do>
 
 <p align="center">
     <img src="/labs/lab-01/lab-1-8.png" alt="drawing" width="400"/>
 </p>
 
-</Action>
-
-<Check>
-
-A terminal at the bottom of **VS Code** with a prompt ending in `$`, and `bash` shown as the terminal type.
+*A terminal opens at the bottom of **VS Code**, with a prompt ending in `$`.*
 
 <p align="center">
     <img src="/labs/lab-01/lab-1-9.png" alt="drawing" width="400"/>
 </p>
 
-</Check>
-
 ## Fork the Class Repository
 
-When you <Term title="Fork" def="A full copy of someone else's repository under your own GitHub account, still linked to the original.">fork</Term> a repository on **GitHub**, you create a copy of it under your own account. The original stays with its owner; your fork is yours to change.
+<Do>
 
-<Action type="do">
+Open the [`CP125-Class-Repo`](https://github.com/JSK-KML/CP125-Class-Repo) on **GitHub**, click `Fork`, then `Create fork`.
 
-Open the [`CP125-Class-Repo`](https://github.com/JSK-KML/CP125-Class-Repo) on **GitHub**, click `Fork`, keep the default options and click `Create fork`.
+</Do>
 
 <p align="center">
     <img src="/labs/lab-01/lab-1-2.png" alt="drawing" width="400"/>
 </p>
 
-</Action>
-
-<Check>
-
-The page now shows **GITHUB-USERNAME/CP125-Class-Repo**, with *forked from JSK-KML/CP125-Class-Repo* under it.
-
-</Check>
-
-<Accordion>
-<AccordionItem title="What is the difference between forking and simply copying?">
-
-When you copy-paste something like a PDF document, you have no connection to the original, so if the original changes you will not know.
-
-A fork stays connected to the original repository. When the original gets updates, **GitHub** tells you and you can bring them into your fork.
-
-</AccordionItem>
-</Accordion>
+*The page now shows GITHUB-USERNAME/CP125-Class-Repo, forked from JSK-KML/CP125-Class-Repo.*
 
 ## Log In to GitHub
 
-Before **Git** can push to your fork, **GitHub** needs to know that you are its owner. The **GitHub CLI** (`gh`), already installed on your computer, handles the login. After that, every `git` command uses it automatically.
+<Do>Run in Git Bash:</Do>
 
-<Action>
-
-```bash
-gh auth login
+```console
+$ gh auth login
 ```
 
-</Action>
+<Do>Choose these answers with the arrow keys and Enter:</Do>
 
-<Action type="do" title="Answer the questions">
+| Question | Answer |
+|---|---|
+| Where do you use GitHub? | `GitHub.com` |
+| Preferred protocol for Git operations? | `HTTPS` |
+| Authenticate Git with your GitHub credentials? | `Yes` |
+| How would you like to authenticate? | `Login with a web browser` |
 
-Use the arrow keys and `Enter`:
+<Do>
 
-- Where do you use GitHub? → `GitHub.com`
-- Preferred protocol for Git operations? → `HTTPS`
-- Authenticate Git with your GitHub credentials? → `Yes`
-- How would you like to authenticate? → `Login with a web browser`
+Copy the one-time code, press `Enter`, paste the code in the browser and click `Authorize`.
 
-Then copy the one-time code shown (like `ABCD-1234`), press `Enter` to open the browser, paste the code and click `Authorize`.
+</Do>
 
-</Action>
+*The terminal shows `✓ Logged in as GITHUB-USERNAME`.*
 
-<Check>
+<Do>Set the name and email for your commits:</Do>
 
+```console
+$ git config --global user.name "GITHUB-USERNAME"
+$ git config --global user.email "GITHUB-EMAIL"
 ```
-✓ Logged in as GITHUB-USERNAME
-```
-
-</Check>
-
-Every commit you make is labelled with a name and email. Set yours once:
-
-<Action>
-
-```bash
-git config --global user.name "GITHUB-USERNAME"
-git config --global user.email "GITHUB-EMAIL"
-```
-
-</Action>
 
 ::: warning On a shared lab computer
-Log out before you leave, so the next student can't push to your fork:
-
-```bash
-gh auth logout
-```
+Run `gh auth logout` before you leave, so the next student can't push to your fork.
 :::
 
 ## Create Your Course Folder
 
-Keep all your CP125 work in one folder named after you. You'll make it from the terminal:
+<Do>Run these in Git Bash:</Do>
+
+```console
+$ cd ~
+$ mkdir YOURNAME-CP125
+$ cd YOURNAME-CP125
+$ pwd
+/c/Users/you/YOURNAME-CP125
+```
 
 | Command | What it does |
 |---|---|
@@ -150,229 +116,108 @@ Keep all your CP125 work in one folder named after you. You'll make it from the 
 | `cd NAME` | Go into the folder `NAME` |
 | `pwd` | Print the folder you are in now |
 
-<Action>
-
-```bash
-cd ~
-mkdir YOURNAME-CP125
-cd YOURNAME-CP125
-pwd
-```
-
-</Action>
-
-<Check>
-
-The last line printed ends with your folder:
-
-```
-/c/Users/.../YOURNAME-CP125
-```
-
-</Check>
-
 ## Clone Your Fork
 
-Your fork only exists on **GitHub**'s servers. To <Term title="Clone" def="Download a repository from GitHub to your own computer, keeping its full history and its link to GitHub.">clone</Term> it is to download it into your course folder, so you can edit and run the code on your computer.
+<Do>Inside YOURNAME-CP125, run:</Do>
 
-Make sure the terminal is still inside `YOURNAME-CP125`, then:
-
-<Action>
-
-```bash
-git clone https://github.com/GITHUB-USERNAME/CP125-Class-Repo.git
-cd CP125-Class-Repo
-ls
+```console
+$ git clone https://github.com/GITHUB-USERNAME/CP125-Class-Repo.git
+Cloning into 'CP125-Class-Repo'...
+$ cd CP125-Class-Repo
+$ ls
+README.md  labs/
 ```
 
-</Action>
+<Do>Open the repository in VS Code:</Do>
 
-<Check>
-
-`ls` lists the repository's contents, including the `labs` folder and `README.md`. Your folders now look like this:
-
-```
-YOURNAME-CP125/
-└── CP125-Class-Repo/
-    ├── labs/
-    └── README.md
+```console
+$ code .
 ```
 
-</Check>
-
-Now open the repository in **VS Code**. The `.` means "the folder I'm in now":
-
-<Action>
-
-```bash
-code .
-```
-
-</Action>
-
-<Check>
-
-A **VS Code** window opens with `CP125-CLASS-REPO` at the top of the `Explorer` sidebar. Open a new terminal in this window (`Terminal` → `New Terminal`); it starts inside `CP125-Class-Repo`.
-
-</Check>
+*VS Code opens with `CP125-CLASS-REPO` in the `Explorer`. Open a new terminal there (`Terminal` → `New Terminal`); it starts inside `CP125-Class-Repo`.*
 
 ## Make Your First Commit and Push
 
-Two **Git** actions get your work onto **GitHub**:
+<Do>Create a small file and run it:</Do>
 
-- A <Term title="Commit" def="A saved snapshot of your changes in your local repository, with a unique ID and a message.">commit</Term> records a snapshot of your changes on your computer, with a message explaining what changed. You can go back to any commit later.
-- A <Term title="Push" def="Send your new commits from your computer up to your repository on GitHub.">push</Term> sends your new commits up to your fork on **GitHub**.
-
-Let's try it with a tiny file. `echo` prints text, and `>` writes that text into a file instead of the screen:
-
-<Action>
-
-```bash
-echo 'print("Hello, CP125")' > labs/lab01/hello.py
-python labs/lab01/hello.py
-```
-
-</Action>
-
-<Check>
-
-```
+```console
+$ echo 'print("Hello, CP125")' > labs/lab01/hello.py
+$ python labs/lab01/hello.py
 Hello, CP125
 ```
 
-</Check>
+<Do>Check what Git sees:</Do>
 
-Now see what **Git** noticed, then commit and push it:
-
-<Action>
-
-```bash
-git status
+```console
+$ git status
+Untracked files:
+        labs/lab01/hello.py
 ```
 
-</Action>
+<Do>Commit it and push it to GitHub:</Do>
 
-<Check>
-
-`labs/lab01/hello.py` listed under *Untracked files*, in red. **Git** sees the new file but isn't saving it yet.
-
-</Check>
-
-<Action>
-
-```bash
-git add labs/lab01/hello.py
-git commit -m "Add hello.py"
-git push
+```console
+$ git add labs/lab01/hello.py
+$ git commit -m "Add hello.py"
+$ git push
+...
+   a1b2c3d..e4f5a6b  main -> main
 ```
-
-</Action>
-
-<Check>
-
-The last line of `git push` looks like `main -> main`.
-
-</Check>
 
 | Command | What it does |
 |---|---|
 | `git status` | Show which files have changed |
-| `git add FILE` | Choose a change to include in the next commit (`git add .` = everything) |
+| `git add FILE` | Choose a change for the next commit (`git add .` = everything) |
 | `git commit -m "..."` | Save a snapshot with a message |
 | `git push` | Send your commits to **GitHub** |
 
-<Action type="do">
+<Do>
 
-Open `github.com/GITHUB-USERNAME/CP125-Class-Repo` in the browser and refresh it.
+Refresh `github.com/GITHUB-USERNAME/CP125-Class-Repo` in the browser.
 
-</Action>
+</Do>
 
-<Check>
-
-Your commit message **Add hello.py** next to the `labs` folder, and `hello.py` inside `labs/lab01`.
-
-</Check>
+*You see the commit message **Add hello.py**, and `hello.py` inside `labs/lab01`.*
 
 ## Sync Your Fork {#syncing-your-fork}
 
-When the original `CP125-Class-Repo` gets new labs, your fork on **GitHub** shows a message like *"This branch is X commits behind"*. Bring the new work into your fork first, then <Term title="Pull" def="Download new commits from your repository on GitHub into the copy on your computer.">pull</Term> it down to your computer.
+<Do>
 
-<Action type="do">
+When your fork on **GitHub** says it is behind, click `Sync fork` → `Update branch`.
 
-On your fork's page on **GitHub**, click `Sync fork` → `Update branch`.
+</Do>
 
-</Action>
+<Do>Then pull the changes to your computer:</Do>
 
-<Action>
-
-```bash
-git pull
+```console
+$ git pull
+Already up to date.
 ```
-
-</Action>
-
-<Check>
-
-Either a list of new files and `Fast-forward`, or `Already up to date.` if there was nothing new.
-
-</Check>
 
 ## Create a Virtual Environment
 
-A <Term title="Virtual environment" def="A private copy of Python for one project, so the packages you install here don't affect any other project.">virtual environment</Term> is a private copy of **Python** just for this repository. Packages you install inside it don't affect anything else on the computer.
+<Do>Inside CP125-Class-Repo, create and activate it:</Do>
 
-Make sure the terminal is inside `CP125-Class-Repo` (check with `pwd`), then create it:
-
-<Action>
-
-```bash
-python -m venv cp125_env
+```console
+$ python -m venv cp125_env
+$ source cp125_env/Scripts/activate
+$ python --version
+Python 3.13.1
 ```
 
-</Action>
+*Your prompt now starts with `(cp125_env)`, and a `cp125_env` folder appears in the `Explorer`.*
 
-<Check>
-
-A new `cp125_env` folder in the `Explorer` sidebar.
-
-</Check>
-
-Creating it isn't enough; you have to switch it on (**activate** it) every time you open a new terminal:
-
-<Action>
-
-```bash
-source cp125_env/Scripts/activate
-```
-
-</Action>
-
-<Check>
-
-`(cp125_env)` at the start of your terminal prompt.
-
-</Check>
-
-<Action>
-
-```bash
-python --version
-git status
-```
-
-</Action>
-
-<Check>
-
-Your **Python** version, like `Python 3.13.1`. `git status` should **not** list `cp125_env`; the repository already tells **Git** to ignore it.
-
-</Check>
+::: tip Every new terminal
+Run `source cp125_env/Scripts/activate` each time you open a new terminal.
+:::
 
 ## Run a Small Program
 
-<Action type="do">
+<Do>
 
-In **VS Code**, create `labs/lab01/test_virtual_env.py` and paste this in, using your own name and ID:
+Create `labs/lab01/test_virtual_env.py` with this code, using your own name and ID:
+
+</Do>
 
 ```python
 student_name = "Your Name"
@@ -384,57 +229,42 @@ print(student_id)
 print(course_code)
 ```
 
-</Action>
+<Do>Run it:</Do>
 
-<Action>
-
-```bash
-python labs/lab01/test_virtual_env.py
+```console
+$ python labs/lab01/test_virtual_env.py
+Your Name
+Your ID
+CP125
 ```
-
-</Action>
-
-<Check>
-
-Your name, your ID and `CP125`, each on its own line.
-
-</Check>
 
 ## Install pytest
 
-**pytest** is the testing framework we use to check your lab answers. With the virtual environment active (you see `(cp125_env)`), install it:
+<Do>With (cp125_env) showing in the prompt, run:</Do>
 
-<Action>
-
-```bash
-python -m pip install pytest
+```console
+$ python -m pip install pytest
+...
+Successfully installed iniconfig-2.0.0 packaging-25.0 pluggy-1.6.0 pytest-8.4.1
 ```
-
-</Action>
-
-<Check>
-
-A last line like `Successfully installed ... pytest-8.x.x`.
-
-</Check>
-
-This installs **pytest** only inside `cp125_env`, not on the whole computer.
 
 ## Set Up Testing in VS Code
 
-<Action type="do">
+<Do>
 
-In the `Extensions` panel, search for **Python Test Explorer** and install the one by **Little Fox Team**.
+In `Extensions`, install **Python Test Explorer** by **Little Fox Team**.
+
+</Do>
 
 <p align="center">
     <img src="/labs/lab-07/lab-7-2.png" alt="drawing" width="500"/>
 </p>
 
-</Action>
+<Do>
 
-<Action type="do">
+Click the flask icon → `Configure Python Tests` → `pytest` → `Root Directory`.
 
-On the sidebar, click the **flask** icon → **Configure Python Tests** → **pytest** → **Root Directory**.
+</Do>
 
 <p align="center">
     <img src="/labs/lab-07/lab-7-3.png" alt="drawing" width="300"/>
@@ -442,31 +272,17 @@ On the sidebar, click the **flask** icon → **Configure Python Tests** → **py
     <img src="/labs/lab-07/lab-7-5.png" alt="drawing" width="300"/>
 </p>
 
-</Action>
-
 ::: info Don't see Configure Python Tests?
-It only appears once the repository has tests in it. If it isn't there, skip this step for now.
+It only appears once the repository has tests in it. Skip this step for now if it isn't there.
 :::
 
 ## Finish Up
 
-When you're done, switch the virtual environment off:
+<Do>Switch the virtual environment off:</Do>
 
-<Action>
-
-```bash
-deactivate
+```console
+$ deactivate
 ```
-
-</Action>
-
-<Check>
-
-`(cp125_env)` disappears from the prompt.
-
-</Check>
-
-Next time, open `CP125-Class-Repo` in **VS Code**, open a terminal and run `source cp125_env/Scripts/activate` before you start working.
 
 ::: warning On a shared lab computer
 Run `gh auth logout` before you leave.

@@ -15,6 +15,14 @@ export function markTerminalBlocks() {
       block.querySelectorAll('pre code .line').forEach((line) => {
         if (!line.textContent.startsWith('$ ')) {
           line.classList.add('vp-copy-ignore', 'term-output')
+          // Also skip the line break after it, so copied commands have no blank lines.
+          const nl = line.nextSibling
+          if (nl && nl.nodeType === Node.TEXT_NODE && nl.nodeValue === '\n') {
+            const skip = document.createElement('span')
+            skip.className = 'vp-copy-ignore'
+            skip.textContent = '\n'
+            nl.replaceWith(skip)
+          }
           return
         }
         // Split the "$ " prompt off into its own ignored span.
