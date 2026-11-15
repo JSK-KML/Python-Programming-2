@@ -62,3 +62,12 @@
     overflow-x: auto;
     overflow-y: hidden;
 }
+
+/* Placeholders filled from <YourDetails> (YOURNAME, GITHUB-USERNAME, GITHUB-EMAIL) */
+.vp-doc .ud-fill {
+    color: var(--c-yellow);
+    font-weight: 700;
+}
+.vp-doc .ud-fill.is-filled {
+    color: var(--vp-c-brand-1);
+}

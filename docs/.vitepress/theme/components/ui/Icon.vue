@@ -7,7 +7,8 @@ import { computed } from 'vue'
 import {
   BookOpen, GraduationCap, FlaskConical, FileCheck, Calendar, ClipboardList,
   Microscope, Dna, Leaf, Atom, Brain, HeartPulse, Sprout, Bug, Clock, Target,
-  Trophy, Users, Layers, Lightbulb, FileText, ListChecks, Sparkle, Droplets, Sun, Zap
+  Trophy, Users, Layers, Lightbulb, FileText, ListChecks, Sparkle, Droplets, Sun, Zap,
+  SquareTerminal, MousePointerClick, CircleCheck, UserPen
 } from 'lucide-static'
 
 // Curated icon set (Lucide). Use by name: <Icon name="dna" />
@@ -18,7 +19,8 @@ const icons = {
   'heart-pulse': HeartPulse, sprout: Sprout, bug: Bug, clock: Clock, target: Target,
   trophy: Trophy, users: Users, layers: Layers, lightbulb: Lightbulb,
   'file-text': FileText, 'list-checks': ListChecks, sparkle: Sparkle,
-  droplets: Droplets, sun: Sun, zap: Zap
+  droplets: Droplets, sun: Sun, zap: Zap,
+  terminal: SquareTerminal, 'mouse-pointer-click': MousePointerClick, 'circle-check': CircleCheck, 'user-pen': UserPen
 }
 
 const props = defineProps({

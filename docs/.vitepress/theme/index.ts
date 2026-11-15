@@ -31,6 +31,10 @@ import Icon from './components/ui/Icon.vue'
 import StatGrid from './components/ui/StatGrid.vue'
 import StatCard from './components/ui/StatCard.vue'
 import InfoCard from './components/ui/InfoCard.vue'
+import Action from './components/ui/Action.vue'
+import Check from './components/ui/Check.vue'
+import YourDetails from './components/ui/YourDetails.vue'
+import { loadDetails, fillPage } from './components/ui/your-details.js'
 
 export default {
   extends: DefaultTheme,
@@ -43,7 +47,10 @@ export default {
     const ui = {
       Checklist, Accordion, AccordionItem, Tabs, Tab, Term, UiBadge, CardGrid, LinkCard,
       Timeline, TimelineItem, Quiz, Flashcards, Steps, Figure, LabeledDiagram,
-      ScrollTimeline, ScrollStep, Icon, StatGrid, StatCard, InfoCard
+      ScrollTimeline, ScrollStep, Icon, StatGrid, StatCard, InfoCard,
+      // Lab layout: <Action> = an instruction, <Check> = expected result,
+      // <YourDetails> = fills YOURNAME / GITHUB-USERNAME / GITHUB-EMAIL in the page.
+      Action, Check, YourDetails
     }
     for (const [name, comp] of Object.entries(ui)) app.component(name, comp)
   },
@@ -51,7 +58,14 @@ export default {
     const route = useRoute()
     // Click-to-zoom only for <Figure> images, so other page images are unchanged.
     const initZoom = () => mediumZoom('.vp-doc .ui-figure img', { background: 'var(--vp-c-bg)' })
-    onMounted(initZoom)
-    watch(() => route.path, () => nextTick(initZoom))
+    onMounted(() => {
+      initZoom()
+      loadDetails()
+      fillPage()
+    })
+    watch(() => route.path, () => nextTick(() => {
+      initZoom()
+      fillPage()
+    }))
   }
 }
