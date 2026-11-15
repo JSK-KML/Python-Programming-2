@@ -9,11 +9,24 @@ title: Lab 1 - Functions
 
 Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. [Sync the repo](./pre-lab-01.md#syncing-your-fork) if the `upstream` repo have been updated.
 
-Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
+Once the online repo is in-sync, bring those changes down to your PC:
 
-<p align="center">
-    <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
-</p>
+<Tabs label="How to use Git" group="git-method">
+<Tab label="VS Code (GUI)">
+
+Click `Source Control`, then `...` beside `Changes`, and click `Pull`.
+
+</Tab>
+<Tab label="Git CLI">
+
+In the terminal, inside the `CP125-Class-Repo` folder:
+
+```bash
+git pull
+```
+
+</Tab>
+</Tabs>
 
 ## Functions
 

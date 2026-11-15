@@ -28,14 +28,18 @@
 </template>
 
 <script setup>
-import { ref, computed, useSlots, Fragment } from 'vue'
+import { ref, computed, useSlots, Fragment, watch, onMounted } from 'vue'
 import { TabsRoot, TabsList, TabsTrigger, TabsContent, TabsIndicator } from 'reka-ui'
 import { motion } from 'motion-v'
 import { useElementSize, usePreferredReducedMotion } from '@vueuse/core'
+import { tabGroups, loadGroup, saveGroup } from './tabs-group.js'
 
-defineProps({
+const props = defineProps({
   // Accessible name for the tab list.
-  label: { type: String, default: 'Tabs' }
+  label: { type: String, default: 'Tabs' },
+  // Optional: tab groups with the same name switch together and remember
+  // the reader's choice, e.g. group="git-method" or group="terminal".
+  group: { type: String, default: '' }
 })
 
 const slots = useSlots()
@@ -50,6 +54,22 @@ function collect(nodes, out = []) {
 }
 const tabs = computed(() => collect(slots.default?.()))
 const active = ref(tabs.value[0]?.label)
+
+// Linked groups: pick up the saved choice after the page loads, follow
+// changes made in other groups, and share this group's changes.
+const hasTab = (label) => tabs.value.some((t) => t.label === label)
+if (props.group) {
+  onMounted(() => {
+    const saved = loadGroup(props.group)
+    if (saved && hasTab(saved)) active.value = saved
+  })
+  watch(() => tabGroups[props.group], (v) => {
+    if (v && v !== active.value && hasTab(v)) active.value = v
+  })
+  watch(active, (v) => {
+    if (v && tabGroups[props.group] !== v) saveGroup(props.group, v)
+  })
+}
 
 const reduced = usePreferredReducedMotion()
 const instant = { duration: 0 }
