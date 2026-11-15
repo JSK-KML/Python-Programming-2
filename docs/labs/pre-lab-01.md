@@ -35,6 +35,27 @@ Press the `Windows` key, type `Git Bash` and open it.
 
 A terminal window opens with a prompt ending in `$`.
 
+## Install uv
+
+<Steps>
+
+1. Run in Git Bash:
+
+   ```console
+   $ curl -LsSf https://astral.sh/uv/install.sh | sh
+   ...
+   everything's installed!
+   ```
+
+2. Close Git Bash, open it again, and check:
+
+   ```console
+   $ uv --version
+   uv 0.13.8
+   ```
+
+</Steps>
+
 ## Log In to GitHub
 
 <Steps>
@@ -213,54 +234,51 @@ $ pwd
 
 </Steps>
 
-## Create a Virtual Environment
+## Set Up the Python Environment
 
-<Do>Inside CP125-Class-Repo, create and activate it:</Do>
+<Steps>
 
-```console
-$ python -m venv cp125_env
-$ source cp125_env/Scripts/activate
-$ python --version
-Python 3.13.1
-```
+1. Inside `CP125-Class-Repo`, run:
 
-`(cp125_env)` now shows on the line above the folder path, and a `cp125_env` folder appears in the `Explorer`:
+   ```console
+   $ uv sync
+   Using CPython 3.14.0 interpreter at: C:\Python314\python.exe
+   Creating virtual environment at: .venv
+   Resolved 7 packages in 2ms
+   Installed 6 packages in 492ms
+    + pytest==9.2.0
+   ...
+   ```
 
-```text
-(cp125_env)
-you@PC MINGW64 ~/YOURNAME-CP125/CP125-Class-Repo (main)
-$
-```
+   A `.venv` folder appears in the `Explorer`, with **Python** and every package the course needs, including **pytest**.
 
-::: tip Every new terminal
-Run `source cp125_env/Scripts/activate` each time you open a new terminal.
+2. Run your file through it:
+
+   ```console
+   $ uv run python labs/pre-lab/hello.py
+   Hello, CP125
+   My name is YOURNAME
+   ```
+
+</Steps>
+
+::: tip Run everything with uv run
+Use `uv run python FILE` and `uv run pytest`, so your code always uses the packages in `.venv`.
 :::
-
-## Install pytest
-
-<Do>
-
-With `(cp125_env)` showing above the folder path, run:
-
-</Do>
-
-```console
-$ python -m pip install pytest
-...
-Successfully installed iniconfig-2.0.0 packaging-25.0 pluggy-1.6.0 pytest-8.4.1
-```
 
 ## Set Up Testing in VS Code
 
 <Steps>
 
-1. In `Extensions`, install **Python Test Explorer** by **Little Fox Team**.
+1. Press `Ctrl` + `Shift` + `P`, type `Python: Select Interpreter` and choose the one in `.venv`.
+
+2. In `Extensions`, install **Python Test Explorer** by **Little Fox Team**.
 
    <p align="center">
        <img src="/labs/lab-07/lab-7-2.png" alt="drawing" width="500"/>
    </p>
 
-2. Click the flask icon → `Configure Python Tests` → `pytest` → `Root Directory`.
+3. Click the flask icon → `Configure Python Tests` → `pytest` → `Root Directory`.
 
    <div class="img-row">
        <img src="/labs/lab-07/lab-7-3.png" alt="Flask icon"/>
@@ -274,13 +292,30 @@ Successfully installed iniconfig-2.0.0 packaging-25.0 pluggy-1.6.0 pytest-8.4.1
 It only appears once the repository has tests in it. Skip this step for now if it isn't there.
 :::
 
+## Working on Another PC
+
+<Steps>
+
+1. On a new PC (your laptop, or a different lab PC), install **Git** and **VS Code**, then do [Install uv](#install-uv), [Log In to GitHub](#log-in-to-github), [Create Your Course Folder](#create-your-course-folder) and [Clone Your Fork](#clone-your-fork).
+
+2. Inside `CP125-Class-Repo`, run:
+
+   ```console
+   $ uv sync
+   ```
+
+   You now have the same environment as on the lab PC.
+
+3. When a lab needs a new package, [sync your fork](#syncing-your-fork), then run:
+
+   ```console
+   $ git pull
+   $ uv sync
+   ```
+
+</Steps>
+
 ## Finish Up
-
-<Do>Switch the virtual environment off:</Do>
-
-```console
-$ deactivate
-```
 
 ::: warning On a shared lab computer
 Run `gh auth logout` before you leave.
