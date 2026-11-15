@@ -35,27 +35,6 @@ Press the `Windows` key, type `Git Bash` and open it.
 
 A terminal window opens with a prompt ending in `$`.
 
-## Install uv
-
-<Steps>
-
-1. Run in Git Bash:
-
-   ```console
-   $ curl -LsSf https://astral.sh/uv/install.sh | sh
-   ...
-   everything's installed!
-   ```
-
-2. Close Git Bash, open it again, and check:
-
-   ```console
-   $ uv --version
-   uv 0.13.8
-   ```
-
-</Steps>
-
 ## Log In to GitHub
 
 <Steps>
@@ -170,6 +149,52 @@ $ pwd
 
 </Steps>
 
+## Set Up Python with uv
+
+<Steps>
+
+1. In the **VS Code** terminal, install **uv**:
+
+   ```console
+   $ curl -LsSf https://astral.sh/uv/install.sh | sh
+   ...
+   everything's installed!
+   ```
+
+2. Close the terminal with the bin icon, open a new one (`Terminal` → `New Terminal`), and check:
+
+   ```console
+   $ uv --version
+   uv 0.13.8
+   ```
+
+3. Create the environment from the list in `CP125-Class-Repo`:
+
+   ```console
+   $ uv sync
+   Using CPython 3.14.0 interpreter at: C:\Python314\python.exe
+   Creating virtual environment at: .venv
+   Resolved 7 packages in 2ms
+   Installed 6 packages in 492ms
+    + pytest==9.2.0
+   ...
+   ```
+
+   A `.venv` folder appears in the `Explorer`, with **Python** and every package the course needs, including **pytest**.
+
+4. Run a file through it:
+
+   ```console
+   $ uv run python labs/pre-lab/hello.py
+   Hello, CP125
+   ```
+
+</Steps>
+
+::: tip Run everything with uv run
+Use `uv run python FILE` and `uv run pytest`, so your code always uses the packages in `.venv`.
+:::
+
 ## Commit, Push and Pull
 
 <Steps>
@@ -234,38 +259,6 @@ $ pwd
 
 </Steps>
 
-## Set Up the Python Environment
-
-<Steps>
-
-1. Inside `CP125-Class-Repo`, run:
-
-   ```console
-   $ uv sync
-   Using CPython 3.14.0 interpreter at: C:\Python314\python.exe
-   Creating virtual environment at: .venv
-   Resolved 7 packages in 2ms
-   Installed 6 packages in 492ms
-    + pytest==9.2.0
-   ...
-   ```
-
-   A `.venv` folder appears in the `Explorer`, with **Python** and every package the course needs, including **pytest**.
-
-2. Run your file through it:
-
-   ```console
-   $ uv run python labs/pre-lab/hello.py
-   Hello, CP125
-   My name is YOURNAME
-   ```
-
-</Steps>
-
-::: tip Run everything with uv run
-Use `uv run python FILE` and `uv run pytest`, so your code always uses the packages in `.venv`.
-:::
-
 ## Set Up Testing in VS Code
 
 <Steps>
@@ -296,7 +289,7 @@ It only appears once the repository has tests in it. Skip this step for now if i
 
 <Steps>
 
-1. On a new PC (your laptop, or a different lab PC), install **Git** and **VS Code**, then do [Install uv](#install-uv), [Log In to GitHub](#log-in-to-github), [Create Your Course Folder](#create-your-course-folder) and [Clone Your Fork](#clone-your-fork).
+1. On a new PC (your laptop, or a different lab PC), install **Git** and **VS Code**, then do [Log In to GitHub](#log-in-to-github), [Create Your Course Folder](#create-your-course-folder), [Clone Your Fork](#clone-your-fork) and the first two steps of [Set Up Python with uv](#set-up-python-with-uv).
 
 2. Inside `CP125-Class-Repo`, run:
 
