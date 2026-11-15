@@ -215,7 +215,13 @@ $ python --version
 Python 3.13.1
 ```
 
-Your prompt now starts with `(cp125_env)`, and a `cp125_env` folder appears in the `Explorer`.
+`(cp125_env)` now shows on the line above the folder path, and a `cp125_env` folder appears in the `Explorer`:
+
+```text
+(cp125_env)
+you@PC MINGW64 ~/YOURNAME-CP125/CP125-Class-Repo (main)
+$
+```
 
 ::: tip Every new terminal
 Run `source cp125_env/Scripts/activate` each time you open a new terminal.
@@ -223,7 +229,11 @@ Run `source cp125_env/Scripts/activate` each time you open a new terminal.
 
 ## Install pytest
 
-<Do>With (cp125_env) showing in the prompt, run:</Do>
+<Do>
+
+With `(cp125_env)` showing above the folder path, run:
+
+</Do>
 
 ```console
 $ python -m pip install pytest
