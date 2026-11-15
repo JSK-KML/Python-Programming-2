@@ -36,12 +36,21 @@ const active = ref(tabs.value[0]?.label)
 </script>
 
 <style scoped>
-.ui-tabs { margin: 20px 0; }
+/* The whole tab group sits in one box, so it's clear what changes per tab. */
+.ui-tabs {
+  margin: 20px 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--vp-c-bg);
+}
 
 .ui-tabs-list {
   position: relative;
   display: flex;
   gap: 4px;
+  padding: 0 8px;
+  background: var(--vp-c-bg-soft);
   border-bottom: 1px solid var(--vp-c-divider);
   overflow-x: auto;
   scrollbar-width: none;
@@ -75,9 +84,12 @@ const active = ref(tabs.value[0]?.label)
   transition: width 0.25s cubic-bezier(0.2, 0, 0, 1), transform 0.25s cubic-bezier(0.2, 0, 0, 1);
 }
 
-.ui-tabs-content { padding-top: 14px; }
+.ui-tabs-content { padding: 16px 20px; }
 .ui-tabs-content[data-state='active'] { animation: ui-tab-in 0.22s cubic-bezier(0.2, 0, 0, 1); }
 .ui-tabs-content :deep(> div > :first-child) { margin-top: 0; }
+.ui-tabs-content :deep(> div > :last-child) { margin-bottom: 0; }
+/* On phones VitePress makes code blocks full-bleed; keep them inside the box. */
+.ui-tabs-content :deep(div[class*='language-']) { margin-left: 0; margin-right: 0; border-radius: 8px; }
 
 @keyframes ui-tab-in {
   from { opacity: 0; transform: translateY(6px); }
