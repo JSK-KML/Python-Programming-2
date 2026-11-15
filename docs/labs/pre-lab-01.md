@@ -58,13 +58,6 @@ A terminal window opens with a prompt ending in `$`.
 
    The terminal shows `✓ Logged in as GITHUB-USERNAME`.
 
-4. Set the name and email for your commits:
-
-   ```console
-   $ git config --global user.name "GITHUB-USERNAME"
-   $ git config --global user.email "GITHUB-EMAIL"
-   ```
-
 </Steps>
 
 ::: warning On a shared lab computer
@@ -104,7 +97,23 @@ $ pwd
    README.md  labs/
    ```
 
-2. Open the repository in **VS Code**:
+2. Remove the name and email left on this computer by anyone before you:
+
+   ```console
+   $ git config --global --unset user.name
+   $ git config --global --unset user.email
+   ```
+
+3. Set your own name and email, for this repository only:
+
+   ```console
+   $ git config user.name "GITHUB-USERNAME"
+   $ git config user.email "GITHUB-EMAIL"
+   $ git config user.email
+   GITHUB-EMAIL
+   ```
+
+4. Open the repository in **VS Code**:
 
    ```console
    $ code .
