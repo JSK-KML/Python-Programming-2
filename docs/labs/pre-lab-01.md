@@ -144,27 +144,25 @@ $ pwd
 
 <Steps>
 
-1. In the `Explorer`, open `labs/pre-lab`, create a file called `hello.py` and write:
+1. In the `Explorer`, open `labs/pre-lab/hello.py`, add this line under the one that is there, and save with `Ctrl` + `S`:
 
    ```python
-   print("Hello, CP125")
+   print("My name is YOURNAME")
    ```
-
-   Save it with `Ctrl` + `S`.
 
 2. Check what **Git** sees:
 
    ```console
    $ git status
-   Untracked files:
-           labs/pre-lab/hello.py
+   Changes not staged for commit:
+           modified:   labs/pre-lab/hello.py
    ```
 
 3. Commit it and push it to **GitHub**:
 
    ```console
    $ git add labs/pre-lab/hello.py
-   $ git commit -m "Add hello.py"
+   $ git commit -m "Add my name to hello.py"
    $ git push
    ...
       a1b2c3d..e4f5a6b  main -> main
@@ -172,7 +170,7 @@ $ pwd
 
 4. Refresh `github.com/GITHUB-USERNAME/CP125-Class-Repo` in the browser.
 
-   You see the commit message **Add hello.py**, and `hello.py` inside `labs/pre-lab`.
+   You see the commit message **Add my name to hello.py** on `labs/pre-lab`.
 
 5. Pull from **GitHub**:
 
