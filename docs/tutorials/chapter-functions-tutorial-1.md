@@ -5,9 +5,84 @@ outline: deep
 
 # Functions - Tutorial 1
 
+## **Exercise 1: Loops and Selection** <Badge type="tip" text="Question" />
 
+**Read each scenario carefully. Write a program to solve each problem. Do not use functions yet.**
 
-## **Exercise 1: Scenario-Based Problems** <Badge type="tip" text="Question" />
+---
+
+### **Scenario 1: Top Two Scores**
+
+A judge scores **7 contestants**. Using a `for` loop, ask for each score, and keep track of the **highest** and the **second highest** score. After the loop, print both.
+
+**Example Input:**
+```
+6
+8
+4
+9
+7
+3
+8
+```
+
+**Example Output:**
+```
+Highest: 9
+Second highest: 8
+```
+*(Explanation: When 9 comes in, it becomes the highest and the old highest, 8, moves down to second. The last 8 is not higher than the second highest, so nothing changes.)*
+
+---
+
+### **Scenario 2: Peak Readings**
+
+A sensor takes **8 readings**. A reading is a **peak** when it is higher than both the reading just before it and the reading just after it. Using a `for` loop, ask for each reading, and count how many peaks there are. After the loop, print that count. The first and last readings can never be peaks.
+
+**Example Input:**
+```
+3
+7
+4
+9
+8
+8
+5
+6
+```
+
+**Example Output:**
+```
+Peaks: 2
+```
+*(Explanation: 7 is a peak (3 < 7 > 4) and 9 is a peak (4 < 9 > 8). The two 8s are not peaks because neither is higher than the other.)*
+
+---
+
+### **Scenario 3: Lift Trips**
+
+A lift starts on floor `0`. Write a program that keeps asking for the **next floor** the lift goes to, until the user enters `-1`. Add up the total number of floors the lift travels, counting both up and down, and count how many times it **changes direction**. After the loop, print both. Going to the floor it is already on does not move the lift and does not change its direction.
+
+**Example Input:**
+```
+5
+2
+8
+8
+3
+-1
+```
+
+**Example Output:**
+```
+Floors travelled: 19
+Direction changes: 3
+```
+*(Explanation: 0→5 up 5, 5→2 down 3 (change 1), 2→8 up 6 (change 2), 8→8 no move, 8→3 down 5 (change 3). Total = 5 + 3 + 6 + 5 = 19.)*
+
+---
+
+## **Exercise 2: Scenario-Based Problems** <Badge type="tip" text="Question" />
 
 **Read each scenario carefully and answer the questions:**
 
@@ -236,7 +311,7 @@ Distance: 350km, Average speed: 90km/h
 
 ---
 
-## **Exercise 2: Code Improvement** <Badge type="tip" text="Question" />
+## **Exercise 3: Code Improvement** <Badge type="tip" text="Question" />
 
 **The following code snippets function correctly, but they are written poorly. Your task is to IMPROVE them.**
 
