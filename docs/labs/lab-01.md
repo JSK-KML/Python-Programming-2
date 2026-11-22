@@ -356,7 +356,7 @@ Rectangle 3: 14
 3. Everything that stays the same becomes the body.
 :::
 
-### Your Turn
+#### Your Turn <Badge type="tip" text="Try it" />
 
 This code prints two students' marks:
 
