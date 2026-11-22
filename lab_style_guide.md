@@ -247,8 +247,8 @@ Same layout and output as `cp115-class-repo`. `labs/lab01` is the reference.
 ### A. Test File Structure
 
 ```
+conftest.py                         # Clean output for every lab (repo root)
 labs/labXX/
-├── conftest.py                     # Clean output for the whole lab (copy from labs/lab01)
 └── exerciseY/
     ├── exerciseY.py                # Student file
     ├── data/                       # Sample input files (if needed)
@@ -268,7 +268,7 @@ The name must be unique across the repository, so pytest never confuses two test
 
 ### C. Clean Output (`conftest.py`)
 
-Every lab folder has a `conftest.py` (copy `labs/lab01/conftest.py` and change the lab number in its docstring). It hides tracebacks and pytest's own summary, and ends with one of:
+One `conftest.py` at the **root** of the repository covers every lab. It must stay at the root: VS Code runs the tests from there, and a `conftest.py` inside a lab folder loads too late to hide pytest's own `FAILED ...` list. It hides tracebacks and ends with one of:
 
 ```
 ALL TESTS PASSED
@@ -281,34 +281,79 @@ SOME TESTS FAILED:
 
 Each problem is one plain line, and repeated lines are shown once. A file that is empty or does not run is reported as a failure, never as a pass.
 
+Exercises whose tests exist but which are not on the lab page yet go in its `collect_ignore` list, so students never see failures for work they were not given.
+
 ### D. Test File Template (function exercises)
 
 Load the student file inside the test with `importlib.util`, under a unique module name (`labXX_exerciseY`). Never import it at the top of the test file: if the file is empty or has a syntax error, the whole test file fails to load and the student gets a traceback instead of a clear message.
 
+The template also gives clear messages for a missing function, a crash, `input()` left in the file, a missing `return`, and a loop that never ends (each call has a 10-second limit).
+
 ```python
 import importlib.util
 import os
+import threading
 
 import pytest
 
 EXERCISE = "exerciseY"
 FUNCTION = "function_name"
-PARAMETERS = ["first_param", "second_param"]
+PARAMETERS = ['first_param', 'second_param']
+TIME_LIMIT = 10  # seconds, so a loop that never ends cannot freeze the tests
+
+_state = {}
+
+
+def run_with_time_limit(task, what):
+    result = {}
+
+    def target():
+        try:
+            result["value"] = task()
+        except BaseException as error:
+            result["error"] = error
+
+    thread = threading.Thread(target=target, daemon=True)
+    thread.start()
+    thread.join(TIME_LIMIT)
+    if thread.is_alive():
+        message = f"{what} took too long (over {TIME_LIMIT} seconds) - check for a loop that never ends"
+        _state["fail"] = message
+        pytest.fail(message)
+    if "error" in result:
+        raise result["error"]
+    return result.get("value")
+
+
+def uses_input(error):
+    return isinstance(error, OSError) and "reading from stdin" in str(error)
 
 
 def load_function():
+    if "fail" in _state:
+        pytest.fail(_state["fail"])
+    if "function" in _state:
+        return _state["function"]
+
+    def stop(message):
+        _state["fail"] = message
+        pytest.fail(message)
+
     path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), EXERCISE + ".py")
     if not os.path.isfile(path):
-        pytest.fail(f"{EXERCISE}.py was not found in the {EXERCISE} folder")
+        stop(f"{EXERCISE}.py was not found in the {EXERCISE} folder")
     spec = importlib.util.spec_from_file_location("labXX_" + EXERCISE, path)
     module = importlib.util.module_from_spec(spec)
     try:
-        spec.loader.exec_module(module)
+        run_with_time_limit(lambda: spec.loader.exec_module(module), EXERCISE + ".py")
     except Exception as error:
-        pytest.fail(f"{EXERCISE}.py did not run: {type(error).__name__}: {error}")
+        if uses_input(error):
+            stop(f"{EXERCISE}.py uses input() - remove it, the tests give your function its values")
+        stop(f"{EXERCISE}.py did not run: {type(error).__name__}: {error}")
     if not callable(getattr(module, FUNCTION, None)):
-        pytest.fail(f"no function called {FUNCTION} in {EXERCISE}.py - check the name in your def line")
-    return getattr(module, FUNCTION)
+        stop(f"no function called {FUNCTION} in {EXERCISE}.py - check the name in your def line")
+    _state["function"] = getattr(module, FUNCTION)
+    return _state["function"]
 
 
 CASES = [
@@ -322,12 +367,14 @@ def test_function_name(args, expected):
     function = load_function()
     context = "input " + ", ".join(f"{name}={value!r}" for name, value in zip(PARAMETERS, args))
     try:
-        actual = function(*args)
+        actual = run_with_time_limit(lambda: function(*args), f"{context} -> the function")
     except TypeError as error:
         if FUNCTION + "()" in str(error):
             pytest.fail(f"{context} -> the function could not be called: {error}")
         pytest.fail(f"{context} -> the function crashed: TypeError: {error}")
     except Exception as error:
+        if uses_input(error):
+            pytest.fail(f"{FUNCTION} uses input() - remove it, the values come from the parameters")
         pytest.fail(f"{context} -> the function crashed: {type(error).__name__}: {error}")
     hint = " (did you forget to return the result?)" if actual is None else ""
     assert actual == expected, f"{context} -> expected {expected!r} but got {actual!r}{hint}"
@@ -337,7 +384,7 @@ def test_function_name(args, expected):
 - **Exactly 10 cases** per exercise, in `CASES`
 - Every failure message starts with the input, then says what was expected and what came back
 - Cover edge cases, empty inputs, boundary values
-- Check the tests against a reference answer, and against at least one typical wrong answer
+- Check the tests against a reference answer, against other correct ways of writing it, and against typical wrong answers: every wrong answer must fail at least one case
 
 ### E. VS Code Settings
 
