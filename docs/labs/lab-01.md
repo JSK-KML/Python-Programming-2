@@ -570,10 +570,10 @@ Write a function `is_budget_sufficient` that returns `True` if the fuel for the 
 
 **Example:**
 
-| Call | Returns | Why |
-|---|---|---|
-| `is_budget_sufficient(100, 10, 2.00, 40)` | `True` | 200 km needs 20 litres, which costs RM40.00 |
-| `is_budget_sufficient(100, 10, 2.00, 39)` | `False` | RM40.00 is more than RM39 |
+| Input | Output |
+|---|---|
+| `is_budget_sufficient(100, 10, 2.00, 40)` | `True` |
+| `is_budget_sufficient(100, 10, 2.00, 39)` | `False` |
 
 ## Exercise 2: Camping Logistics <Badge type="warning" text="Task" />
 
@@ -600,10 +600,10 @@ Write a function `calculate_event_cost` that returns the total cost of the tents
 
 **Example:**
 
-| Call | Returns | Why |
-|---|---|---|
-| `calculate_event_cost(12, 4, 100, 10)` | `420` | 3 tents (RM300) + food for 12 (RM120) |
-| `calculate_event_cost(13, 4, 100, 10)` | `530` | 4 tents (RM400) + food for 13 (RM130) |
+| Input | Output |
+|---|---|
+| `calculate_event_cost(12, 4, 100, 10)` | `420` |
+| `calculate_event_cost(13, 4, 100, 10)` | `530` |
 
 ::: tip Rounding up
 `math.ceil` rounds a number **up**: `math.ceil(3.25)` is `4`. Add `import math` at the top of your file to use it.
@@ -634,11 +634,11 @@ Write a function `validate_entry(name, pin)` that returns `True` if the entry is
 
 **Example:**
 
-| Call | Returns | Why |
-|---|---|---|
-| `validate_entry("Director", 1122)` | `True` | Right name, right PIN |
-| `validate_entry("Director", 9900)` | `False` | That is the Security PIN |
-| `validate_entry("director", 1122)` | `False` | Small d: the name must match exactly |
+| Input | Output |
+|---|---|
+| `validate_entry("Director", 1122)` | `True` |
+| `validate_entry("Director", 9900)` | `False` |
+| `validate_entry("director", 1122)` | `False` |
 
 ## Exercise 4: Dynamic Parking Rate <Badge type="warning" text="Task" />
 
@@ -664,7 +664,7 @@ Write a function `get_hourly_rate(vehicle_type, hour_24)` that returns the hourl
 
 **Example:**
 
-| Call | Returns |
+| Input | Output |
 |---|---|
 | `get_hourly_rate("Hybrid", 23)` | `2.0` |
 | `get_hourly_rate("Hybrid", 13)` | `5.0` |
@@ -692,10 +692,10 @@ Write a function `is_valid_triangle(a, b, c)` that returns `True` if the three l
 
 **Example:**
 
-| Call | Returns | Why |
-|---|---|---|
-| `is_valid_triangle(3, 4, 5)` | `True` | Every pair adds up to more than the third side |
-| `is_valid_triangle(1, 2, 3)` | `False` | 1 + 2 is not more than 3 |
+| Input | Output |
+|---|---|
+| `is_valid_triangle(3, 4, 5)` | `True` |
+| `is_valid_triangle(1, 2, 3)` | `False` |
 
 ## Exercise 6: Leap Year Detector <Badge type="warning" text="Task" />
 
@@ -725,7 +725,7 @@ Write a function `is_leap_year(year)` that returns `True` for a leap year and `F
 
 **Example:**
 
-| Call | Returns |
+| Input | Output |
 |---|---|
 | `is_leap_year(2024)` | `True` |
 | `is_leap_year(1900)` | `False` |
