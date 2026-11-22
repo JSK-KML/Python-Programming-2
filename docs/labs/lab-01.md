@@ -261,15 +261,17 @@ print(f"Customer 1 total: RM{total1:.2f}")
 
 10. Click the red square in the toolbar to stop the debugger.
 
-11. Add the second customer under line 8, put the breakpoint on it, and step into it again:
-
-    ```python
-    total2 = calculate_bill(3.50)  # Roti Canai
-    ```
-
-    This time `Variables` shows `meal_price = 3.5` and `tax = 0.21`, and back outside, `total2 = 5.71`. Same body, different argument.
-
 </Steps>
+
+#### Your Turn <Badge type="tip" text="Try it" />
+
+Add the second customer under line 8, put the breakpoint on it, and step into it again:
+
+```python
+total2 = calculate_bill(3.50)  # Roti Canai
+```
+
+Check that `Variables` shows `meal_price = 3.5` and `tax = 0.21`, and back outside, `total2 = 5.71`. Same body, different argument.
 
 ::: tip Keep using it
 The debugger is the fastest way to find out why a function gives the wrong answer. Put a breakpoint on the call, step into the function, and check each variable against what you expected.
