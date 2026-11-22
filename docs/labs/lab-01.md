@@ -170,37 +170,105 @@ def calculate_bill(meal_price):
 </Tab>
 </Tabs>
 
-### What Happens When You Call It
+### Watch It Run in the Debugger
 
-**Python** runs your file from top to bottom. This is what happens for the first customer:
+Reading code tells you what *should* happen. The <Term def="A VS Code tool that pauses your program on a line you choose, then runs it one line at a time while showing the value of every variable.">debugger</Term> shows you what *does* happen, one line at a time. Use it to watch **Python** jump into `calculate_bill`, fill in `meal_price`, and carry `11.01` back out.
+
+Your `exercise.py` should still hold the function from above. These are its line numbers:
+
+```python:line-numbers {7}
+def calculate_bill(meal_price):
+    tax = meal_price * 0.06  # 6% SST
+    service_charge = 2.00
+    total = meal_price + tax + service_charge
+    return total
+
+total1 = calculate_bill(8.50)  # Nasi Lemak
+print(f"Customer 1 total: RM{total1:.2f}")
+```
+
+<Steps>
+
+1. Click just left of line number **7**. A red dot appears: this is a <Term def="A marker on a line where the debugger pauses the program before that line runs.">breakpoint</Term>.
+
+2. Click the **Run and Debug** icon (the play button with a bug) in the left bar, then `Show automatic Python configurations`.
+
+   <p align="center">
+       <img src="/labs/lab-04/lab-4-2.png" alt="Run and Debug panel" width="300"/>
+   </p>
+
+3. Choose `Python Debugger: Python File` (the one for `cp125-class-repo`).
+
+   <p align="center">
+       <img src="/labs/lab-04/lab-4-3.png" alt="Select Launch Configuration" width="400"/>
+   </p>
+
+   The program starts and stops on line 7. The yellow line is the line that runs **next**: it has not run yet. A toolbar appears at the top of the editor:
+
+   <p align="center">
+       <img src="/labs/lab-04/lab-4-6.png" alt="Debug toolbar" width="220"/>
+   </p>
+
+</Steps>
+
+| Button | Key | What it does |
+|---|---|---|
+| Continue | `F5` | Run until the next breakpoint, or to the end |
+| Step Over | `F10` | Run the yellow line, then stop on the next line |
+| Step Into | `F11` | If the yellow line calls a function, go **inside** it |
+| Step Out | `Shift` + `F11` | Finish the current function and go back to where it was called |
+| Stop | `Shift` + `F5` | End the program |
+
+Now step through the call. After each key, look at the yellow line and at the `Variables` panel on the left:
 
 <Timeline>
-<TimelineItem date="Step 1" title="Read the def">
+<TimelineItem date="Start" title="Paused on line 7">
 
-**Python** sees `def calculate_bill(meal_price):` and remembers the function. Nothing inside it runs yet.
-
-</TimelineItem>
-<TimelineItem date="Step 2" title="Call the function">
-
-At `calculate_bill(8.50)`, **Python** jumps into the function and sets `meal_price = 8.50`.
+Yellow line: `total1 = calculate_bill(8.50)`. `Variables` shows `calculate_bill`, but no `total1` yet, because line 7 has not run.
 
 </TimelineItem>
-<TimelineItem date="Step 3" title="Run the body">
+<TimelineItem date="F11" title="Step Into → line 2">
 
-`tax` becomes `0.51`, `service_charge` becomes `2.00`, and `total` becomes `11.01`.
-
-</TimelineItem>
-<TimelineItem date="Step 4" title="Return the result">
-
-`return total` sends `11.01` back to where the function was called, so `total1 = 11.01`.
+The yellow line jumps **up** into the function. `Variables` now shows `meal_price = 8.5`: the argument `8.50` went into the parameter.
 
 </TimelineItem>
-<TimelineItem date="Step 5" title="Carry on">
+<TimelineItem date="F10" title="Step Over → line 3">
 
-`print` shows `Customer 1 total: RM11.01`. The next call, `calculate_bill(3.50)`, repeats Steps 2 to 4 with `meal_price = 3.50`.
+Line 2 ran. `tax = 0.51` appears.
+
+</TimelineItem>
+<TimelineItem date="F10" title="Step Over → line 4">
+
+`service_charge = 2.0` appears.
+
+</TimelineItem>
+<TimelineItem date="F10" title="Step Over → line 5">
+
+`total = 11.01` appears. The yellow line is on `return total`.
+
+</TimelineItem>
+<TimelineItem date="F10" title="Step Over until line 8">
+
+The yellow line goes back **down** to the call. `meal_price`, `tax`, `service_charge` and `total` are gone: they only exist while the function runs. Instead, `total1 = 11.01` appears: that is the value `return` sent back.
 
 </TimelineItem>
 </Timeline>
+
+<Do>
+
+Press `F5` to finish, or `Shift` + `F5` to stop. Then add the second customer under line 8, set a breakpoint on it, and step into it again:
+
+</Do>
+
+```python
+total2 = calculate_bill(3.50)  # Roti Canai
+```
+
+This time `Variables` shows `meal_price = 3.5`, `tax = 0.21` and, back outside, `total2 = 5.71`. Same body, different argument.
+
+::: tip Keep using it
+The debugger is the fastest way to find out why a function gives the wrong answer. Put a breakpoint on the call, step into the function, and check each variable against what you expected.
+:::
 
 ::: warning Define it before you call it
 Because **Python** reads from top to bottom, the `def` must come before the first call. Move the call above the `def` and you get `NameError: name 'calculate_bill' is not defined`.
@@ -313,35 +381,27 @@ Decide first: how many parameters does `display_score` need?
 
 ## The Parts of a Function
 
-Every function has a header, a body, and is used through a call. Hover over or click each number to see what it is.
+Every function has a **header** and a **body**, and it only runs when you **call** it.
 
-<LabeledDiagram
-  src="/labs/lab-01/function-parts.svg"
-  alt="def calculate_bill(meal_price): with its body, and the call total1 = calculate_bill(8.50)"
-  :labels="[
-    { x: 7.4, y: 13, label: 'def keyword', text: 'Tells Python you are defining a new function.' },
-    { x: 25.95, y: 13, label: 'Function name', text: 'Says what the function does. Use snake_case, do not start with a number, and do not use a Python keyword.' },
-    { x: 51.3, y: 13, label: 'Parameter', text: 'Receives a value each time the function is called. Write parameters inside the brackets, separated by commas.' },
-    { x: 64, y: 13, label: 'Colon', text: 'Ends the header. The body starts on the next line.' },
-    { x: 5, y: 44.75, label: 'Body', text: 'The indented lines (4 spaces) under the header. They run only when the function is called.' },
-    { x: 41.5, y: 66.75, label: 'return', text: 'Sends a value back to the line that called the function, and ends the function.' },
-    { x: 10.35, y: 82.5, label: 'Stored result', text: 'The value that comes back from return is stored here, so total1 is 11.01.' },
-    { x: 35.7, y: 82.5, label: 'Function call', text: 'The function name followed by brackets. This is the line that actually runs the body.' },
-    { x: 55.2, y: 82.5, label: 'Argument', text: 'The actual value passed in. 8.50 goes into the parameter meal_price.' }
-  ]"
-/>
+<Figure src="/labs/lab-01/function-parts.svg" num="1.1" caption="The parts of calculate_bill and of the line that calls it. The argument and the parameter share a colour: 8.50 goes into meal_price." />
 
-| Part | Example | Job |
+| Part | In Figure 1.1 | What it does |
 |---|---|---|
-| **Header** | `def calculate_bill(meal_price):` | Names the function and lists its parameters |
-| **Body** | the indented lines | The work the function does |
-| **Call** | `calculate_bill(8.50)` | Runs the body with real values |
+| Keyword | `def` | Tells **Python** a new function starts here |
+| Function name | `calculate_bill` | Says what the function does. Use `snake_case`, don't start with a number, and don't use a **Python** keyword |
+| Parameter | `meal_price` | Receives a value each time the function is called |
+| Colon | `:` | Ends the header. The body starts on the next line |
+| Body | the indented lines | The work the function does. Indent it 4 spaces. It runs only when the function is called |
+| `return` | `return total` | Sends a value back to the line that called the function, and ends the function |
+| Function call | `calculate_bill(8.50)` | Runs the body |
+| Argument | `8.50` | The actual value that goes into the parameter |
+| Stored result | `total1` | Keeps the value that came back, `11.01` |
 
 ## Parameters and Arguments
 
 A parameter is the empty box in the header. An <Term def="The actual value you pass to a function when you call it, like 8.50 in calculate_bill(8.50).">argument</Term> is the value you put in that box when you call the function. **Python** fills the boxes **in order**: the first argument goes into the first parameter, the second into the second, and so on.
 
-<Figure src="/labs/lab-01/args-to-params.svg" num="1.1" caption="Arguments go into parameters by position: 70 goes into weight, 1.75 goes into height." />
+<Figure src="/labs/lab-01/args-to-params.svg" num="1.2" caption="Arguments go into parameters by position: 70 goes into weight, 1.75 goes into height." />
 
 <Do>
 
