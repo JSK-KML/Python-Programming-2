@@ -572,8 +572,8 @@ Write a function `is_budget_sufficient` that returns `True` if the fuel for the 
 
 | Input | Output |
 |---|---|
-| `is_budget_sufficient(100, 10, 2.00, 40)` | `True` |
-| `is_budget_sufficient(100, 10, 2.00, 39)` | `False` |
+| `100, 10, 2.00, 40` | `True` |
+| `100, 10, 2.00, 39` | `False` |
 
 ## Exercise 2: Camping Logistics <Badge type="warning" text="Task" />
 
@@ -602,8 +602,8 @@ Write a function `calculate_event_cost` that returns the total cost of the tents
 
 | Input | Output |
 |---|---|
-| `calculate_event_cost(12, 4, 100, 10)` | `420` |
-| `calculate_event_cost(13, 4, 100, 10)` | `530` |
+| `12, 4, 100, 10` | `420` |
+| `13, 4, 100, 10` | `530` |
 
 ::: tip Rounding up
 `math.ceil` rounds a number **up**: `math.ceil(3.25)` is `4`. Add `import math` at the top of your file to use it.
@@ -636,9 +636,9 @@ Write a function `validate_entry(name, pin)` that returns `True` if the entry is
 
 | Input | Output |
 |---|---|
-| `validate_entry("Director", 1122)` | `True` |
-| `validate_entry("Director", 9900)` | `False` |
-| `validate_entry("director", 1122)` | `False` |
+| `"Director", 1122` | `True` |
+| `"Director", 9900` | `False` |
+| `"director", 1122` | `False` |
 
 ## Exercise 4: Dynamic Parking Rate <Badge type="warning" text="Task" />
 
@@ -666,9 +666,9 @@ Write a function `get_hourly_rate(vehicle_type, hour_24)` that returns the hourl
 
 | Input | Output |
 |---|---|
-| `get_hourly_rate("Hybrid", 23)` | `2.0` |
-| `get_hourly_rate("Hybrid", 13)` | `5.0` |
-| `get_hourly_rate("Sedan", 2)` | `5.0` |
+| `"Hybrid", 23` | `2.0` |
+| `"Hybrid", 13` | `5.0` |
+| `"Sedan", 2` | `5.0` |
 
 ## Exercise 5: Triangle Checker <Badge type="warning" text="Task" />
 
@@ -694,8 +694,8 @@ Write a function `is_valid_triangle(a, b, c)` that returns `True` if the three l
 
 | Input | Output |
 |---|---|
-| `is_valid_triangle(3, 4, 5)` | `True` |
-| `is_valid_triangle(1, 2, 3)` | `False` |
+| `3, 4, 5` | `True` |
+| `1, 2, 3` | `False` |
 
 ## Exercise 6: Leap Year Detector <Badge type="warning" text="Task" />
 
@@ -727,8 +727,8 @@ Write a function `is_leap_year(year)` that returns `True` for a leap year and `F
 
 | Input | Output |
 |---|---|
-| `is_leap_year(2024)` | `True` |
-| `is_leap_year(1900)` | `False` |
+| `2024` | `True` |
+| `1900` | `False` |
 
 ## Commit and Push Your Work
 
