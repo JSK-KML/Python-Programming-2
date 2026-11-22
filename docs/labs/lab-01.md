@@ -390,7 +390,7 @@ Decide first: how many parameters does `display_score` need?
 
 Every function has a **header** and a **body**, and it only runs when you **call** it.
 
-<Figure src="/labs/lab-01/function-parts.svg" num="1.1" caption="The parts of calculate_bill and of the line that calls it. The argument and the parameter share a colour: 8.50 goes into meal_price." />
+<FunctionParts num="1.1" caption="The parts of calculate_bill and of the line that calls it. The argument and the parameter share a colour: 8.50 goes into meal_price." />
 
 | Part | In Figure 1.1 | What it does |
 |---|---|---|

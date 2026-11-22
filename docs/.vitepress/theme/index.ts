@@ -35,6 +35,7 @@ import Action from './components/ui/Action.vue'
 import Check from './components/ui/Check.vue'
 import YourDetails from './components/ui/YourDetails.vue'
 import Do from './components/ui/Do.vue'
+import FunctionParts from './components/ui/FunctionParts.vue'
 import { loadDetails, fillPage } from './components/ui/your-details.js'
 import { markTerminalBlocks } from './terminal.js'
 
@@ -54,7 +55,9 @@ export default {
       // <YourDetails> = fills YOURNAME / GITHUB-USERNAME / GITHUB-EMAIL in the page.
       Action, Check, YourDetails,
       // <Do>…</Do> = an instruction line (brand colour, semi-bold, no box).
-      Do
+      Do,
+      // Lab figures drawn inline so they follow the site's fonts and light/dark colours.
+      FunctionParts
     }
     for (const [name, comp] of Object.entries(ui)) app.component(name, comp)
   },
