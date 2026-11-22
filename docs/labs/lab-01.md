@@ -187,16 +187,12 @@ total1 = calculate_bill(8.50)  # Nasi Lemak
 print(f"Customer 1 total: RM{total1:.2f}")
 ```
 
-::: info About the pictures
-The pictures below come from a different program. Your code is different, but the buttons and panels are the same.
-:::
-
 <Steps>
 
 1. Move your mouse just left of line number **7**. A faint red dot appears. Click it to set a <Term def="A marker on a line where the debugger pauses the program before that line runs.">breakpoint</Term>: the dot stays red.
 
    <p align="center">
-       <img src="/labs/lab-04/lab-4-1.png" alt="A red breakpoint dot next to a line number" width="400"/>
+       <img src="/labs/lab-01/debug-step1.png" alt="A red breakpoint dot next to line 7" width="450"/>
    </p>
 
 2. Click the **Run and Debug** icon (the play button with a bug) in the left bar, then click `Show automatic Python configurations`.
@@ -214,24 +210,24 @@ The pictures below come from a different program. Your code is different, but th
 4. The debugger starts by itself. If it doesn't, click the green play button at the top of **Run and Debug**. Use this button whenever you want to start the debugger again.
 
    <p align="center">
-       <img src="/labs/lab-04/lab-4-4.png" alt="Green play button at the top of Run and Debug" width="300"/>
+       <img src="/labs/lab-01/debug-step4.png" alt="Green play button at the top of Run and Debug" width="320"/>
    </p>
 
 5. The program stops at your breakpoint. Line 7 is **yellow**, and a toolbar floats at the top of the editor.
 
    <p align="center">
-       <img src="/labs/lab-04/lab-4-5.png" alt="Paused on a yellow line, with the debug toolbar at the top" width="400"/>
+       <img src="/labs/lab-01/debug-step5.png" alt="Paused on line 7, with the debug toolbar at the top" width="500"/>
    </p>
 
    The yellow line is the line that runs **next**. It has not run yet.
 
-6. Look at `Variables` on the left. It lists every variable that exists right now.
+6. Look at `Variables` on the left. `Locals` lists every variable that exists right now.
 
    <p align="center">
-       <img src="/labs/lab-04/lab-4-8.png" alt="The Variables panel" width="300"/>
+       <img src="/labs/lab-01/debug-step6.png" alt="Variables: special variables and function variables, no total1" width="320"/>
    </p>
 
-   There is no `total1` yet, because line 7 has not run.
+   Your function is inside the folded `function variables` group. There is no `total1` yet, because line 7 has not run.
 
 7. Click **Step Into**, the blue downward arrow in the toolbar (or press `F11`).
 
@@ -239,10 +235,10 @@ The pictures below come from a different program. Your code is different, but th
        <img src="/labs/lab-04/lab-4-6.png" alt="The debug toolbar; Step Into is the downward arrow" width="220"/>
    </p>
 
-   The yellow line jumps **up** to line 2, inside `calculate_bill`. `Variables` now shows `meal_price = 8.5`: the argument `8.50` went into the parameter.
+   The yellow line jumps **up** to line 2, inside `calculate_bill`. `Variables` now shows `meal_price = 8.5`, and **VS Code** also writes it at the end of line 2: the argument `8.50` went into the parameter.
 
    <p align="center">
-       <img src="/labs/lab-04/lab-4-7.png" alt="The yellow line has moved to the next line" width="400"/>
+       <img src="/labs/lab-01/debug-step7.png" alt="Paused on line 2; Variables shows meal_price = 8.5" width="640"/>
    </p>
 
 8. Click **Step Into** three more times. Each click runs the yellow line and stops on the next one. Watch `Variables`:
@@ -253,25 +249,27 @@ The pictures below come from a different program. Your code is different, but th
    | 2 | 4 | `service_charge = 2.0` |
    | 3 | 5 `return total` | `total = 11.01` |
 
-9. Keep clicking **Step Into** until the yellow line is on line 8.
+9. Keep clicking **Step Into** until the yellow line is back on line 8, outside the function. Look at `Variables`:
 
-   `meal_price`, `tax`, `service_charge` and `total` are gone: they only exist while the function runs. Instead you see `total1 = 11.01`, the value that `return` sent back.
+   <p align="center">
+       <img src="/labs/lab-01/debug-step9.png" alt="Variables: (return) calculate_bill = 11.01 and total1 = 11.01" width="360"/>
+   </p>
+
+   - `meal_price`, `tax`, `service_charge` and `total` are gone: they only exist while the function runs.
+   - `(return) calculate_bill = 11.01` is the value the function sent back.
+   - `total1 = 11.01`: line 7 has finished, and the returned value is stored in `total1`.
 
 10. Click the red square in the toolbar to stop the debugger.
 
+11. Add the second customer under line 8, put the breakpoint on it, and step into it again:
+
+    ```python
+    total2 = calculate_bill(3.50)  # Roti Canai
+    ```
+
+    This time `Variables` shows `meal_price = 3.5` and `tax = 0.21`, and back outside, `total2 = 5.71`. Same body, different argument.
+
 </Steps>
-
-<Do>
-
-Add the second customer under line 8, put the breakpoint on it, and step into it again:
-
-</Do>
-
-```python
-total2 = calculate_bill(3.50)  # Roti Canai
-```
-
-This time `Variables` shows `meal_price = 3.5` and `tax = 0.21`, and back outside, `total2 = 5.71`. Same body, different argument.
 
 ::: tip Keep using it
 The debugger is the fastest way to find out why a function gives the wrong answer. Put a breakpoint on the call, step into the function, and check each variable against what you expected.
