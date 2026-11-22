@@ -5,39 +5,66 @@ title: Lab 1 - Functions
 
 # Lab 01: Functions
 
-## Pull and Update in VS Code
+In this lab you write your own **Python** functions: you turn repeated code into a function, pass values in with parameters, get results back with `return`, and split a big problem into small functions. Then you solve 14 exercises and check them with **pytest**.
 
-Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. [Sync the repo](./pre-lab-01.md#syncing-your-fork) if the `upstream` repo have been updated.
+Everything runs in the **VS Code** terminal (Git Bash), inside `CP125-Class-Repo`, as you set it up in the [Pre-Lab](./pre-lab-01.md).
 
-Once the online repo is in-sync, bring those changes down to your PC. In **Git Bash**, inside `CP125-Class-Repo`:
+## Get the Latest Changes
 
-<Action>
+<Steps>
 
-```bash
-git pull
-```
+1. If your fork on **GitHub** says it is behind, click `Sync fork` → `Update branch`. See [Sync Your Fork](./pre-lab-01.md#syncing-your-fork).
 
-</Action>
+2. Pull the changes to your computer:
 
-<Check>
+   ```console
+   $ git pull
+   Already up to date.
+   ```
 
-Either a list of new files and `Fast-forward`, or `Already up to date.`
+   If there were new files, you see a list of them and `Fast-forward` instead.
 
-</Check>
+</Steps>
+
+## Create Your Practice File
+
+<Steps>
+
+1. In the `Explorer`, right-click `labs/lab01`, choose `New File...` and name it `exercise.py`.
+
+2. Check that it runs:
+
+   ```console
+   $ uv run python labs/lab01/exercise.py
+   ```
+
+   Nothing is printed yet, and there is no error.
+
+</Steps>
+
+::: tip Run it
+Every time this lab says **run it**, save the file with `Ctrl` + `S` and run `uv run python labs/lab01/exercise.py` in the terminal.
+:::
 
 ## Functions
 
-Launch **VS Code** and open the `exercise.py` file in `/labs/lab01/`. We'll build a billing system and discover why functions are essential.
+We'll build a billing system and discover why functions are essential.
 
 ### The Problem with Repetition
 
 Imagine you're running a small restaurant and need to calculate the final bill for customers. Each bill requires:
 1. Taking the meal price
-2. Adding 6% _(SST) tax
+2. Adding 6% SST tax
 3. Adding RM2.00 service charge
 4. Showing the total
 
-Without functions, you'd have to write the same calculation for every single customer. Copy this code into your `exercise.py` file:
+Without functions, you'd have to write the same calculation for every single customer.
+
+<Do>
+
+Copy this code into `exercise.py` and run it:
+
+</Do>
 
 ```python
 # Customer 1 - Nasi Lemak
@@ -62,17 +89,30 @@ total3 = price3 + tax3 + service3
 print(f"Customer 3 total: RM{total3:.2f}")
 ```
 
-Run this code. It works, but notice how you're repeating the exact same formula 3 times?
+```console
+$ uv run python labs/lab01/exercise.py
+Customer 1 total: RM11.01
+Customer 2 total: RM5.71
+Customer 3 total: RM9.42
+```
+
+It works, but notice how you're repeating the exact same formula 3 times?
 
 Now imagine the government changes SST from 6% to 8%. You'd need to find and change `0.06` in 3 different places. With 100 customers, you'd need to change it 100 times. If you miss even one, your calculations would be wrong.
 
-::: warning PROBLEM
+::: warning Problem
 Repetitive code creates maintenance problems. Every change must be made multiple times, and missing even one creates bugs.
 :::
 
 ### Creating a Function
 
-The solution is to write the calculation **once** and reuse it. Replace all the code in your `exercise.py` with this:
+The solution is to write the calculation **once** and reuse it.
+
+<Do>
+
+Replace all the code in `exercise.py` with this and run it:
+
+</Do>
 
 ```python
 # Define the function once
@@ -93,13 +133,18 @@ total3 = calculate_bill(7.00)  # Mee Goreng
 print(f"Customer 3 total: RM{total3:.2f}")
 ```
 
-Run this code. The output is identical, but now the calculation exists in only one place. If SST changes to 8%, you only change one line: `tax = meal_price * 0.08`
+```console
+$ uv run python labs/lab01/exercise.py
+Customer 1 total: RM11.01
+Customer 2 total: RM5.71
+Customer 3 total: RM9.42
+```
+
+The output is identical, but now the calculation exists in only one place. If SST changes to 8%, you only change one line: `tax = meal_price * 0.08`
 
 ### Identifying What Should Be Parameters
 
 When converting repetitive code into a function, you need to identify what should become parameters. The key is to look for **what changes** between repetitions while **what stays the same** becomes the function body.
-
-Let's analyze our restaurant example step by step.
 
 Look at the repetitive code again:
 
@@ -117,9 +162,10 @@ service2 = 2.00        # This stays the same
 total2 = price2 + tax2 + service2  # Formula stays the same
 ```
 
-**What changes?** Only the meal price: `8.50`, `3.50`, `7.00`
-
-**What stays the same?** The tax rate (0.06), service charge (2.00), and the formulas
+| | In the restaurant code |
+|---|---|
+| **What changes?** | Only the meal price: `8.50`, `3.50`, `7.00` |
+| **What stays the same?** | The tax rate (`0.06`), the service charge (`2.00`), and the formulas |
 
 **Rule:** Whatever changes between repetitions should become a parameter.
 
@@ -157,11 +203,13 @@ area3 = length3 * width3
 print(f"Rectangle 3: {area3}")
 ```
 
-**What changes?** Both `length` AND `width` change
+Both `length` AND `width` change. Only the formula `length * width` stays the same. So we need **two parameters**.
 
-**What stays the same?** The formula `length * width`
+<Do>
 
-So we need **two parameters**:
+Replace the code in `exercise.py` with this and run it:
+
+</Do>
 
 ```python
 def calculate_rectangle_area(length, width):  # Both change, so both are parameters
@@ -174,13 +222,22 @@ print(f"Rectangle 2: {calculate_rectangle_area(10, 4)}")
 print(f"Rectangle 3: {calculate_rectangle_area(7, 2)}")
 ```
 
-::: tip PARAMETER IDENTIFICATION PROCESS
+```console
+$ uv run python labs/lab01/exercise.py
+Rectangle 1: 15
+Rectangle 2: 40
+Rectangle 3: 14
+```
+
+::: tip Finding the parameters
 1. Look at the repetitive code
 2. Make each changing value a parameter
 3. Put the logic/formula in the function body
 :::
 
-Try this practice: Look at this code and identify what should be parameters:
+#### Practice
+
+Look at this code and decide what should be parameters before you open the answer:
 
 ```python
 # Student 1
@@ -194,11 +251,9 @@ marks2 = 92
 print(f"{name2} scored {marks2} marks")
 ```
 
-What changes? `name` and `marks`
+::: details Show the answer
+`name` and `marks` change. The print statement structure stays the same. So the function has two parameters:
 
-What stays the same? The print statement structure
-
-So you'd create:
 ```python
 def display_score(name, marks):  # Two parameters for two changing values
     print(f"{name} scored {marks} marks")
@@ -206,6 +261,7 @@ def display_score(name, marks):  # Two parameters for two changing values
 display_score("Ahmad", 85)
 display_score("Fatimah", 92)
 ```
+:::
 
 ### Understanding Function Components
 
@@ -224,17 +280,12 @@ def calculate_bill(meal_price):
 └─────────────────────────────── def keyword
 ```
 
-**The def keyword** tells **Python** "I'm about to define a function."
-
-**The function name** follows **Python** naming rules:
-- Must use `snake_case` (lowercase with underscores)
-- Should describe what the function does
-- Cannot start with a number
-- Cannot use **Python** keywords
-
-**The parameter** (inside parentheses) is a placeholder for data the function needs.
-
-**The colon** marks the end of the header and tells **Python** the function body is coming next.
+| Element | What it does |
+|---|---|
+| `def` | Tells **Python** "I'm about to define a function." |
+| Function name | Says what the function does. Uses `snake_case`, cannot start with a number and cannot be a **Python** keyword. |
+| Parameter | A placeholder, inside the parentheses, for data the function needs. |
+| `:` | Ends the header. The function body comes next. |
 
 #### Part 2: Function Body
 
@@ -267,7 +318,7 @@ result = calculate_bill(8.50)
 print(result)
 ```
 
-::: tip EXECUTION ORDER
+::: tip Execution order
 **Python** reads your code from top to bottom. You must **define** a function before you **call** it. If you try to call a function before defining it, you'll get a `NameError`.
 :::
 
@@ -275,16 +326,10 @@ print(result)
 
 These two terms are often confused, but they mean different things:
 
-**Parameters** are placeholders in the function definition:
-```python
-def greet(name, age):  # name and age are PARAMETERS
-    print(f"Hello {name}, you are {age} years old")
-```
-
-**Arguments** are the actual values you pass when calling the function:
-```python
-greet("Ahmad", 20)  # "Ahmad" and 20 are ARGUMENTS
-```
+| Term | Where it appears | Example |
+|---|---|---|
+| **Parameters** | Placeholders in the function definition | `def greet(name, age):` |
+| **Arguments** | The actual values you pass when calling the function | `greet("Ahmad", 20)` |
 
 Think of parameters as empty boxes that get filled with arguments when you call the function.
 
@@ -316,56 +361,70 @@ result = calculate_total(50, 3, 10)  # price=50, quantity=3, discount=10
 
 One of the most common mistakes beginners make is confusing `return` with `print`. They seem similar but serve completely different purposes.
 
-Try this experiment. Copy this code into your `exercise.py`:
+<Steps>
 
-```python
-def add_with_print(a, b):
-    result = a + b
-    print(result)  # Displays the number on screen
+1. Replace the code in `exercise.py` with this and run it:
 
-def add_with_return(a, b):
-    result = a + b
-    return result  # Gives back the number
+   ```python
+   def add_with_print(a, b):
+       result = a + b
+       print(result)  # Displays the number on screen
 
-# Test 1: Using print
-x = add_with_print(5, 3)
-print(f"x contains: {x}")
+   def add_with_return(a, b):
+       result = a + b
+       return result  # Gives back the number
 
-# Test 2: Using return
-y = add_with_return(5, 3)
-print(f"y contains: {y}")
-```
+   # Test 1: Using print
+   x = add_with_print(5, 3)
+   print(f"x contains: {x}")
 
-Run this code. What do you see?
+   # Test 2: Using return
+   y = add_with_return(5, 3)
+   print(f"y contains: {y}")
+   ```
 
-The output shows:
-```
-8
-x contains: None
-y contains: 8
-```
+   ```console
+   $ uv run python labs/lab01/exercise.py
+   8
+   x contains: None
+   y contains: 8
+   ```
 
-Why did `x` get `None`? Because `print()` only displays information on the screen - it doesn't give anything back to the caller. When a function has no `return` statement, **Python** automatically returns `None`.
+   Why did `x` get `None`? Because `print()` only displays information on the screen - it doesn't give anything back to the caller. When a function has no `return` statement, **Python** automatically returns `None`.
 
-The `return` version gives back the actual value, which you can store in a variable and use in further calculations.
+2. Now see why `return` is necessary for calculations. Replace the code with this and run it:
 
-::: tip WHEN TO USE EACH
+   ```python
+   def calculate_discount(price):
+       return price * 0.10  # Returns 10% of price
+
+   original_price = 100.00
+   discount_amount = calculate_discount(original_price)
+   final_price = original_price - discount_amount
+   print(f"Final price: RM{final_price:.2f}")
+   ```
+
+   ```console
+   $ uv run python labs/lab01/exercise.py
+   Final price: RM90.00
+   ```
+
+3. Change `return` to `print` in `calculate_discount` and run it again:
+
+   ```console
+   $ uv run python labs/lab01/exercise.py
+   10.0
+   ...
+   TypeError: unsupported operand type(s) for -: 'float' and 'NoneType'
+   ```
+
+   The function printed `10.0`, but gave back `None`, and you can't subtract `None` from a number.
+
+</Steps>
+
+::: tip When to use each
 Use `print()` when you want to show information to the user directly. Use `return` when you need to use the result in further calculations or store it in a variable.
 :::
-
-Try this to see why `return` is necessary for calculations:
-
-```python
-def calculate_discount(price):
-    return price * 0.10  # Returns 10% of price
-
-original_price = 100.00
-discount_amount = calculate_discount(original_price)
-final_price = original_price - discount_amount
-print(f"Final price: RM{final_price:.2f}")
-```
-
-Now try changing `return` to `print` in the function. What happens? You'll get an error because you can't subtract `None` from a number!
 
 ## Factorization: Don't Repeat Yourself
 
@@ -378,7 +437,11 @@ Look for these signs that indicate you need factorization:
 2. The same calculation appears multiple times
 3. Only the values change, but the logic stays the same
 
-Copy this example into your `exercise.py`:
+<Do>
+
+Copy this into `exercise.py` and run it:
+
+</Do>
 
 ```python
 # Calculating areas without factorization
@@ -400,11 +463,24 @@ area3 = pi * radius3 * radius3
 print(f"Circle 3 (radius {radius3}): Area = {area3:.2f}")
 ```
 
-Run this code. Notice how `pi * radius * radius` appears three times? This is a perfect candidate for factorization.
+```console
+$ uv run python labs/lab01/exercise.py
+Circle 1 (radius 5): Area = 78.54
+Circle 2 (radius 10): Area = 314.16
+Circle 3 (radius 7): Area = 153.94
+```
+
+Notice how `pi * radius * radius` appears three times? This is a perfect candidate for factorization.
 
 ### Refactoring with Functions
 
-Refactoring means improving code structure without changing what it does. Replace the code above with this factorized version:
+Refactoring means improving code structure without changing what it does.
+
+<Do>
+
+Replace the code above with this factorized version and run it:
+
+</Do>
 
 ```python
 def calculate_circle_area(radius):
@@ -423,7 +499,7 @@ area3 = calculate_circle_area(7)
 print(f"Circle 3 (radius 7): Area = {area3:.2f}")
 ```
 
-The benefits are immediate:
+The output is the same. The benefits are immediate:
 - If you need to calculate 100 circles, you just call the function 100 times
 - If you need a more precise value of pi (3.14159265), you change only one line
 - The code is shorter and easier to read
@@ -439,20 +515,24 @@ A function has multiple responsibilities if it:
 - Performs multiple unrelated calculations
 - Makes decisions AND displays results
 
-Try this example:
+<Do>
+
+Copy this into `exercise.py`, run it, and type a name and a score when asked:
+
+</Do>
 
 ```python
 def process_student():
     # Responsibility 1: Getting input
     name = input("Enter student name: ")
     score = int(input("Enter score: "))
-    
+
     # Responsibility 2: Making decision
     if score >= 50:
         status = "Pass"
     else:
         status = "Fail"
-    
+
     # Responsibility 3: Displaying output
     print(f"Student: {name}")
     print(f"Score: {score}")
@@ -460,6 +540,15 @@ def process_student():
 
 # Run the function
 process_student()
+```
+
+```console
+$ uv run python labs/lab01/exercise.py
+Enter student name: Ali
+Enter score: 72
+Student: Ali
+Score: 72
+Status: Pass
 ```
 
 This function does three completely different jobs. What if you want to change how pass/fail is determined but keep the same input method? You'd have to dig through all the code.
@@ -492,13 +581,16 @@ display_results(student_name, student_score, student_status)
 ```
 
 Now each function has one clear purpose:
-- `get_student_data()` only handles input
-- `determine_status()` only makes the pass/fail decision
-- `display_results()` only shows information
+
+| Function | Its one job |
+|---|---|
+| `get_student_data()` | Handles input |
+| `determine_status()` | Makes the pass/fail decision |
+| `display_results()` | Shows information |
 
 If the passing grade changes to 60, you only modify `determine_status()`. The other functions remain untouched.
 
-::: tip THE 5-WORD TEST
+::: tip The 5-word test
 If you can't describe what a function does in 5 words or less, it probably does too much and should be split.
 :::
 
@@ -520,7 +612,11 @@ Writing this as one long calculation is error-prone and hard to understand. Inst
 
 ### Step-by-Step Decomposition
 
-Create separate functions for each calculation step:
+<Do>
+
+Create separate functions for each calculation step. Copy this into `exercise.py` and run it:
+
+</Do>
 
 ```python
 def calculate_allowances():
@@ -544,11 +640,11 @@ def calculate_net_salary(base_salary, overtime_hours):
     allowances = calculate_allowances()
     overtime = calculate_overtime(base_salary, overtime_hours)
     gross = base_salary + allowances + overtime
-    
+
     # Step 2: Calculate deductions
     epf = calculate_epf(gross)
     socso = calculate_socso(gross)
-    
+
     # Step 3: Calculate net
     net = gross - epf - socso
     return net
@@ -558,36 +654,82 @@ salary = calculate_net_salary(5000, 10)
 print(f"Net salary: RM{salary:.2f}")
 ```
 
+```console
+$ uv run python labs/lab01/exercise.py
+Net salary: RM5062.31
+```
 
 Each function is simple and focused. If EPF rate changes, you only modify `calculate_epf()`. If overtime rules change, you only modify `calculate_overtime()`.
 
 This approach makes debugging easier too. If the final number seems wrong, you can test each function individually to find which step has the bug.
 
+## Test Your Exercises
+
+Each exercise folder has a `test` folder with **pytest** tests that check your functions.
+
+<Steps>
+
+1. Write your code in the exercise file, then run its tests:
+
+   ```console
+   $ uv run pytest labs/lab01/exercise1
+   ...
+   10 passed in 0.03s
+   ```
+
+   A failing test shows `FAILED` with the input it used and what it expected. Fix your code and run the tests again.
+
+2. To run every Lab 1 test at once:
+
+   ```console
+   $ uv run pytest labs/lab01
+   ```
+
+</Steps>
+
+::: tip Test Explorer
+You can also click the flask icon in **VS Code** and run the tests from there, if you did [Set Up Testing in VS Code](./pre-lab-01.md#set-up-testing-in-vs-code).
+:::
+
 ## Exercise 1: Road Trip Budgeter <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise1/exercise1.py`.
+<Do>
+
+Open `labs/lab01/exercise1/exercise1.py`.
+
+</Do>
 
 **Situation:**
 
 A driver wants to know if his money is enough for a **round trip**. The condition depends on the length of the trip, the cost of fuel and fuel per litre used by the car.
 
 **Task:**
+
 Write a program using boolean logic.
 
 ## Exercise 2: Camping Logistics <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise2/exercise2.py`.
+<Do>
+
+Open `labs/lab01/exercise2/exercise2.py`.
+
+</Do>
 
 **Situation:**
 
 A camp organizer needs to calculate the **total budget** for an event. The total cost is determined by the cost of tents (based on number of participants and tent capacity) plus the cost of food (per participant).
 
 **Task:**
+
 Write a program that calculates and returns the single **total cost** required for the event.
 
 ## Exercise 3: Secure Vault System <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise3/exercise3.py`.
+<Do>
+
+Open `labs/lab01/exercise3/exercise3.py`.
+
+</Do>
 
 **Situation:**
 
@@ -598,11 +740,16 @@ A high-security vault system requires authentication. Access is granted ONLY to:
 Any other name or PIN combination must result in denied access.
 
 **Task:**
+
 Write a program that validates entry attempts and returns `True` (Access Granted) or `False` (Access Denied).
 
 ## Exercise 4: Dynamic Parking Rate <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise4/exercise4.py`.
+<Do>
+
+Open `labs/lab01/exercise4/exercise4.py`.
+
+</Do>
 
 **Situation:**
 
@@ -612,62 +759,85 @@ A parking system determines hourly rates dynamically:
 - All **Other** vehicles pay **RM5.00/hour** at all times.
 
 **Task:**
+
 Write a program that calculates and returns the correct hourly rate (float) based on vehicle type and hour.
 
 ## Exercise 5: Triangle Checker <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise5/exercise5.py`.
+<Do>
+
+Open `labs/lab01/exercise5/exercise5.py`.
+
+</Do>
 
 **Situation:**
+
 A geometry app needs a function to verify if three given line segments can physically form a triangle.
 
 **Rule:**
+
 A triangle is valid only if the sum of any two sides is greater than the third side:
 1. `side1 + side2 > side3`
 2. `side1 + side3 > side2`
 3. `side2 + side3 > side1`
 
 **Task:**
+
 Write a function `is_valid_triangle(a, b, c)` that returns `True` if valid, `False` otherwise.
 
 ## Exercise 6: Leap Year Detector <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise6/exercise6.py`.
+<Do>
+
+Open `labs/lab01/exercise6/exercise6.py`.
+
+</Do>
 
 **Situation:**
+
 A calendar app needs to identify leap years correctly to handle February 29th.
 
 **Rules:**
+
 A year is a leap year if:
 1. It is exactly divisible by 4...
 2. BUT NOT if it is divisible by 100...
 3. UNLESS it is ALSO divisible by 400.
 
-**Examples:**
-- 2024: Yes (divisible by 4)
-- 1900: No (divisible by 100)
-- 2000: Yes (divisible by 400)
+| Year | Leap year? | Why |
+|---|---|---|
+| 2024 | Yes | Divisible by 4 |
+| 1900 | No | Divisible by 100 |
+| 2000 | Yes | Divisible by 400 |
 
 **Task:**
+
 Write a function `is_leap_year(year)` that returns `True` or `False`.
 
 ## Exercise 7: Rectangle Collision <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise7/exercise7.py`.
+<Do>
+
+Open `labs/lab01/exercise7/exercise7.py`.
+
+</Do>
 
 **Situation:**
+
 A game engine needs to detect if two objects (rectangles) have crashed into each other.
 
 **Task:**
+
 Write a function `check_collision(x1, y1, w1, h1, x2, y2, w2, h2)` that returns `True` if the rectangles overlap, `False` if they don't.
 
-**Parameters:**
-- `x1, y1`: Top-left coordinate of Rectangle 1
-- `w1, h1`: Width and Height of Rectangle 1
-- `x2, y2`: Top-left coordinate of Rectangle 2
-- `w2, h2`: Width and Height of Rectangle 2
+| Parameter | Meaning |
+|---|---|
+| `x1, y1` | Top-left coordinate of Rectangle 1 |
+| `w1, h1` | Width and height of Rectangle 1 |
+| `x2, y2` | Top-left coordinate of Rectangle 2 |
+| `w2, h2` | Width and height of Rectangle 2 |
 
-**Hint:**
+::: tip Hint
 It is easier to check when they **DON'T** overlap:
 - Rect 1 is too far to the Left of Rect 2
 - Rect 1 is too far to the Right of Rect 2
@@ -675,13 +845,18 @@ It is easier to check when they **DON'T** overlap:
 - Rect 1 is too low below Rect 2
 
 If NONE of these are true, they must be touching!
+:::
 
 ## Exercise 8: Bouncing Ball Simulation <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise8/exercise8.py`.
+<Do>
+
+Open `labs/lab01/exercise8/exercise8.py`.
+
+</Do>
 
 **Situation:**
- 
+
 A ball is dropped from a certain height. When it hits the ground, it bounces back up but only reaches 80% of its previous height due to energy loss. The ball continues bouncing, getting lower each time, until the bounce height becomes less than 1 unit. At that point, the ball is considered stopped.
 
 Your task is to simulate this bouncing behavior.
@@ -696,20 +871,27 @@ Your task is to simulate this bouncing behavior.
 - Total distance includes: initial drop + (each bounce up + down)
 
 **Task:**
+
 Write functions that work together to simulate the bouncing ball and return the bounce count and total distance.
 
 ## Exercise 9: Level Up Calculator <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise9/exercise9.py`.
+<Do>
+
+Open `labs/lab01/exercise9/exercise9.py`.
+
+</Do>
 
 **Situation:**
- 
+
 In a game, leveling up requires XP. Each level requires more XP than the previous:
 
-- Level 1 → 2: 100 XP
-- Level 2 → 3: 200 XP
-- Level 3 → 4: 300 XP
-- ...and so on (+100 more each level)
+| Level up | XP needed |
+|---|---|
+| 1 → 2 | 100 |
+| 2 → 3 | 200 |
+| 3 → 4 | 300 |
+| ... | +100 more each level |
 
 A player has a total amount of XP. Calculate what level they reach and how much XP is left over.
 
@@ -723,67 +905,121 @@ A player has a total amount of XP. Calculate what level they reach and how much 
 - Keep leveling up until not enough XP for next level
 
 **Task:**
+
 Write functions that work together to calculate the player's final level and remaining XP.
 
 ## Exercise 10: Drone Battery Manager <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise10/exercise10.py`.
+<Do>
+
+Open `labs/lab01/exercise10/exercise10.py`.
+
+</Do>
 
 **Situation:**
+
 A drone is performing a forest survey. It consumes **1.5% battery per 10 meters** traveled. If the drone is in **"Sport Mode"**, this battery consumption **increases by 50%**. The drone needs to know if it has enough power to complete its mission and safely fly back to its starting point.
 
 **Task:**
+
 Write functions that work together to estimate battery usage for a **round trip** and return if it is safe to fly.
 
 ## Exercise 11: ATM Request Processor <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise11/exercise11.py`.
+<Do>
+
+Open `labs/lab01/exercise11/exercise11.py`.
+
+</Do>
 
 **Situation:**
+
 A bank ATM processes withdrawal requests. For security and mechanical reasons:
 1. All withdrawals must be in **multiples of RM10**.
 2. The customer must have a **sufficient account balance**.
 
 **Task:**
+
 Write functions that work together to validate these rules and return the new balance if successful, or an error message.
 
 ## Exercise 12: RPG Strike Calculator <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise12/exercise12.py`.
+<Do>
+
+Open `labs/lab01/exercise12/exercise12.py`.
+
+</Do>
 
 **Situation:**
+
 A role-playing game calculates combat damage based on a hero's **Luck** and **Base Attack**. If the hero's Luck is **above 70**, they land a "Critical Hit" that **doubles** their attack power. The final damage dealt is the attack power minus the **Enemy's Defense**.
 
 **Task:**
+
 Write functions that work together to calculate the enemy's final health (Health - Damage) and return it.
 
 ## Exercise 13: Global Shipping Quoter <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise13/exercise13.py`.
+<Do>
+
+Open `labs/lab01/exercise13/exercise13.py`.
+
+</Do>
 
 **Situation:**
+
 A shipping firm calculates delivery costs based on weight and destination:
-- **Domestic:** RM5.00 per kg
-- **International:** RM15.00 per kg
-- **Express Surcharge:** Add a flat RM10.00 if the user selects "Express Delivery."
+
+| Charge | Rate |
+|---|---|
+| Domestic | RM5.00 per kg |
+| International | RM15.00 per kg |
+| Express Surcharge | Flat RM10.00 if the user selects "Express Delivery" |
 
 **Task:**
+
 Write functions that work together to calculate and return the final shipping quote.
 
 ## Exercise 14: Smart Garden Controller <Badge type="warning" text="Task" />
 
-Navigate to `/labs/lab01/exercise14/exercise14.py`.
+<Do>
+
+Open `labs/lab01/exercise14/exercise14.py`.
+
+</Do>
 
 **Situation:**
+
 A smart home system manages garden watering. It should turn on the pump ONLY if:
 1. Soil moisture is **below 30%**.
 2. It is a **safe time** to water. (It is dangerous to water between **10 AM and 4 PM** because the sun might scorch the leaves, UNLESS the temperature is **above 40°C**, in which case the plants need cooling anyway).
 
 **Task:**
+
 Write functions that work together to decide if the water pump should be triggered.
- 
- ## Commit and Push Your Work
 
-After completing all exercises, save all your files and commit them to your repository.
+## Commit and Push Your Work
 
-Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 1: Functions", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
+<Steps>
+
+1. Run all the Lab 1 tests one last time:
+
+   ```console
+   $ uv run pytest labs/lab01
+   ```
+
+2. Commit your work and push it to **GitHub**:
+
+   ```console
+   $ git add labs/lab01
+   $ git commit -m "Complete Lab 1: Functions"
+   $ git push
+   ...
+      a1b2c3d..e4f5a6b  main -> main
+   ```
+
+3. Refresh `github.com/GITHUB-USERNAME/CP125-Class-Repo` in the browser.
+
+   You see the commit message **Complete Lab 1: Functions** on `labs/lab01`.
+
+</Steps>
