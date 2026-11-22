@@ -552,35 +552,7 @@ Use `return` when the result is needed by the rest of your program: to store it,
 
 ## Test Your Exercises
 
-Each exercise file starts empty: you write the whole function, `def` line included. Each exercise folder also has a `test` folder with **pytest** tests that call your function and check what it returns.
-
-::: warning Use the exact name
-The tests call your function by the name the exercise gives, with its parameters in the same order. If the name is different, or the file is still empty, **pytest** stops before running any test, with `ImportError: cannot import name ...`.
-:::
-
-<Steps>
-
-1. Write your function in the exercise file, then run its tests:
-
-   ```console
-   $ uv run pytest labs/lab01/exercise1
-   ...
-   10 passed in 0.03s
-   ```
-
-   A failing test shows `FAILED`, the input it used and what it expected. Fix your code and run the tests again.
-
-2. To run every Lab 1 test at once:
-
-   ```console
-   $ uv run pytest labs/lab01
-   ```
-
-</Steps>
-
-::: tip Test Explorer
-You can also click the flask icon in **VS Code** and run the tests from there, if you did [Set Up Testing in VS Code](./pre-lab-01.md#set-up-testing-in-vs-code).
-:::
+Each exercise file starts empty: write the whole function yourself, `def` line included, with the exact name and parameters the exercise gives. Run the **pytest** tests for each exercise before you move on to the next one.
 
 ## Exercise 1: Road Trip Budgeter <Badge type="warning" text="Task" />
 
@@ -771,11 +743,7 @@ Write a function `is_leap_year(year)` that returns `True` for a leap year and `F
 
 <Steps>
 
-1. Run all the Lab 1 tests one last time:
-
-   ```console
-   $ uv run pytest labs/lab01
-   ```
+1. Run all the Lab 1 tests one last time.
 
 2. Commit your work and push it to **GitHub**:
 
