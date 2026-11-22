@@ -263,7 +263,7 @@ print(f"Customer 1 total: RM{total1:.2f}")
 
 </Steps>
 
-#### Your Turn <Badge type="tip" text="Try it" />
+#### Your Turn <Badge type="try" text="Try it" />
 
 Add the second customer under line 8, put the breakpoint on it, and step into it again:
 
@@ -356,7 +356,7 @@ Rectangle 3: 14
 3. Everything that stays the same becomes the body.
 :::
 
-#### Your Turn <Badge type="tip" text="Try it" />
+#### Your Turn <Badge type="try" text="Try it" />
 
 This code prints two students' marks:
 

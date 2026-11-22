@@ -96,3 +96,10 @@
   max-width: 300px;
   height: auto;
 }
+
+/* Green badge for small in-lab tasks: <Badge type="try" text="Try it" /> */
+.VPBadge.try {
+  border-color: transparent;
+  color: var(--c-green);
+  background-color: color-mix(in srgb, var(--c-green) 14%, transparent);
+}
