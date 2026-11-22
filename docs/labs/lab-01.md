@@ -5,7 +5,7 @@ title: Lab 1 - Functions
 
 # Lab 01: Functions
 
-In this lab you write your own **Python** functions: you turn repeated code into a function, pass values in with parameters, get results back with `return`, and split a big problem into small functions. Then you solve 14 exercises and check them with **pytest**.
+A <Term def="A named block of code that does one job. You write it once, then run it as many times as you like by calling its name.">function</Term> lets you write a piece of code once and use it again and again. In this lab you turn repeated code into a function, decide what goes in as parameters, learn the parts of a function, and see why `return` is not the same as `print`.
 
 Everything runs in the **VS Code** terminal (Git Bash), inside `CP125-Class-Repo`, as you set it up in the [Pre-Lab](./pre-lab-01.md).
 
@@ -46,44 +46,34 @@ Everything runs in the **VS Code** terminal (Git Bash), inside `CP125-Class-Repo
 Every time this lab says **run it**, save the file with `Ctrl` + `S` and run `uv run python labs/lab01/exercise.py` in the terminal.
 :::
 
-## Functions
+## Spot the Repetition
 
-We'll build a billing system and discover why functions are essential.
-
-### The Problem with Repetition
-
-Imagine you're running a small restaurant and need to calculate the final bill for customers. Each bill requires:
-1. Taking the meal price
-2. Adding 6% SST tax
-3. Adding RM2.00 service charge
-4. Showing the total
-
-Without functions, you'd have to write the same calculation for every single customer.
+A food stall works out every bill the same way: the meal price, plus 6% SST, plus a RM2.00 service charge.
 
 <Do>
 
-Copy this code into `exercise.py` and run it:
+Copy this into `exercise.py` and run it:
 
 </Do>
 
 ```python
 # Customer 1 - Nasi Lemak
 price1 = 8.50
-tax1 = price1 * 0.06  # 6% SST tax
+tax1 = price1 * 0.06  # 6% SST
 service1 = 2.00
 total1 = price1 + tax1 + service1
 print(f"Customer 1 total: RM{total1:.2f}")
 
 # Customer 2 - Roti Canai
 price2 = 3.50
-tax2 = price2 * 0.06  # 6% SST tax
+tax2 = price2 * 0.06  # 6% SST
 service2 = 2.00
 total2 = price2 + tax2 + service2
 print(f"Customer 2 total: RM{total2:.2f}")
 
 # Customer 3 - Mee Goreng
 price3 = 7.00
-tax3 = price3 * 0.06  # 6% SST tax
+tax3 = price3 * 0.06  # 6% SST
 service3 = 2.00
 total3 = price3 + tax3 + service3
 print(f"Customer 3 total: RM{total3:.2f}")
@@ -96,33 +86,27 @@ Customer 2 total: RM5.71
 Customer 3 total: RM9.42
 ```
 
-It works, but notice how you're repeating the exact same formula 3 times?
-
-Now imagine the government changes SST from 6% to 8%. You'd need to find and change `0.06` in 3 different places. With 100 customers, you'd need to change it 100 times. If you miss even one, your calculations would be wrong.
+The answers are right, but the same four lines appear three times. Only the price is different.
 
 ::: warning Problem
-Repetitive code creates maintenance problems. Every change must be made multiple times, and missing even one creates bugs.
+If SST goes up to 8%, you must change `0.06` in three places. With 100 customers it is 100 places, and missing one gives a customer the wrong bill.
 :::
 
-### Creating a Function
-
-The solution is to write the calculation **once** and reuse it.
+## Write Your First Function
 
 <Do>
 
-Replace all the code in `exercise.py` with this and run it:
+Replace everything in `exercise.py` with this and run it:
 
 </Do>
 
 ```python
-# Define the function once
 def calculate_bill(meal_price):
-    tax = meal_price * 0.06  # 6% SST tax
+    tax = meal_price * 0.06  # 6% SST
     service_charge = 2.00
     total = meal_price + tax + service_charge
     return total
 
-# Now reuse it for each customer
 total1 = calculate_bill(8.50)  # Nasi Lemak
 print(f"Customer 1 total: RM{total1:.2f}")
 
@@ -140,48 +124,107 @@ Customer 2 total: RM5.71
 Customer 3 total: RM9.42
 ```
 
-The output is identical, but now the calculation exists in only one place. If SST changes to 8%, you only change one line: `tax = meal_price * 0.08`
+Same output, but the bill is now worked out in **one** place. Compare what it takes to change SST to 8% (the highlighted lines):
 
-### Identifying What Should Be Parameters
+<Tabs label="Changing SST to 8%">
+<Tab label="Without a function">
 
-When converting repetitive code into a function, you need to identify what should become parameters. The key is to look for **what changes** between repetitions while **what stays the same** becomes the function body.
+Three edits, one per customer:
 
-Look at the repetitive code again:
+```python{3,10,17}
+# Customer 1 - Nasi Lemak
+price1 = 8.50
+tax1 = price1 * 0.08
+service1 = 2.00
+total1 = price1 + tax1 + service1
+print(f"Customer 1 total: RM{total1:.2f}")
 
-```python
-# Customer 1
-price1 = 8.50          # This changes
-tax1 = price1 * 0.06   # Formula stays the same
-service1 = 2.00        # This stays the same
-total1 = price1 + tax1 + service1  # Formula stays the same
+# Customer 2 - Roti Canai
+price2 = 3.50
+tax2 = price2 * 0.08
+service2 = 2.00
+total2 = price2 + tax2 + service2
+print(f"Customer 2 total: RM{total2:.2f}")
 
-# Customer 2
-price2 = 3.50          # This changes (different value)
-tax2 = price2 * 0.06   # Formula stays the same
-service2 = 2.00        # This stays the same
-total2 = price2 + tax2 + service2  # Formula stays the same
+# Customer 3 - Mee Goreng
+price3 = 7.00
+tax3 = price3 * 0.08
+service3 = 2.00
+total3 = price3 + tax3 + service3
+print(f"Customer 3 total: RM{total3:.2f}")
 ```
 
-| | In the restaurant code |
-|---|---|
-| **What changes?** | Only the meal price: `8.50`, `3.50`, `7.00` |
-| **What stays the same?** | The tax rate (`0.06`), the service charge (`2.00`), and the formulas |
+</Tab>
+<Tab label="With a function">
 
-**Rule:** Whatever changes between repetitions should become a parameter.
+One edit, however many customers there are:
 
-So we create a function with `meal_price` as the parameter:
-
-```python
-def calculate_bill(meal_price):  # meal_price is what changes
-    tax = meal_price * 0.06      # The formula stays the same
+```python{2}
+def calculate_bill(meal_price):
+    tax = meal_price * 0.08
     service_charge = 2.00
     total = meal_price + tax + service_charge
     return total
 ```
 
-#### Example: Multiple Parameters
+</Tab>
+</Tabs>
 
-Sometimes more than one thing changes. Look at this rectangle calculation:
+### What Happens When You Call It
+
+**Python** runs your file from top to bottom. This is what happens for the first customer:
+
+<Timeline>
+<TimelineItem date="Step 1" title="Read the def">
+
+**Python** sees `def calculate_bill(meal_price):` and remembers the function. Nothing inside it runs yet.
+
+</TimelineItem>
+<TimelineItem date="Step 2" title="Call the function">
+
+At `calculate_bill(8.50)`, **Python** jumps into the function and sets `meal_price = 8.50`.
+
+</TimelineItem>
+<TimelineItem date="Step 3" title="Run the body">
+
+`tax` becomes `0.51`, `service_charge` becomes `2.00`, and `total` becomes `11.01`.
+
+</TimelineItem>
+<TimelineItem date="Step 4" title="Return the result">
+
+`return total` sends `11.01` back to where the function was called, so `total1 = 11.01`.
+
+</TimelineItem>
+<TimelineItem date="Step 5" title="Carry on">
+
+`print` shows `Customer 1 total: RM11.01`. The next call, `calculate_bill(3.50)`, repeats Steps 2 to 4 with `meal_price = 3.50`.
+
+</TimelineItem>
+</Timeline>
+
+::: warning Define it before you call it
+Because **Python** reads from top to bottom, the `def` must come before the first call. Move the call above the `def` and you get `NameError: name 'calculate_bill' is not defined`.
+:::
+
+## Choose the Parameters
+
+A <Term def="A variable in the function header that receives a value when the function is called, like meal_price.">parameter</Term> is the part of the function that can be different each time you call it. To find the parameters, put the repeated blocks side by side and compare them line by line:
+
+| Line | Customer 1 | Customer 2 | Same every time? |
+|---|---|---|---|
+| Price | `8.50` | `3.50` | **No** → parameter |
+| Tax | `price1 * 0.06` | `price2 * 0.06` | Yes → body |
+| Service charge | `2.00` | `2.00` | Yes → body |
+| Total | `price1 + tax1 + service1` | `price2 + tax2 + service2` | Yes → body |
+
+Only the price changes, so `calculate_bill` has one parameter, `meal_price`. Everything that stays the same goes inside the function.
+
+### Two Parameters
+
+When more than one value changes, each one becomes a parameter. In these rectangles both the length and the width change:
+
+<Tabs label="Rectangle areas">
+<Tab label="Repeated code">
 
 ```python
 # Rectangle 1
@@ -203,24 +246,27 @@ area3 = length3 * width3
 print(f"Rectangle 3: {area3}")
 ```
 
-Both `length` AND `width` change. Only the formula `length * width` stays the same. So we need **two parameters**.
-
-<Do>
-
-Replace the code in `exercise.py` with this and run it:
-
-</Do>
+</Tab>
+<Tab label="With a function">
 
 ```python
-def calculate_rectangle_area(length, width):  # Both change, so both are parameters
-    area = length * width  # Formula stays the same
+def calculate_rectangle_area(length, width):
+    area = length * width
     return area
 
-# Now call with different values
 print(f"Rectangle 1: {calculate_rectangle_area(5, 3)}")
 print(f"Rectangle 2: {calculate_rectangle_area(10, 4)}")
 print(f"Rectangle 3: {calculate_rectangle_area(7, 2)}")
 ```
+
+</Tab>
+</Tabs>
+
+<Do>
+
+Type the function version into `exercise.py` and run it:
+
+</Do>
 
 ```console
 $ uv run python labs/lab01/exercise.py
@@ -230,14 +276,14 @@ Rectangle 3: 14
 ```
 
 ::: tip Finding the parameters
-1. Look at the repetitive code
-2. Make each changing value a parameter
-3. Put the logic/formula in the function body
+1. Put the repeated blocks side by side.
+2. Every value that changes becomes a parameter.
+3. Everything that stays the same becomes the body.
 :::
 
-#### Practice
+### Your Turn
 
-Look at this code and decide what should be parameters before you open the answer:
+This code prints two students' marks:
 
 ```python
 # Student 1
@@ -251,115 +297,139 @@ marks2 = 92
 print(f"{name2} scored {marks2} marks")
 ```
 
-::: details Show the answer
-`name` and `marks` change. The print statement structure stays the same. So the function has two parameters:
+<Do>
 
-```python
-def display_score(name, marks):  # Two parameters for two changing values
-    print(f"{name} scored {marks} marks")
+Write a function `display_score` that replaces the repeated lines, call it once for each student, and run it:
 
-display_score("Ahmad", 85)
-display_score("Fatimah", 92)
-```
-:::
+</Do>
 
-### Understanding Function Components
-
-Every function has three essential parts that work together. Understanding these parts is crucial for writing your own functions.
-
-#### Part 1: Function Header
-
-The function header is the first line that defines the function. It has four elements:
-
-```python
-def calculate_bill(meal_price):
-│   │              │          │
-│   │              │          └─ Colon (:)
-│   │              └─────────── Parameter
-│   └─────────────────────────── Function name
-└─────────────────────────────── def keyword
+```console
+$ uv run python labs/lab01/exercise.py
+Ahmad scored 85 marks
+Fatimah scored 92 marks
 ```
 
-| Element | What it does |
-|---|---|
-| `def` | Tells **Python** "I'm about to define a function." |
-| Function name | Says what the function does. Uses `snake_case`, cannot start with a number and cannot be a **Python** keyword. |
-| Parameter | A placeholder, inside the parentheses, for data the function needs. |
-| `:` | Ends the header. The function body comes next. |
+Decide first: how many parameters does `display_score` need?
 
-#### Part 2: Function Body
+## The Parts of a Function
 
-The function body contains the actual code that runs when you call the function. It must be indented (4 spaces or 1 tab):
+Every function has a header, a body, and is used through a call. Hover over or click each number to see what it is.
 
-```python
-def calculate_bill(meal_price):
-    tax = meal_price * 0.06      # These lines are the body
-    service_charge = 2.00         # They must be indented
-    total = meal_price + tax + service_charge
-    return total                  # return gives back the result
-```
+<LabeledDiagram
+  src="/labs/lab-01/function-parts.svg"
+  alt="def calculate_bill(meal_price): with its body, and the call total1 = calculate_bill(8.50)"
+  :labels="[
+    { x: 7.4, y: 13, label: 'def keyword', text: 'Tells Python you are defining a new function.' },
+    { x: 25.95, y: 13, label: 'Function name', text: 'Says what the function does. Use snake_case, do not start with a number, and do not use a Python keyword.' },
+    { x: 51.3, y: 13, label: 'Parameter', text: 'Receives a value each time the function is called. Write parameters inside the brackets, separated by commas.' },
+    { x: 64, y: 13, label: 'Colon', text: 'Ends the header. The body starts on the next line.' },
+    { x: 5, y: 44.75, label: 'Body', text: 'The indented lines (4 spaces) under the header. They run only when the function is called.' },
+    { x: 41.5, y: 66.75, label: 'return', text: 'Sends a value back to the line that called the function, and ends the function.' },
+    { x: 10.35, y: 82.5, label: 'Stored result', text: 'The value that comes back from return is stored here, so total1 is 11.01.' },
+    { x: 35.7, y: 82.5, label: 'Function call', text: 'The function name followed by brackets. This is the line that actually runs the body.' },
+    { x: 55.2, y: 82.5, label: 'Argument', text: 'The actual value passed in. 8.50 goes into the parameter meal_price.' }
+  ]"
+/>
 
-The `return` statement is how a function gives back a value. When you write `total1 = calculate_bill(8.50)`, the returned value gets stored in `total1`.
-
-#### Part 3: Function Call
-
-To use a function, you must call it by writing its name followed by parentheses containing any required values:
-
-```python
-# Define the function
-def calculate_bill(meal_price):
-    tax = meal_price * 0.06
-    service_charge = 2.00
-    total = meal_price + tax + service_charge
-    return total
-
-# Call the function - this runs the code inside
-result = calculate_bill(8.50)
-print(result)
-```
-
-::: tip Execution order
-**Python** reads your code from top to bottom. You must **define** a function before you **call** it. If you try to call a function before defining it, you'll get a `NameError`.
-:::
-
-### Parameters and Arguments
-
-These two terms are often confused, but they mean different things:
-
-| Term | Where it appears | Example |
+| Part | Example | Job |
 |---|---|---|
-| **Parameters** | Placeholders in the function definition | `def greet(name, age):` |
-| **Arguments** | The actual values you pass when calling the function | `greet("Ahmad", 20)` |
+| **Header** | `def calculate_bill(meal_price):` | Names the function and lists its parameters |
+| **Body** | the indented lines | The work the function does |
+| **Call** | `calculate_bill(8.50)` | Runs the body with real values |
 
-Think of parameters as empty boxes that get filled with arguments when you call the function.
+## Parameters and Arguments
 
-You can have multiple parameters separated by commas:
+A parameter is the empty box in the header. An <Term def="The actual value you pass to a function when you call it, like 8.50 in calculate_bill(8.50).">argument</Term> is the value you put in that box when you call the function. **Python** fills the boxes **in order**: the first argument goes into the first parameter, the second into the second, and so on.
+
+<Figure src="/labs/lab-01/args-to-params.svg" num="1.1" caption="Arguments go into parameters by position: 70 goes into weight, 1.75 goes into height." />
+
+<Do>
+
+Replace the code in `exercise.py` with this and run it:
+
+</Do>
 
 ```python
-def calculate_bmi(weight, height):  # Two parameters
+def calculate_bmi(weight, height):
     bmi = weight / (height * height)
     return bmi
 
-# Two arguments must be provided
 result = calculate_bmi(70, 1.75)
 print(f"BMI: {result:.2f}")
 ```
 
-The arguments must match the parameters in both **number** and **order**:
+```console
+$ uv run python labs/lab01/exercise.py
+BMI: 22.86
+```
+
+### Order and Number Matter
+
+The arguments must match the parameters in **number** and in **order**. See what happens to this function when they don't:
 
 ```python
-def calculate_total(price, quantity, discount):  # 3 parameters
+def calculate_total(price, quantity, discount):
     subtotal = price * quantity
     total = subtotal - discount
     return total
-
-# Must provide exactly 3 arguments in the same order
-result = calculate_total(50, 3, 10)  # price=50, quantity=3, discount=10
 ```
 
-### Return vs Print
+<Tabs label="Calling calculate_total">
+<Tab label="Correct">
 
-One of the most common mistakes beginners make is confusing `return` with `print`. They seem similar but serve completely different purposes.
+```python
+print(calculate_total(50, 3, 10))  # price=50, quantity=3, discount=10
+```
+
+```console
+$ uv run python labs/lab01/exercise.py
+140
+```
+
+Three arguments in the right order: 50 × 3 − 10 = 140.
+
+</Tab>
+<Tab label="Wrong order">
+
+```python
+print(calculate_total(10, 3, 50))  # price=10, quantity=3, discount=50
+```
+
+```console
+$ uv run python labs/lab01/exercise.py
+-20
+```
+
+No error, but the answer is wrong: **Python** put `10` into `price` and `50` into `discount`. This is the dangerous one, because nothing warns you.
+
+</Tab>
+<Tab label="Missing argument">
+
+```python
+print(calculate_total(50, 3))
+```
+
+```console
+$ uv run python labs/lab01/exercise.py
+Traceback (most recent call last):
+  ...
+TypeError: calculate_total() missing 1 required positional argument: 'discount'
+```
+
+Two arguments for three parameters, so **Python** stops with a `TypeError`.
+
+</Tab>
+</Tabs>
+
+## Return vs Print
+
+`print` and `return` both seem to "give you the answer", but they do different jobs:
+
+| | `print(value)` | `return value` |
+|---|---|---|
+| Shows the value on the screen | Yes | No |
+| Gives the value back to the caller | No | Yes |
+| Can you store or calculate with it? | No | Yes |
 
 <Steps>
 
@@ -368,17 +438,15 @@ One of the most common mistakes beginners make is confusing `return` with `print
    ```python
    def add_with_print(a, b):
        result = a + b
-       print(result)  # Displays the number on screen
+       print(result)  # shows the number
 
    def add_with_return(a, b):
        result = a + b
-       return result  # Gives back the number
+       return result  # gives the number back
 
-   # Test 1: Using print
    x = add_with_print(5, 3)
    print(f"x contains: {x}")
 
-   # Test 2: Using return
    y = add_with_return(5, 3)
    print(f"y contains: {y}")
    ```
@@ -390,13 +458,13 @@ One of the most common mistakes beginners make is confusing `return` with `print
    y contains: 8
    ```
 
-   Why did `x` get `None`? Because `print()` only displays information on the screen - it doesn't give anything back to the caller. When a function has no `return` statement, **Python** automatically returns `None`.
+   `add_with_print` showed `8` on the screen but gave nothing back, so `x` is <Term def="Python's value for 'nothing'. A function without a return statement gives back None.">None</Term>. A function with no `return` always gives back `None`.
 
-2. Now see why `return` is necessary for calculations. Replace the code with this and run it:
+2. Now use a returned value in a calculation. Replace the code with this and run it:
 
    ```python
    def calculate_discount(price):
-       return price * 0.10  # Returns 10% of price
+       return price * 0.10  # 10% of the price
 
    original_price = 100.00
    discount_amount = calculate_discount(original_price)
@@ -409,22 +477,25 @@ One of the most common mistakes beginners make is confusing `return` with `print
    Final price: RM90.00
    ```
 
-3. Change `return` to `print` in `calculate_discount` and run it again:
+3. Change `return` to `print` inside `calculate_discount` and run it again:
 
    ```console
    $ uv run python labs/lab01/exercise.py
    10.0
-   ...
+   Traceback (most recent call last):
+     ...
    TypeError: unsupported operand type(s) for -: 'float' and 'NoneType'
    ```
 
-   The function printed `10.0`, but gave back `None`, and you can't subtract `None` from a number.
+   The discount appears on the screen, but `discount_amount` is `None`, and `100.00 - None` is impossible.
 
 </Steps>
 
 ::: tip When to use each
-Use `print()` when you want to show information to the user directly. Use `return` when you need to use the result in further calculations or store it in a variable.
+Use `return` when the result is needed by the rest of your program: to store it, compare it or calculate with it. Use `print` only to show something to the user.
 :::
+
+<!-- Rest of Lab 1, hidden while the first half is reworked.
 
 ## Factorization: Don't Repeat Yourself
 
@@ -1023,3 +1094,5 @@ Write functions that work together to decide if the water pump should be trigger
    You see the commit message **Complete Lab 1: Functions** on `labs/lab01`.
 
 </Steps>
+
+-->

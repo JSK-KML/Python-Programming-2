@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" role="img" aria-label="The parts of a function: header, body, return and call">
+<rect width="800" height="400" rx="14" fill="#f6f6f7"/>
+<rect x="36" y="118" width="54" height="166" rx="4" fill="#e0e7ff"/>
+<text x="36" y="100" textLength="483.6" lengthAdjust="spacingAndGlyphs" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="26" fill="#213547" xml:space="preserve">def calculate_bill(meal_price):</text>
+<text x="36" y="144" textLength="421.2" lengthAdjust="spacingAndGlyphs" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="26" fill="#213547" xml:space="preserve">    tax = meal_price * 0.06</text>
+<text x="36" y="188" textLength="390.0" lengthAdjust="spacingAndGlyphs" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="26" fill="#213547" xml:space="preserve">    service_charge = 2.00</text>
+<text x="36" y="232" textLength="702.0" lengthAdjust="spacingAndGlyphs" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="26" fill="#213547" xml:space="preserve">    total = meal_price + tax + service_charge</text>
+<text x="36" y="276" textLength="249.6" lengthAdjust="spacingAndGlyphs" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="26" fill="#213547" xml:space="preserve">    return total</text>
+<text x="36" y="378" textLength="452.4" lengthAdjust="spacingAndGlyphs" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace" font-size="26" fill="#213547" xml:space="preserve">total1 = calculate_bill(8.50)</text>
+<g font-family="ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="600" fill="#6b7280" text-anchor="end"><text x="776" y="100">definition</text><text x="776" y="378">call</text></g>
+</svg>
