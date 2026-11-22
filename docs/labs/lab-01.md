@@ -5,7 +5,7 @@ title: Lab 1 - Functions
 
 # Lab 01: Functions
 
-A <Term def="A named block of code that does one job. You write it once, then run it as many times as you like by calling its name.">function</Term> lets you write a piece of code once and use it again and again. In this lab you turn repeated code into a function, decide what goes in as parameters, learn the parts of a function, and see why `return` is not the same as `print`.
+A <Term def="A named block of code that does one job. You write it once, then run it as many times as you like by calling its name.">function</Term> lets you write a piece of code once and use it again and again. In this lab you turn repeated code into a function, decide what goes in as parameters, learn the parts of a function, and see why `return` is not the same as `print`. Then you write six functions of your own and check them with **pytest**.
 
 Everything runs in the **VS Code** terminal (Git Bash), inside `CP125-Class-Repo`, as you set it up in the [Pre-Lab](./pre-lab-01.md).
 
@@ -550,6 +550,249 @@ Two arguments for three parameters, so **Python** stops with a `TypeError`.
 Use `return` when the result is needed by the rest of your program: to store it, compare it or calculate with it. Use `print` only to show something to the user.
 :::
 
+## Test Your Exercises
+
+Each exercise file starts empty: you write the whole function, `def` line included. Each exercise folder also has a `test` folder with **pytest** tests that call your function and check what it returns.
+
+::: warning Use the exact name
+The tests call your function by the name the exercise gives, with its parameters in the same order. If the name is different, or the file is still empty, **pytest** stops before running any test, with `ImportError: cannot import name ...`.
+:::
+
+<Steps>
+
+1. Write your function in the exercise file, then run its tests:
+
+   ```console
+   $ uv run pytest labs/lab01/exercise1
+   ...
+   10 passed in 0.03s
+   ```
+
+   A failing test shows `FAILED`, the input it used and what it expected. Fix your code and run the tests again.
+
+2. To run every Lab 1 test at once:
+
+   ```console
+   $ uv run pytest labs/lab01
+   ```
+
+</Steps>
+
+::: tip Test Explorer
+You can also click the flask icon in **VS Code** and run the tests from there, if you did [Set Up Testing in VS Code](./pre-lab-01.md#set-up-testing-in-vs-code).
+:::
+
+## Exercise 1: Road Trip Budgeter <Badge type="warning" text="Task" />
+
+<Do>
+
+Open `labs/lab01/exercise1/exercise1.py`.
+
+</Do>
+
+**Situation:**
+
+A driver wants to know if their money is enough for a **round trip**: to the destination and back again.
+
+**Task:**
+
+Write a function `is_budget_sufficient` that returns `True` if the fuel for the whole round trip costs **no more than** the budget, and `False` otherwise.
+
+| Parameter | Meaning |
+|---|---|
+| `one_way_km` | Distance to the destination, in km |
+| `km_per_liter` | How many km the car travels on 1 litre of fuel |
+| `price_per_liter` | Price of 1 litre of fuel, in RM |
+| `budget` | Money the driver has, in RM |
+
+**Example:**
+
+| Call | Returns | Why |
+|---|---|---|
+| `is_budget_sufficient(100, 10, 2.00, 40)` | `True` | 200 km needs 20 litres, which costs RM40.00 |
+| `is_budget_sufficient(100, 10, 2.00, 39)` | `False` | RM40.00 is more than RM39 |
+
+## Exercise 2: Camping Logistics <Badge type="warning" text="Task" />
+
+<Do>
+
+Open `labs/lab01/exercise2/exercise2.py`.
+
+</Do>
+
+**Situation:**
+
+A camp organiser needs the total cost of an event: the tents plus the food. Every tent holds the same number of people, and you can't rent part of a tent: 13 people with 4 per tent need **4** tents, not 3.25.
+
+**Task:**
+
+Write a function `calculate_event_cost` that returns the total cost of the tents and the food.
+
+| Parameter | Meaning |
+|---|---|
+| `participants` | Number of people at the camp |
+| `tent_capacity` | Number of people one tent holds |
+| `tent_price` | Price of one tent, in RM |
+| `meal_price` | Food cost for one person, in RM |
+
+**Example:**
+
+| Call | Returns | Why |
+|---|---|---|
+| `calculate_event_cost(12, 4, 100, 10)` | `420` | 3 tents (RM300) + food for 12 (RM120) |
+| `calculate_event_cost(13, 4, 100, 10)` | `530` | 4 tents (RM400) + food for 13 (RM130) |
+
+::: tip Rounding up
+`math.ceil` rounds a number **up**: `math.ceil(3.25)` is `4`. Add `import math` at the top of your file to use it.
+:::
+
+## Exercise 3: Secure Vault System <Badge type="warning" text="Task" />
+
+<Do>
+
+Open `labs/lab01/exercise3/exercise3.py`.
+
+</Do>
+
+**Situation:**
+
+A vault only opens for two people, each with their own PIN:
+
+| Name | PIN |
+|---|---|
+| `"Director"` | `1122` |
+| `"Security"` | `9900` |
+
+Any other name, any other PIN, or a correct PIN with the wrong name must be refused.
+
+**Task:**
+
+Write a function `validate_entry(name, pin)` that returns `True` if the entry is allowed and `False` otherwise. `name` is a string and must match exactly, capital letters included. `pin` is a whole number.
+
+**Example:**
+
+| Call | Returns | Why |
+|---|---|---|
+| `validate_entry("Director", 1122)` | `True` | Right name, right PIN |
+| `validate_entry("Director", 9900)` | `False` | That is the Security PIN |
+| `validate_entry("director", 1122)` | `False` | Small d: the name must match exactly |
+
+## Exercise 4: Dynamic Parking Rate <Badge type="warning" text="Task" />
+
+<Do>
+
+Open `labs/lab01/exercise4/exercise4.py`.
+
+</Do>
+
+**Situation:**
+
+A car park charges by the hour, and the rate depends on the vehicle and the time:
+
+| Vehicle | Hourly rate |
+|---|---|
+| `"Electric"` | RM2.00 at any time |
+| `"Hybrid"` | RM2.00 from 10pm to 6am (hours `22` to `6`, both included), RM5.00 at other times |
+| Any other vehicle | RM5.00 at any time |
+
+**Task:**
+
+Write a function `get_hourly_rate(vehicle_type, hour_24)` that returns the hourly rate as a number. `hour_24` is the hour of the day, from `0` to `23`.
+
+**Example:**
+
+| Call | Returns |
+|---|---|
+| `get_hourly_rate("Hybrid", 23)` | `2.0` |
+| `get_hourly_rate("Hybrid", 13)` | `5.0` |
+| `get_hourly_rate("Sedan", 2)` | `5.0` |
+
+## Exercise 5: Triangle Checker <Badge type="warning" text="Task" />
+
+<Do>
+
+Open `labs/lab01/exercise5/exercise5.py`.
+
+</Do>
+
+**Situation:**
+
+A geometry app needs to know if three lengths can form a triangle. They can only if **every** pair of sides adds up to more than the third side:
+
+1. `a + b > c`
+2. `a + c > b`
+3. `b + c > a`
+
+**Task:**
+
+Write a function `is_valid_triangle(a, b, c)` that returns `True` if the three lengths can form a triangle, and `False` otherwise.
+
+**Example:**
+
+| Call | Returns | Why |
+|---|---|---|
+| `is_valid_triangle(3, 4, 5)` | `True` | Every pair adds up to more than the third side |
+| `is_valid_triangle(1, 2, 3)` | `False` | 1 + 2 is not more than 3 |
+
+## Exercise 6: Leap Year Detector <Badge type="warning" text="Task" />
+
+<Do>
+
+Open `labs/lab01/exercise6/exercise6.py`.
+
+</Do>
+
+**Situation:**
+
+A calendar app has to know which years have a 29 February. A year is a leap year if:
+
+1. it divides exactly by 4,
+2. **but not** if it also divides exactly by 100,
+3. **unless** it also divides exactly by 400.
+
+| Year | Leap year? | Why |
+|---|---|---|
+| 2024 | Yes | Divides by 4 |
+| 1900 | No | Divides by 100 |
+| 2000 | Yes | Divides by 400 |
+
+**Task:**
+
+Write a function `is_leap_year(year)` that returns `True` for a leap year and `False` otherwise.
+
+**Example:**
+
+| Call | Returns |
+|---|---|
+| `is_leap_year(2024)` | `True` |
+| `is_leap_year(1900)` | `False` |
+
+## Commit and Push Your Work
+
+<Steps>
+
+1. Run all the Lab 1 tests one last time:
+
+   ```console
+   $ uv run pytest labs/lab01
+   ```
+
+2. Commit your work and push it to **GitHub**:
+
+   ```console
+   $ git add labs/lab01
+   $ git commit -m "Complete Lab 1: Functions"
+   $ git push
+   ...
+      a1b2c3d..e4f5a6b  main -> main
+   ```
+
+3. Refresh `github.com/GITHUB-USERNAME/CP125-Class-Repo` in the browser.
+
+   You see the commit message **Complete Lab 1: Functions** on `labs/lab01`.
+
+</Steps>
+
 <!-- Rest of Lab 1, hidden while the first half is reworked.
 
 ## Factorization: Don't Repeat Yourself
@@ -789,157 +1032,6 @@ Each function is simple and focused. If EPF rate changes, you only modify `calcu
 
 This approach makes debugging easier too. If the final number seems wrong, you can test each function individually to find which step has the bug.
 
-## Test Your Exercises
-
-Each exercise folder has a `test` folder with **pytest** tests that check your functions.
-
-<Steps>
-
-1. Write your code in the exercise file, then run its tests:
-
-   ```console
-   $ uv run pytest labs/lab01/exercise1
-   ...
-   10 passed in 0.03s
-   ```
-
-   A failing test shows `FAILED` with the input it used and what it expected. Fix your code and run the tests again.
-
-2. To run every Lab 1 test at once:
-
-   ```console
-   $ uv run pytest labs/lab01
-   ```
-
-</Steps>
-
-::: tip Test Explorer
-You can also click the flask icon in **VS Code** and run the tests from there, if you did [Set Up Testing in VS Code](./pre-lab-01.md#set-up-testing-in-vs-code).
-:::
-
-## Exercise 1: Road Trip Budgeter <Badge type="warning" text="Task" />
-
-<Do>
-
-Open `labs/lab01/exercise1/exercise1.py`.
-
-</Do>
-
-**Situation:**
-
-A driver wants to know if his money is enough for a **round trip**. The condition depends on the length of the trip, the cost of fuel and fuel per litre used by the car.
-
-**Task:**
-
-Write a program using boolean logic.
-
-## Exercise 2: Camping Logistics <Badge type="warning" text="Task" />
-
-<Do>
-
-Open `labs/lab01/exercise2/exercise2.py`.
-
-</Do>
-
-**Situation:**
-
-A camp organizer needs to calculate the **total budget** for an event. The total cost is determined by the cost of tents (based on number of participants and tent capacity) plus the cost of food (per participant).
-
-**Task:**
-
-Write a program that calculates and returns the single **total cost** required for the event.
-
-## Exercise 3: Secure Vault System <Badge type="warning" text="Task" />
-
-<Do>
-
-Open `labs/lab01/exercise3/exercise3.py`.
-
-</Do>
-
-**Situation:**
-
-A high-security vault system requires authentication. Access is granted ONLY to:
-1. "Director" with PIN `1122`
-2. "Security" with PIN `9900`
-
-Any other name or PIN combination must result in denied access.
-
-**Task:**
-
-Write a program that validates entry attempts and returns `True` (Access Granted) or `False` (Access Denied).
-
-## Exercise 4: Dynamic Parking Rate <Badge type="warning" text="Task" />
-
-<Do>
-
-Open `labs/lab01/exercise4/exercise4.py`.
-
-</Do>
-
-**Situation:**
-
-A parking system determines hourly rates dynamically:
-- **Electric** vehicles pay **RM2.00/hour** at all times.
-- **Hybrid** vehicles pay **RM2.00/hour** ONLY between **10pm (22)** and **6am (6)**. Otherwise, they pay **RM5.00/hour**.
-- All **Other** vehicles pay **RM5.00/hour** at all times.
-
-**Task:**
-
-Write a program that calculates and returns the correct hourly rate (float) based on vehicle type and hour.
-
-## Exercise 5: Triangle Checker <Badge type="warning" text="Task" />
-
-<Do>
-
-Open `labs/lab01/exercise5/exercise5.py`.
-
-</Do>
-
-**Situation:**
-
-A geometry app needs a function to verify if three given line segments can physically form a triangle.
-
-**Rule:**
-
-A triangle is valid only if the sum of any two sides is greater than the third side:
-1. `side1 + side2 > side3`
-2. `side1 + side3 > side2`
-3. `side2 + side3 > side1`
-
-**Task:**
-
-Write a function `is_valid_triangle(a, b, c)` that returns `True` if valid, `False` otherwise.
-
-## Exercise 6: Leap Year Detector <Badge type="warning" text="Task" />
-
-<Do>
-
-Open `labs/lab01/exercise6/exercise6.py`.
-
-</Do>
-
-**Situation:**
-
-A calendar app needs to identify leap years correctly to handle February 29th.
-
-**Rules:**
-
-A year is a leap year if:
-1. It is exactly divisible by 4...
-2. BUT NOT if it is divisible by 100...
-3. UNLESS it is ALSO divisible by 400.
-
-| Year | Leap year? | Why |
-|---|---|---|
-| 2024 | Yes | Divisible by 4 |
-| 1900 | No | Divisible by 100 |
-| 2000 | Yes | Divisible by 400 |
-
-**Task:**
-
-Write a function `is_leap_year(year)` that returns `True` or `False`.
-
 ## Exercise 7: Rectangle Collision <Badge type="warning" text="Task" />
 
 <Do>
@@ -1123,31 +1215,5 @@ A smart home system manages garden watering. It should turn on the pump ONLY if:
 **Task:**
 
 Write functions that work together to decide if the water pump should be triggered.
-
-## Commit and Push Your Work
-
-<Steps>
-
-1. Run all the Lab 1 tests one last time:
-
-   ```console
-   $ uv run pytest labs/lab01
-   ```
-
-2. Commit your work and push it to **GitHub**:
-
-   ```console
-   $ git add labs/lab01
-   $ git commit -m "Complete Lab 1: Functions"
-   $ git push
-   ...
-      a1b2c3d..e4f5a6b  main -> main
-   ```
-
-3. Refresh `github.com/GITHUB-USERNAME/CP125-Class-Repo` in the browser.
-
-   You see the commit message **Complete Lab 1: Functions** on `labs/lab01`.
-
-</Steps>
 
 -->
