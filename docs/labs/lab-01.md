@@ -515,34 +515,25 @@ Two arguments for three parameters, so **Python** stops with a `TypeError`.
 
    `add_with_print` showed `8` on the screen but gave nothing back, so `x` is <Term def="Python's value for 'nothing'. A function without a return statement gives back None.">None</Term>. A function with no `return` always gives back `None`.
 
-2. Now use a returned value in a calculation. Replace the code with this and run it:
+2. Now try to use `x` and `y` in a calculation. Add these two lines at the bottom and run it again:
 
    ```python
-   def calculate_discount(price):
-       return price * 0.10  # 10% of the price
-
-   original_price = 100.00
-   discount_amount = calculate_discount(original_price)
-   final_price = original_price - discount_amount
-   print(f"Final price: RM{final_price:.2f}")
+   print(y + 1)
+   print(x + 1)
    ```
 
    ```console
    $ uv run python labs/lab01/exercise.py
-   Final price: RM90.00
-   ```
-
-3. Change `return` to `print` inside `calculate_discount` and run it again:
-
-   ```console
-   $ uv run python labs/lab01/exercise.py
-   10.0
+   8
+   x contains: None
+   y contains: 8
+   9
    Traceback (most recent call last):
      ...
-   TypeError: unsupported operand type(s) for -: 'float' and 'NoneType'
+   TypeError: unsupported operand type(s) for +: 'NoneType' and 'int'
    ```
 
-   The discount appears on the screen, but `discount_amount` is `None`, and `100.00 - None` is impossible.
+   `y + 1` works because `y` holds `8`. `x + 1` fails because `x` holds `None`, and you can't add 1 to nothing.
 
 </Steps>
 
