@@ -187,76 +187,83 @@ total1 = calculate_bill(8.50)  # Nasi Lemak
 print(f"Customer 1 total: RM{total1:.2f}")
 ```
 
+::: info About the pictures
+The pictures below come from a different program. Your code is different, but the buttons and panels are the same.
+:::
+
 <Steps>
 
-1. Click just left of line number **7**. A red dot appears: this is a <Term def="A marker on a line where the debugger pauses the program before that line runs.">breakpoint</Term>.
+1. Move your mouse just left of line number **7**. A faint red dot appears. Click it to set a <Term def="A marker on a line where the debugger pauses the program before that line runs.">breakpoint</Term>: the dot stays red.
 
-2. Click the **Run and Debug** icon (the play button with a bug) in the left bar, then `Show automatic Python configurations`.
+   <p align="center">
+       <img src="/labs/lab-04/lab-4-1.png" alt="A red breakpoint dot next to a line number" width="400"/>
+   </p>
+
+2. Click the **Run and Debug** icon (the play button with a bug) in the left bar, then click `Show automatic Python configurations`.
 
    <p align="center">
        <img src="/labs/lab-04/lab-4-2.png" alt="Run and Debug panel" width="300"/>
    </p>
 
-3. Choose `Python Debugger: Python File` (the one for `cp125-class-repo`).
+3. Choose the first `Python Debugger: Python File`, the one marked `cp125-class-repo`.
 
    <p align="center">
        <img src="/labs/lab-04/lab-4-3.png" alt="Select Launch Configuration" width="400"/>
    </p>
 
-   The program starts and stops on line 7. The yellow line is the line that runs **next**: it has not run yet. A toolbar appears at the top of the editor:
+4. The debugger starts by itself. If it doesn't, click the green play button at the top of **Run and Debug**. Use this button whenever you want to start the debugger again.
 
    <p align="center">
-       <img src="/labs/lab-04/lab-4-6.png" alt="Debug toolbar" width="220"/>
+       <img src="/labs/lab-04/lab-4-4.png" alt="Green play button at the top of Run and Debug" width="300"/>
    </p>
+
+5. The program stops at your breakpoint. Line 7 is **yellow**, and a toolbar floats at the top of the editor.
+
+   <p align="center">
+       <img src="/labs/lab-04/lab-4-5.png" alt="Paused on a yellow line, with the debug toolbar at the top" width="400"/>
+   </p>
+
+   The yellow line is the line that runs **next**. It has not run yet.
+
+6. Look at `Variables` on the left. It lists every variable that exists right now.
+
+   <p align="center">
+       <img src="/labs/lab-04/lab-4-8.png" alt="The Variables panel" width="300"/>
+   </p>
+
+   There is no `total1` yet, because line 7 has not run.
+
+7. Click **Step Into**, the blue downward arrow in the toolbar (or press `F11`).
+
+   <p align="center">
+       <img src="/labs/lab-04/lab-4-6.png" alt="The debug toolbar; Step Into is the downward arrow" width="220"/>
+   </p>
+
+   The yellow line jumps **up** to line 2, inside `calculate_bill`. `Variables` now shows `meal_price = 8.5`: the argument `8.50` went into the parameter.
+
+   <p align="center">
+       <img src="/labs/lab-04/lab-4-7.png" alt="The yellow line has moved to the next line" width="400"/>
+   </p>
+
+8. Click **Step Into** three more times. Each click runs the yellow line and stops on the next one. Watch `Variables`:
+
+   | After click | Yellow line | New in `Variables` |
+   |---|---|---|
+   | 1 | 3 | `tax = 0.51` |
+   | 2 | 4 | `service_charge = 2.0` |
+   | 3 | 5 `return total` | `total = 11.01` |
+
+9. Keep clicking **Step Into** until the yellow line is on line 8.
+
+   `meal_price`, `tax`, `service_charge` and `total` are gone: they only exist while the function runs. Instead you see `total1 = 11.01`, the value that `return` sent back.
+
+10. Click the red square in the toolbar to stop the debugger.
 
 </Steps>
 
-| Button | Key | What it does |
-|---|---|---|
-| Continue | `F5` | Run until the next breakpoint, or to the end |
-| Step Over | `F10` | Run the yellow line, then stop on the next line |
-| Step Into | `F11` | If the yellow line calls a function, go **inside** it |
-| Step Out | `Shift` + `F11` | Finish the current function and go back to where it was called |
-| Stop | `Shift` + `F5` | End the program |
-
-Now step through the call. After each key, look at the yellow line and at the `Variables` panel on the left:
-
-<Timeline>
-<TimelineItem date="Start" title="Paused on line 7">
-
-Yellow line: `total1 = calculate_bill(8.50)`. `Variables` shows `calculate_bill`, but no `total1` yet, because line 7 has not run.
-
-</TimelineItem>
-<TimelineItem date="F11" title="Step Into → line 2">
-
-The yellow line jumps **up** into the function. `Variables` now shows `meal_price = 8.5`: the argument `8.50` went into the parameter.
-
-</TimelineItem>
-<TimelineItem date="F10" title="Step Over → line 3">
-
-Line 2 ran. `tax = 0.51` appears.
-
-</TimelineItem>
-<TimelineItem date="F10" title="Step Over → line 4">
-
-`service_charge = 2.0` appears.
-
-</TimelineItem>
-<TimelineItem date="F10" title="Step Over → line 5">
-
-`total = 11.01` appears. The yellow line is on `return total`.
-
-</TimelineItem>
-<TimelineItem date="F10" title="Step Over until line 8">
-
-The yellow line goes back **down** to the call. `meal_price`, `tax`, `service_charge` and `total` are gone: they only exist while the function runs. Instead, `total1 = 11.01` appears: that is the value `return` sent back.
-
-</TimelineItem>
-</Timeline>
-
 <Do>
 
-Press `F5` to finish, or `Shift` + `F5` to stop. Then add the second customer under line 8, set a breakpoint on it, and step into it again:
+Add the second customer under line 8, put the breakpoint on it, and step into it again:
 
 </Do>
 
@@ -264,7 +271,7 @@ Press `F5` to finish, or `Shift` + `F5` to stop. Then add the second customer un
 total2 = calculate_bill(3.50)  # Roti Canai
 ```
 
-This time `Variables` shows `meal_price = 3.5`, `tax = 0.21` and, back outside, `total2 = 5.71`. Same body, different argument.
+This time `Variables` shows `meal_price = 3.5` and `tax = 0.21`, and back outside, `total2 = 5.71`. Same body, different argument.
 
 ::: tip Keep using it
 The debugger is the fastest way to find out why a function gives the wrong answer. Put a breakpoint on the call, step into the function, and check each variable against what you expected.
