@@ -392,18 +392,6 @@ Every function has a **header** and a **body**, and it only runs when you **call
 
 <FunctionParts num="1.1" caption="The parts of calculate_bill and of the line that calls it. The argument and the parameter share a colour: 8.50 goes into meal_price." />
 
-| Part | In Figure 1.1 | What it does |
-|---|---|---|
-| Keyword | `def` | Tells **Python** a new function starts here |
-| Function name | `calculate_bill` | Says what the function does. Use `snake_case`, don't start with a number, and don't use a **Python** keyword |
-| Parameter | `meal_price` | Receives a value each time the function is called |
-| Colon | `:` | Ends the header. The body starts on the next line |
-| Body | the indented lines | The work the function does. Indent it 4 spaces. It runs only when the function is called |
-| `return` | `return total` | Sends a value back to the line that called the function, and ends the function |
-| Function call | `calculate_bill(8.50)` | Runs the body |
-| Argument | `8.50` | The actual value that goes into the parameter |
-| Stored result | `total1` | Keeps the value that came back, `11.01` |
-
 ## Parameters and Arguments
 
 A parameter is the empty box in the header. An <Term def="The actual value you pass to a function when you call it, like 8.50 in calculate_bill(8.50).">argument</Term> is the value you put in that box when you call the function. **Python** fills the boxes **in order**: the first argument goes into the first parameter, the second into the second, and so on.
