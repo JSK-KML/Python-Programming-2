@@ -555,7 +555,7 @@ Open `labs/lab01/exercise1/exercise1.py`.
 
 **Situation:**
 
-A driver wants to know if their money is enough for a **round trip**: to the destination and back again.
+A driver wants to know if their money is enough for the fuel on a **round trip**: to the destination and back again. Their car always travels **10 km on 1 litre** of fuel, and fuel always costs **RM2.00 a litre**.
 
 **Task:**
 
@@ -564,16 +564,14 @@ Write a function `is_budget_sufficient` that returns `True` if the fuel for the 
 | Parameter | Meaning |
 |---|---|
 | `one_way_km` | Distance to the destination, in km |
-| `km_per_liter` | How many km the car travels on 1 litre of fuel |
-| `price_per_liter` | Price of 1 litre of fuel, in RM |
 | `budget` | Money the driver has, in RM |
 
 **Example:**
 
 | Input | Output |
 |---|---|
-| `100, 10, 2.00, 40` | `True` |
-| `100, 10, 2.00, 39` | `False` |
+| `100, 40` | `True` |
+| `100, 39` | `False` |
 
 ## Exercise 2: Camping Logistics <Badge type="warning" text="Task" />
 
@@ -585,25 +583,24 @@ Open `labs/lab01/exercise2/exercise2.py`.
 
 **Situation:**
 
-A camp organiser needs the total cost of an event: the tents plus the food. Every tent holds the same number of people, and you can't rent part of a tent: 13 people with 4 per tent need **4** tents, not 3.25.
+A camp organiser needs to know how much the tents will cost. Every tent holds the same number of people, and you can't rent part of a tent: 13 people with 4 per tent need **4** tents, not 3.25.
 
 **Task:**
 
-Write a function `calculate_event_cost` that returns the total cost of the tents and the food.
+Write a function `calculate_tent_cost` that returns the total cost of the tents.
 
 | Parameter | Meaning |
 |---|---|
 | `participants` | Number of people at the camp |
 | `tent_capacity` | Number of people one tent holds |
 | `tent_price` | Price of one tent, in RM |
-| `meal_price` | Food cost for one person, in RM |
 
 **Example:**
 
 | Input | Output |
 |---|---|
-| `12, 4, 100, 10` | `420` |
-| `13, 4, 100, 10` | `530` |
+| `12, 4, 100` | `300` |
+| `13, 4, 100` | `400` |
 
 ::: tip Rounding up
 `math.ceil` rounds a number **up**: `math.ceil(3.25)` is `4`. Add `import math` at the top of your file to use it.
@@ -650,17 +647,19 @@ Open `labs/lab01/exercise4/exercise4.py`.
 
 **Situation:**
 
-A car park charges by the hour, and the rate depends on the vehicle and the time:
+A car park charges for every hour a car stays. How much **one hour** costs depends on the type of car and the time of day:
 
-| Vehicle | Hourly rate |
+| Car | Price for one hour |
 |---|---|
-| `"Electric"` | RM2.00 at any time |
-| `"Hybrid"` | RM2.00 from 10pm to 6am (hours `22` to `6`, both included), RM5.00 at other times |
-| Any other vehicle | RM5.00 at any time |
+| `"Electric"` | RM2.00, day or night |
+| `"Hybrid"` | RM2.00 at night, RM5.00 during the day |
+| Any other car | RM5.00, day or night |
+
+Night is from 10pm to 6am: the hours `22`, `23`, `0`, `1`, `2`, `3`, `4`, `5` and `6`.
 
 **Task:**
 
-Write a function `get_hourly_rate(vehicle_type, hour_24)` that returns the hourly rate as a number. `hour_24` is the hour of the day, from `0` to `23`.
+Write a function `get_hourly_rate(vehicle_type, hour)` that returns the price for **one hour** of parking. `hour` is the hour of the day on a 24-hour clock, from `0` to `23` (so `13` is 1pm).
 
 **Example:**
 
