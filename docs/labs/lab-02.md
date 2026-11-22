@@ -3,17 +3,27 @@ outline: deep
 title: Lab 2 - Lists and Data Structures
 ---
 
-# Lab 02: Lists and Data 
+# Lab 02: Lists and Data Structures
 
 ## Pull and Update in VS Code
 
 Before starting any lab, you need to make sure that the repo in your **GitHub** is the latest one. [Sync the repo](./pre-lab-01.md#syncing-your-fork) if the `upstream` repo have been updated.
 
-Once the online repo is in-sync, bring those changes down to your PC by clicking `Source Control` and then `...` beside `Changes` and click `Pull`.
+Once the online repo is in-sync, bring those changes down to your PC. In **Git Bash**, inside `CP125-Class-Repo`:
 
-<p align="center">
-    <img src="/labs/lab-01/lab-1-1.png" alt="drawing" width="400"/>
-</p>
+<Action>
+
+```bash
+git pull
+```
+
+</Action>
+
+<Check>
+
+Either a list of new files and `Fast-forward`, or `Already up to date.`
+
+</Check>
 
 ## Why Do We Need Data Structures?
 
@@ -43,7 +53,7 @@ Run this code. It works, but notice the problems:
 2. You had to manually type each variable name in the calculation
 3. The calculation formula changes if you add or remove students
 
-Now imagine you have 50 students. Or 500 students. You'd need to create 500 variables and type all 500 names in your calculation
+Now imagine you have 50 students. Or 500 students. You'd need to create 500 variables and type all 500 names in your calculation.
 
 ::: warning PROBLEM
 Individual variables don't scale. The more data you have, the more unmanageable your code becomes. You can't loop through variables, and every change requires editing multiple lines.
@@ -75,9 +85,9 @@ scores = [85, 92, 78, 88, 95, 73, 91, 87]
 print(f"We now have {scores} scores")
 ```
 
-Run it again. The list grows easily
+Run it again. The list grows easily.
 
-::: tip INFO
+::: tip DATA STRUCTURES
 A **data structure** is a way to organize and store multiple values so they can be used efficiently. Instead of many variables, you use ONE structure that holds everything.
 :::
 
@@ -138,7 +148,6 @@ print("Strings:", strings)
 print("Booleans:", booleans)
 ```
 
-
 ## Accessing List Elements: Indexing
 
 Now that you can create lists, you need to know how to access individual items. This is where **indexing** comes in.
@@ -164,9 +173,8 @@ print(fruits[5])  # Sixth element
 
 Run this code. What do you see?
 
-
 ::: warning COMMON MISTAKE
-The first element is at index `0`, not `1`
+The first element is at index `0`, not `1`.
 :::
 
 ### Negative Indexing
@@ -198,7 +206,7 @@ Use `[-1]` when you need the last item but don't know the list size. This is muc
 
 ### Nested List Indexing
 
-Lists can contain other lists This is called **nesting**. Try this:
+Lists can contain other lists. This is called **nesting**. Try this:
 
 ```python
 students = [
@@ -256,9 +264,7 @@ numbers[1] = 25  # Change the second element
 print(numbers)  # [10, 25, 30]
 ```
 
-Try this yourself. Change different indices and see what happens
-
-
+Try this yourself. Change different indices and see what happens.
 
 ## Exercise 1: Pixel Brightness Checker <Badge type="warning" text="Task" />
 
@@ -393,4 +399,3 @@ Write functions that:
 After completing all exercises, save all your files and commit them to your repository.
 
 Use **VS Code**'s source control panel to stage your changes, add a meaningful commit message like "Complete Lab 2: Lists and Data Structures", and push your changes to **GitHub**. Check your repository online to ensure all files have been uploaded successfully.
-
