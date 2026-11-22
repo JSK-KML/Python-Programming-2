@@ -242,75 +242,109 @@ Every exercise must have a **realistic context**:
 
 ## 9. Testing Requirements (cp125-class-repo)
 
+Same layout and output as `cp115-class-repo`. `labs/lab01` is the reference.
+
 ### A. Test File Structure
 
-Each exercise in `cp125-class-repo/labs/labXX/exerciseY/` must have:
-
 ```
-exerciseY/
-├── exerciseY.py           # Student skeleton code
-├── data/                   # Sample input data files (if needed)
-│   ├── input.txt
-│   └── sample.csv
-└── test/
-    └── test_exerciseY_labXX.py   # Pytest file (10 test cases)
+labs/labXX/
+├── conftest.py                     # Clean output for the whole lab (copy from labs/lab01)
+└── exerciseY/
+    ├── exerciseY.py                # Student file
+    ├── data/                       # Sample input files (if needed)
+    └── test/
+        └── test_labXX_exerciseY.py # Pytest file (10 cases)
 ```
 
 ### B. Test File Naming Convention
 
-**CRITICAL:** Test files MUST use unique module names to avoid pytest caching conflicts:
-
-**Pattern:** `test_exerciseY_labXX.py`
+**Pattern:** `test_labXX_exerciseY.py`, lab number first, two digits.
 
 **Examples:**
-- Lab 2, Exercise 1: `test_exercise1_lab2.py`
-- Lab 8, Exercise 5: `test_exercise5_lab8.py`
+- Lab 1, Exercise 1: `test_lab01_exercise1.py`
+- Lab 8, Exercise 5: `test_lab08_exercise5.py`
 
-### C. Test File Template
+The name must be unique across the repository, so pytest never confuses two test files.
 
-**Use `importlib.util` pattern (NOT simple import):**
+### C. Clean Output (`conftest.py`)
+
+Every lab folder has a `conftest.py` (copy `labs/lab01/conftest.py` and change the lab number in its docstring). It hides tracebacks and pytest's own summary, and ends with one of:
+
+```
+ALL TESTS PASSED
+```
+
+```
+SOME TESTS FAILED:
+  - input one_way_km=100, budget=40 -> expected True but got None (did you forget to return the result?)
+```
+
+Each problem is one plain line, and repeated lines are shown once. A file that is empty or does not run is reported as a failure, never as a pass.
+
+### D. Test File Template (function exercises)
+
+Load the student file inside the test with `importlib.util`, under a unique module name (`labXX_exerciseY`). Never import it at the top of the test file: if the file is empty or has a syntax error, the whole test file fails to load and the student gets a traceback instead of a clear message.
 
 ```python
-import pytest
 import importlib.util
 import os
 
-_exercise_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'exerciseY.py')
-_spec = importlib.util.spec_from_file_location("exerciseY_labXX", _exercise_path)  # ← UNIQUE NAME
-_module = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(_module)
-function_name = _module.function_name
+import pytest
+
+EXERCISE = "exerciseY"
+FUNCTION = "function_name"
+PARAMETERS = ["first_param", "second_param"]
 
 
-def test_case_1():
-    assert function_name(input) == expected_output
+def load_function():
+    path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), EXERCISE + ".py")
+    if not os.path.isfile(path):
+        pytest.fail(f"{EXERCISE}.py was not found in the {EXERCISE} folder")
+    spec = importlib.util.spec_from_file_location("labXX_" + EXERCISE, path)
+    module = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(module)
+    except Exception as error:
+        pytest.fail(f"{EXERCISE}.py did not run: {type(error).__name__}: {error}")
+    if not callable(getattr(module, FUNCTION, None)):
+        pytest.fail(f"no function called {FUNCTION} in {EXERCISE}.py - check the name in your def line")
+    return getattr(module, FUNCTION)
 
 
-def test_case_2():
-    assert function_name(input) == expected_output
+CASES = [
+    ((1, 2), 3),
+    # ... 10 cases in total: (arguments, expected result)
+]
 
-# ... 8 more test cases (10 total)
+
+@pytest.mark.parametrize("args,expected", CASES)
+def test_function_name(args, expected):
+    function = load_function()
+    context = "input " + ", ".join(f"{name}={value!r}" for name, value in zip(PARAMETERS, args))
+    try:
+        actual = function(*args)
+    except TypeError as error:
+        if FUNCTION + "()" in str(error):
+            pytest.fail(f"{context} -> the function could not be called: {error}")
+        pytest.fail(f"{context} -> the function crashed: TypeError: {error}")
+    except Exception as error:
+        pytest.fail(f"{context} -> the function crashed: {type(error).__name__}: {error}")
+    hint = " (did you forget to return the result?)" if actual is None else ""
+    assert actual == expected, f"{context} -> expected {expected!r} but got {actual!r}{hint}"
 ```
 
 **Requirements:**
-- **Exactly 10 test cases** per exercise
-- Unique module name: `"exerciseY_labXX"` (e.g., `"exercise1_lab8"`)
-- Import functions using `_module.function_name`
-- Cover edge cases, empty inputs, large datasets, boundary conditions
+- **Exactly 10 cases** per exercise, in `CASES`
+- Every failure message starts with the input, then says what was expected and what came back
+- Cover edge cases, empty inputs, boundary values
+- Check the tests against a reference answer, and against at least one typical wrong answer
 
-### D. Running Tests
+### E. VS Code Settings
 
-Students run tests from the exercise directory:
+`.vscode/settings.json` runs pytest quietly, the same as `cp115-class-repo`:
 
-```bash
-# Run all tests for an exercise
-pytest labs/labXX/exerciseY/test/
-
-# Run specific test file
-pytest labs/labXX/exerciseY/test/test_exerciseY_labXX.py
-
-# Run with verbose output
-pytest labs/labXX/exerciseY/test/ -v
+```json
+"python.testing.pytestArgs": [".", "--tb=short", "--no-header", "-q", "--disable-warnings", "--color=yes"]
 ```
 
 ---
@@ -320,4 +354,4 @@ pytest labs/labXX/exerciseY/test/ -v
 -   **Variables:** `snake_case` (e.g., `student_grade`, `total_bill`).
 -   **Files:** Lowercase with hyphens for docs (e.g., `lab-01.md`), lowercase with underscores for Python (e.g., `exercise1.py`).
 -   **Folders:** Lowercase, no spaces (e.g., `exercise1`, `lab08`).
--   **Test files:** `test_exerciseY_labXX.py` (MUST include lab number for uniqueness).
+-   **Test files:** `test_labXX_exerciseY.py` (lab number first, two digits, e.g. `test_lab01_exercise1.py`).
